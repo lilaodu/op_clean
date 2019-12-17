@@ -1,0 +1,269 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.chainup</groupId>
+  <artifactId>exchange-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>exchange-parent</name>
+  <description>Chain Up Exchange</description>
+  
+  <!-- 版本号管理  大家可以补充 -->
+  <properties>
+       <slf4j.version>1.7.5</slf4j.version>
+       <logback.version>1.0.13</logback.version>
+       <fastjson.version>1.2.28</fastjson.version>
+       <springframework.version>4.2.2.RELEASE</springframework.version>
+       <spring-websocket.version>4.1.6.RELEASE</spring-websocket.version>
+       <spring-rabbit.version>1.7.4.RELEASE</spring-rabbit.version>
+       <spring-session-data-redis.version>1.2.1.RELEASE</spring-session-data-redis.version>
+       <quartz.version>2.2.2</quartz.version>
+       <mybatis.version>3.4.0</mybatis.version>
+       <mybatis.spring.version>1.3.0</mybatis.spring.version>
+       <mysql-connector-java.version>8.0.11</mysql-connector-java.version>
+       <!--<mysql-connector-java.version>5.1.38</mysql-connector-java.version>-->
+       <commons-dbcp.version>1.4</commons-dbcp.version>
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+       <dom4j.version>1.6</dom4j.version>
+       <guava.version>21.0</guava.version>
+       <jackson-databind.version>2.4.3</jackson-databind.version>
+       <aliyun-sdk-oss.version>2.0.5</aliyun-sdk-oss.version>
+       <junit.version>4.11</junit.version>
+       <servlet-api.version>3.1.0</servlet-api.version>
+       <!-- <jedis.version></jedis.version> -->
+   </properties>
+   
+   <dependencyManagement>
+        <dependencies>
+        
+            <!-- logging, slf4j and logback -->
+            <dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+	        <dependency>
+	            <groupId>ch.qos.logback</groupId>
+	            <artifactId>logback-classic</artifactId>
+	            <version>${logback.version}</version>
+	        </dependency>
+	        
+	        <dependency>
+			    <groupId>com.alibaba</groupId>
+			    <artifactId>fastjson</artifactId>
+			    <version>${fastjson.version}</version>
+		    </dependency>
+		    
+		     <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-test</artifactId>
+	           <version>${springframework.version}</version>
+	           <scope>test</scope>
+	        </dependency>
+		    
+		    <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${springframework.version}</version>
+            </dependency>
+
+	       <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-tx</artifactId>
+	           <version>${springframework.version}</version>
+	       </dependency>
+	       
+	       <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-jdbc</artifactId>
+	           <version>${springframework.version}</version>
+	       </dependency>
+	       
+	       <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-aop</artifactId>
+	           <version>${springframework.version}</version>
+	       </dependency>
+	       
+	       <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-oxm</artifactId>
+	           <version>${springframework.version}</version>
+	       </dependency>
+	       
+	       <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-aspects</artifactId>
+	           <version>${springframework.version}</version>
+	       </dependency>
+	       <!-- spring framework web -->
+	       <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-webmvc</artifactId>
+	           <version>${springframework.version}</version>
+	       </dependency>
+	       
+	       <dependency>
+	           <groupId>org.springframework</groupId>
+	           <artifactId>spring-web</artifactId>
+	           <version>${springframework.version}</version>
+	       </dependency>
+	       
+	       <dependency>
+			  <groupId>org.springframework</groupId>
+			  <artifactId>spring-websocket</artifactId>
+			  <version>${spring-websocket.version}</version>
+		   </dependency>
+		
+		  <dependency>  
+	           <groupId>org.springframework.amqp</groupId>  
+	           <artifactId>spring-rabbit</artifactId>  
+	           <version>${spring-rabbit.version}</version>  
+	       </dependency>  
+	       
+	       <dependency>
+			  <groupId>org.springframework.session</groupId>
+			  <artifactId>spring-session-data-redis</artifactId>
+			  <version>${spring-session-data-redis.version}</version>
+			</dependency>
+	       
+	       
+	       <!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis.spring.version}</version>
+		</dependency>
+		
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${commons-dbcp.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+		</dependency>
+        
+	        <dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+        
+            <dependency>
+				<groupId>com.aliyun.oss</groupId>
+				<artifactId>aliyun-sdk-oss</artifactId>
+				<version>${aliyun-sdk-oss.version}</version>
+			</dependency>
+        
+            <dependency>
+			    <groupId>com.fasterxml.jackson.core</groupId>
+			    <artifactId>jackson-databind</artifactId>
+				<version>${jackson-databind.version}</version>
+			</dependency>
+        
+            <dependency>
+	           <groupId>com.google.guava</groupId>
+	           <artifactId>guava</artifactId>
+	           <version>${guava.version}</version>
+	        </dependency>
+        
+          <!--   <dependency>
+		       <groupId>redis.clients</groupId>
+		       <artifactId>jedis</artifactId>
+		       <version>2.8.1</version>
+		    </dependency> -->
+        
+            <dependency>   
+	           <groupId>dom4j</groupId>    
+	           <artifactId>dom4j</artifactId>    
+	           <version>${dom4j.version}</version>   
+	        </dependency> 
+        	<!--AWS-->
+			<!--<dependency>-->
+				<!--<groupId>com.amazonaws</groupId>-->
+				<!--<artifactId>aws-java-sdk</artifactId>-->
+				<!--<version>1.11.501</version>-->
+			<!--</dependency>-->
+
+		</dependencies>
+   </dependencyManagement>
+  
+  
+  <modules>
+     <!--   <module>../exchange-cache</module>-->
+        <module>../exchange-common</module>
+        <module>../exchange-dao</module>
+	  <!-- <module>../exchange-service</module>
+         <module>../exchange-web</module>-->
+      <!--  <module>../stats-dao</module>-->
+       <!-- <module>../stats-service</module>
+        <module>../stats-job</module>-->
+        <module>../exchange-config</module>
+        <module>../operate-service</module>
+        <module>../operate-web</module>
+   <!--     <module>../exchange-api</module>
+        <module>../exchange-open-api</module>-->
+  </modules> 
+  
+  <build>
+        <finalName>exchange</finalName>
+        <defaultGoal>compile</defaultGoal>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <debug>true</debug>
+                    <optimize>true</optimize>
+                    <!--<compilerArguments>-->
+                   <!--<v/>-->
+          			<!--<b>${java.home}/lib/rt.jar:${java.home}/lib/jce.jar</b>-->
+                    <!--</compilerArguments>-->
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+    
+    <distributionManagement>
+		<repository>
+		<id>maven-releases</id>
+		<url>http://maven.365os.com/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+		<id>maven-snapshots</id>
+		<url>http://maven.365os.com/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+  
+</project>
