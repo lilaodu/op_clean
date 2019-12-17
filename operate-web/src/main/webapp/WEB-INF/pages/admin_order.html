@@ -1,0 +1,326 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/button.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="admin.user.title"/></title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/><span class="c-gray en">&gt;</span> <@spring.message code="admin.system"/><span class="c-gray en">&gt;</span> <@spring.message code="admin.order.order_list"/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c"> 
+		<!-- 交易币对： -->
+		<@spring.message code="admin.order.transaction_currency_pair"/>
+		<span class="select-box inline">
+		<select class="select" size="1" id="symbol" name="symbol">
+			<!-- <option value="" selected="">请选择币对</option> -->
+            <option value="" selected=""><@spring.message code="admin.order.choose_coin_pair"/></option>
+			<#if symbolList?? && (symbolList?size>0)>
+			<#list symbolList as symbol>
+			<option value="${symbol.value}" <#if orderQuery??&&orderQuery.symbol!='' && orderQuery.symbol== symbol.value > selected="selected" </#if>>${symbol.name()}</option>
+			</#list>
+		</#if>
+		</select>
+		</span>
+		<!-- 订单类型： -->
+        <@spring.message code="admin.order.order_type"/>
+		<span class="select-box inline">
+		<select class="select" size="1" name="side" id="side">
+			<!--
+			<option value="" selected="selected">请选择类型</option>
+			<option value="SELL" <#if orderQuery.side?? && orderQuery.side == "SELL" > selected="selected" </#if>>出售</option>
+			<option value="BUY" <#if orderQuery.side?? && orderQuery.side == "BUY" > selected="selected" </#if>>购买</option>
+			-->
+            <option value="" selected="selected"><@spring.message code="admin.order.select_type"/></option>
+			<option value="SELL" <#if orderQuery.side?? && orderQuery.side == "SELL" > selected="selected" </#if>><@spring.message code="admin.order.sold"/></option>
+		</select>
+		</span>
+		<!-- 订单状态：-->
+        <@spring.message code="admin.order.order_status"/>
+		<span class="select-box inline">
+		<select class="select" size="1" name="status" id="status">
+            <!--
+			<option value="" selected="selected">请选择类型</option>
+			<option value="INIT" <#if orderQuery.status?? && orderQuery.status == "INIT" > selected="selected" </#if>>初始订单</option>
+			<option value="NEW_" <#if orderQuery.status?? && orderQuery.status == "NEW_" > selected="selected" </#if>>新订单</option>
+			<option value="FILLED" <#if orderQuery.status?? && orderQuery.status == "FILLED" > selected="selected" </#if>>完全成交</option>
+			<option value="PART_FILLED" <#if orderQuery.status?? && orderQuery.status == "PART_FILLED" > selected="selected" </#if>>部分成交</option>
+			<option value="CANCELED" <#if orderQuery.status?? && orderQuery.status == "CANCELED" > selected="selected" </#if>>已撤单</option>
+			<option value="PENDING_CANCEL" <#if orderQuery.status?? && orderQuery.status == "PENDING_CANCEL" > selected="selected" </#if>>待撤单</option>
+			<option value="EXPIRED" <#if orderQuery.status?? && orderQuery.status == "EXPIRED" > selected="selected" </#if>>异常订单</option>
+			-->
+            <option value="" selected="selected"><@spring.message code="admin.order.select_type"/></option>
+			<option value="INIT" <#if orderQuery.status?? && orderQuery.status == "INIT" > selected="selected" </#if>><@spring.message code="admin.order.initial_order"/></option>
+            <option value="NEW_" <#if orderQuery.status?? && orderQuery.status == "NEW_" > selected="selected" </#if>><@spring.message code="admin.order.new_order"/></option>
+            <option value="FILLED" <#if orderQuery.status?? && orderQuery.status == "FILLED" > selected="selected" </#if>><@spring.message code="admin.order.complete_transaction"/></option>
+            <option value="PART_FILLED" <#if orderQuery.status?? && orderQuery.status == "PART_FILLED" > selected="selected" </#if>><@spring.message code="admin.order.partial_transaction"/></option>
+            <option value="CANCELED" <#if orderQuery.status?? && orderQuery.status == "CANCELED" > selected="selected" </#if>><@spring.message code="admin.order.has_cancellation"/></option>
+            <option value="PENDING_CANCEL" <#if orderQuery.status?? && orderQuery.status == "PENDING_CANCEL" > selected="selected" </#if>><@spring.message code="admin.order.for_cancellation"/></option>
+            <option value="EXPIRED" <#if orderQuery.status?? && orderQuery.status == "EXPIRED" > selected="selected" </#if>><@spring.message code="admin.order.exception_order"/></option>
+
+		</select>
+		</span>
+<!--
+		<span style="vertical-align: middle;">用户ID：</span><input class="input-text size-M" style="width:250px" placeholder="用户ID" id="userId" value="${orderQuery.userId!''}">
+		<span style="vertical-align: middle;">订单ID：</span><input class="input-text size-M" style="width:250px" placeholder="订单ID" id="orderId" value="${orderQuery.orderId!''}">
+		<span style="vertical-align: middle;">创建时间：</span>
+-->
+
+<span style="vertical-align: middle;"><@spring.message code="admin.order.uid"/>：</span><input class="input-text size-M" style="width:250px" placeholder='<@spring.message code="admin.order.uid"/>' id="userId" value="${orderQuery.userId!''}">
+<span style="vertical-align: middle;"><@spring.message code="admin.order.order_id"/>：</span><input class="input-text size-M" style="width:250px" placeholder='<@spring.message code="admin.order.order_id"/>' id="orderId" value="${orderQuery.orderId!''}">
+<span style="vertical-align: middle;"><@spring.message code="admin.order.create_time"/>：</span>
+
+		<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',maxDate:'#F{$dp.$D(\'endDate\')||\'%y-%M-%d\'}',dateFmt:'${date_format}'})" value="${endDate!''}" id="startDate" class="input-text Wdate size-M" style="width:165px;">
+		-
+		<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',minDate:'#F{$dp.$D(\'startDate\')}',maxDate:'%y-%M-%d',dateFmt:'${date_format}'})" value="${startDate!''}" id="endDate" class="input-text Wdate size-M" style="width:165px;">
+		
+		<button type="submit" class="btn btn-success radius" id="" name="" onclick="search()"><i class="Hui-iconfont">&#xe665;</i> <@spring.message code="admin.search"/></button>
+	</div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+        <!--
+			<tr class="text-c">
+				<th style="width: 5%;">委托订单号</th>
+				<th style="width: 5%;">订单状态</th>
+				<th style="width: 10%;">委托时间</th>
+				<th style="width: 10%;">委托数量</th>
+				<th style="width: 10%;">委托类型</th>
+				<th style="width: 10%;">委托价格</th>
+				<th style="width: 10%;">委托金额</th>
+				<th style="width: 10%;">成交数量</th>
+				<th style="width: 10%;">成交均价</th>
+				<th style="width: 10%;">成交金额</th>
+				<th style="width: 10%;">操作</th>
+			</tr>
+			-->
+        <tr class="text-c">
+            <th style="width: 5%;"><@spring.message code="admin.order.entrustment_order_number"/></th>
+            <th style="width: 5%;"><@spring.message code="admin.order.order_status"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.entrustment_order_time"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.entrustment_numbers"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.entrustment_type"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.entrustment_price"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.entrustment_amount"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.transactions_number"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.transactions_average_price"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.transactions_amount"/></th>
+            <th style="width: 10%;"><@spring.message code="admin.order.operation"/></th>
+        </tr>
+		</thead>
+		<tbody>
+		<#if userOrderList?? && (userOrderList?size>0)>
+			<#list userOrderList as item>
+				<tr class="text-c">
+					<td>${item.id}</td>
+                    <!--
+					<td>
+						<#if item.status == 0>初始订单
+						<#elseif item.status==1>新订单
+						<#elseif item.status==2>完全成交
+						<#elseif item.status==3>部分成交
+						<#elseif item.status==4>已撤单
+						<#elseif item.status==5>待撤单
+						<#elseif item.status==6>异常订单
+						</#if>
+					</td>
+					-->
+                    <td>
+                        <#if item.status == 0><@spring.message code="admin.order.initial_order"/>
+                        <#elseif item.status==1><@spring.message code="admin.order.new_order"/>
+                        <#elseif item.status==2><@spring.message code="admin.order.complete_transaction"/>
+                        <#elseif item.status==3><@spring.message code="admin.order.partial_transaction"/>
+                        <#elseif item.status==4><@spring.message code="admin.order.has_cancellation"/>
+                        <#elseif item.status==5><@spring.message code="admin.order.for_cancellation"/>
+                        <#elseif item.status==6><@spring.message code="admin.order.exception_order"/>
+                    </#if>
+                    </td>
+					<td>${item.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+					<td><#if item.type == 2>
+						<#if item.side=="SELL">
+							${item.volume}${currencyCryptoName}
+							<#else>
+							--
+						</#if>
+					<#else>
+						${item.volume}${currencyCryptoName}
+					</#if></td>
+					<!-- <td><#if item.side=="BUY"><span style="color: green;">买入</span><#else><span style="color: red">卖出</span></#if></td> -->
+                    <td><#if item.side=="BUY"><span style="color: green;"><@spring.message code="admin.order.sell_purchase"/></span><#else><span style="color: red"><@spring.message code="admin.order.sell_out"/></span></#if></td>
+					<!-- <td><#if item.type == 2>市价<#else>${item.price}${currencyName}</#if></td> -->
+                    <td><#if item.type == 2><@spring.message code="admin.order.shijia"/><#else>${item.price}${currencyName}</#if></td>
+					<td><#if item.type == 2>
+						<#if item.side=="BUY">
+							${item.volume}${currencyName}
+							<#else>
+							--
+						</#if>
+					<#else>
+						${item.price*item.volume}${currencyName}
+					</#if></td>
+					<td>${item.dealVolume}${currencyCryptoName}</td>
+					<td>${item.avgPrice}${currencyName}</td>
+					<td>${item.avgPrice*item.dealVolume}${currencyName}</td>
+					<td>
+                        <!--
+						<a href="##" id="hiddenTrade${item.id}" class="childTable${item.id}" onclick='controlTrade("${item.id}","hidden")' hidden="hidden" style="color: blue;">收起</a>
+						<a href="##" id="showTrade${item.id}" class="childTable${item.id}" onclick='controlTrade("${item.id}","show")' style="color: blue;">展开</a>
+						-->
+
+                        <a href="##" id="hiddenTrade${item.id}" class="childTable${item.id}" onclick='controlTrade("${item.id}","hidden")' hidden="hidden" style="color: blue;"><@spring.message code="admin.order.sell_stop"/></a>
+                        <a href="##" id="showTrade${item.id}" class="childTable${item.id}" onclick='controlTrade("${item.id}","show")' style="color: blue;"><@spring.message code="admin.order.sell_open"/></a>
+
+						<#if item.status==6>
+						<!-- <a href="##"  onclick='cancleOrder("${item.id}","${orderQuery.symbol}")' style="color: blue;">取消</a> -->
+                        <a href="##"  onclick='cancleOrder("${item.id}","${orderQuery.symbol}")' style="color: blue;"><@spring.message code="admin.order.sell_clean"/></a>
+						</#if>
+						
+						
+					</td>
+				</tr>
+					<tr class="text-c childTable${item.id}" style="background-color:#f5fafe; " hidden="hidden">
+                        <!--
+						<th>成交单号</th>
+						<th>成交时间</th>
+						<th>成交数量</th>
+						<th>成交价格</th>
+						<th>成交金额</th>
+						<th>手续费</th>
+						<th colspan="5"></th>
+						-->
+                        <th><@spring.message code="admin.order.transaction_odd_numbers"/></th>
+                        <th><@spring.message code="admin.order.transaction_time"/></th>
+                        <th><@spring.message code="admin.order.transaction_number"/></th>
+                        <th><@spring.message code="admin.order.transaction_price"/></th>
+                        <th><@spring.message code="admin.order.transaction_amount"/></th>
+                        <th><@spring.message code="admin.order.service_charge"/></th>
+                        <th colspan="5"></th>
+					</tr>
+				<#if item.tradeList?? && (item.tradeList?size>0)>
+					<#list item.tradeList as trade>
+							<tr class="text-c childTable${item.id}" hidden="hidden">
+								
+								<td>${trade.id}</td>
+								<td>${trade.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+								<td>${trade.volume}${currencyCryptoName}</td>
+								<td>${trade.price}${currencyName}</td>
+								<td>${trade.price*trade.volume}${currencyName}</td>
+								<td><#if item.side=="BUY">${trade.buyFee!0}<#else>${trade.sellFee!0}</#if></td>
+								<td colspan="4"></td>
+							</tr>
+					</#list>
+				<#else>
+<!--
+					<tr class="text-c childTable${item.id}" hidden="hidden"><td colspan="5">未查询到相关数据</td><td colspan="5"></td></tr>
+					-->
+                    <tr class="text-c childTable${item.id}" hidden="hidden"><td colspan="5"><@spring.message code="admin.noresult"/></td><td colspan="5"></td></tr>
+				</#if>
+				
+				
+			</#list>
+		<#else>
+			<tr class="text-c"><td colspan="10"><@spring.message code="admin.noresult"/></td></tr>
+		</#if>
+		</tbody>
+	</table>
+	<#if userOrderList?? && (userOrderList?size>0)>
+		${jpage.pageSizeButton}
+		<div class="content_page" >${jpage.buttons}</div>
+	</#if>
+	</div>
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+
+<script src="${base}/res/js/base64.js" type=text/javascript></script>
+
+<script type=text/javascript>
+function search(){
+	var side = $("#side").val();
+	var userId=$("#userId").val();
+	var symbol=$("#symbol").val();
+	var status=$("#status").val();
+	var startDate=$("#startDate").val();
+	var endDate=$("#endDate").val();
+	var orderId=$("#orderId").val();
+	
+	var url = window.location.href;
+	if (url.indexOf("?") > 0){
+		var ind = url.indexOf("?");
+		url = url.substring(0,ind);
+	}
+	url+="?side="+side+"&orderId="+orderId+ "&endDate="+ endDate+ "&startDate="+ startDate+ "&status="+ status+ "&symbol="+ symbol+ "&userId="+ userId;
+	location.href=url;
+}
+
+ 
+function controlTrade(id,status){
+	if (status == "show") {
+		$(".childTable"+id).show();
+		$("#showTrade"+id).hide();
+		$("#hiddenTrade"+id).show();
+	}else{
+		$(".childTable"+id).hide();
+		$("#showTrade"+id).show();
+		$("#hiddenTrade"+id).hide();
+		
+	}
+}
+
+//取消订单
+function cancleOrder(orderId,symbol){
+	//layer.confirm("您确定要取消该订单吗？",{title:"提示"},function(index){
+    layer.confirm('<@spring.message code="admin.order.alert_msg"/>',{title:'<@spring.message code="admin.order.tips"/>'},function(index){
+    $.ajax({
+         type:"GET",
+         url:"${base}/admin_cancel_order.html?symbol="+symbol+"&orderId="+orderId+"&timestamp="+new Date().getTime(),
+         dataType:"json",
+         success: function(result){
+          if (result.code==0) {
+        	  //layer.msg("操作成功", {time: 1000, icon:2}, function(){
+              layer.msg('<@spring.message code="admin.order.operation_sucessful"/>', {time: 1000, icon:2}, function(){
+				  var url = window.location.href;
+		          window.location.href=url;
+	        	});
+          }else{
+        	  // layer.msg("操作失败", {time: 1000, icon:2}, function(){
+              layer.msg('<@spring.message code="admin.order.operation_failed"/>', {time: 1000, icon:2}, function(){
+				  var url = window.location.href;
+		          window.location.href=url;
+	        	});
+          }
+         },error:function(XmlHttpRequest, textStatus, errorThrown){
+        	 layer.msg("<@spring.message code='admin.action.unfreeze.login.faild'/>", {time: 1000, icon:2});
+        }  
+      });
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css"
+          id="skin"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css"/>
+
+    <link href="${base}/res/css/page.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/button.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css"/>
+
+    <title><@spring.message code="finance.withdrawcrypto.title"/> </title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/> <span
+        class="c-gray en">&gt;</span> <@spring.message code="finance.title"/> <span class="c-gray en">&gt;</span>
+    <@spring.message code="finance.withdrawcrypto.title"/> <a class="btn btn-success radius r"
+                                                              style="line-height:1.6em;margin-top:3px"
+                                                              href="javascript:location.replace(location.href);"
+                                                              title="<@spring.message code='admin.refresh'/>"><i
+            class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div id="tab_demo" class="HuiTab">
+        <div class="tabBar clearfix">
+            <#if coinList?? && (coinList?size>0)>
+                <#list coinList as coin>
+                    <#if coin?? && (coin.isCurency==0)>
+                        <a href="${base}/withdrawCrypto.html?symbol=${coin.name()}">
+                            <span class="<#if coinMap.symbol == coin.name()>current</#if>">${coin.name()}</span>
+                        </a>
+                    </#if>
+                </#list>
+            </#if>
+            <div class="text-c r">
+			        <select id="withdrawStatus" name="withdrawStatus" class="select-box select" style="width:150px">
+                        <option <#if coinMap.withdrawStatus=="all">selected="selected"</#if> value="all">ALL</option>
+				    <#if withdrawStatusList?? && (withdrawStatusList?size>0)>
+                        <#list withdrawStatusList as item>
+                            <option <#if coinMap.withdrawStatus==item.name()>selected="selected"</#if> value="${item.name()}">${item.getDescription()}</option>
+                        </#list>
+                    </#if>
+			        </select>
+                <input class="input-text size-M" style="width:150px" placeholder="TXID" id="keyword" value="">
+                <button type="submit" class="btn btn-success radius" name="" onclick="search()"><i class="Hui-iconfont">&#xe665;</i>查找
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-bg">
+            <thead>
+            <!--
+            <tr class="text-c">
+                <th style="width: 6%;">提现单号</th>
+                <th style="width: 5%;">UID</th>
+                <th style="width: 10%;">登录账号</th>
+                <th style="width: 9%;">提现时间</th>
+                <th style="width: 6%;">提现金额</th>
+                <th style="width: 6%;">手续费</th>
+                <th style="width: 15%;">提现地址</th>
+                <th style="width: 13%;">TXID</th>
+                <th style="width: 7%;">警告等级</th>
+                <th style="width: 13%;">警告提示</th>
+                <th style="width: 7%;">状态</th>
+                <th style="width: 13%;">操作</th>
+
+            </tr>
+            -->
+            <tr class="text-c">
+                <th style="width: 6%;"><@spring.message code="finance.profit.present_single_number"/></th>
+                <th style="width: 5%;">UID</th>
+                <th style="width: 10%;"><@spring.message code="finance.profit.login_account"/></th>
+                <th style="width: 9%;"><@spring.message code="finance.profit.present_time"/></th>
+                <th style="width: 6%;"><@spring.message code="finance.profit.amount_of_cash"/></th>
+                <th style="width: 6%;"><@spring.message code="finance.profit.service_charge"/></th>
+                <th style="width: 15%;"><@spring.message code="finance.profit.present_path"/></th>
+                <th style="width: 13%;">TXID</th>
+                <th style="width: 7%;"><@spring.message code="finance.profit.warning_level"/></th>
+                <th style="width: 13%;"><@spring.message code="finance.profit.warning_note"/></th>
+                <th style="width: 7%;"><@spring.message code="finance.profit.state"/></th>
+                <th style="width: 13%;"><@spring.message code="finance.profit.operation"/></th>
+
+            </tr>
+
+            </thead>
+            <tbody>
+            <#if withdrawCryptoMapList?? && (withdrawCryptoMapList?size>0)>
+                <#list withdrawCryptoMapList as item>
+                    <tr class="text-c">
+                        <td>${item.id!''}</td>
+                        <td>
+                            <!--
+                            <a href="javascript:void(0)"
+                               onclick="userDetail('用户信息','adminLogInfo.html?id=${item.uid}&amp;index=6')">${item.uid!''}</a>
+                               -->
+                            <a href="javascript:void(0)"
+                               onclick="userDetail('<@spring.message code="finance.profit.user_information"/>','adminLogInfo.html?id=${item.uid}&amp;index=6')">${item.uid!''}</a>
+                        </td>
+                        <td>${item.username!''}</td>
+                        <td>${item.createdAt?string("yyyy-MM-dd HH:mm:ss")}</td>
+                        <td>${item.amount!''}</td>
+                        <td>${item.fee!''}</td>
+                        <td><a target="_blank" href="${item.coinAddrUrl}${item.addressTo!''}">${item.addressTo!''}</a>
+                        </td>
+                        <td><a target="_blank" href="${item.coinTxUrl}${item.txid!''}">${item.txid!''}</a>
+                        </td>
+                        <td>
+							<span class="label <#if item.warningLevel?? && (item.warningLevel>1)>label-warning<#else>label-default</#if> radius">
+								${item.warningLevel!''}
+							</span>
+                        </td>
+                        <td style="color: red">${item.warningLevelDesc!''}</td>
+                        <td class="statusDesc">${item.statusDesc!''}</td>
+                        <td class="operate">
+                            <#if item?? && (item.status==0) && showOpt>
+                                <button type="submit" class="btn btn-link" data-id="${item.id!''}" onclick="withdrawAudit(this, 'approve')">通过</button>
+                                <button type="submit" class="btn btn-link" data-id="${item.id!''}" onclick="withdrawAudit(this, 'reject')">拒绝</button>
+                            </#if>
+                        </td>
+                    </tr>
+                </#list>
+                <#else>
+                    <tr class="text-c">
+                        <td colspan="12"><@spring.message code='admin.noresult'/></td>
+                    </tr>
+            </#if>
+            </tbody>
+        </table>
+        ${jpage.pageSizeButton}
+        <#if withdrawCryptoMapList?? && (withdrawCryptoMapList?size>0)>
+            <div class="content_page" >${jpage.buttons}</div>
+        </#if>
+    </div>
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script>
+    /*用户详情*/
+    function userDetail(title, url) {
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+
+    function search() {
+        var keyword = $("#keyword").val();
+        var withdrawStatus = $("#withdrawStatus").val();
+
+        var url = window.location.href;
+        if (url.indexOf("?") > 0) {
+            var ind = url.indexOf("?");
+            url = url.substring(0, ind);
+        }
+        url += "?symbol=${coinMap.symbol}&withdrawStatus="+ withdrawStatus +"&keyword=" + keyword;
+        location.href = url;
+    }
+</script>
+<script>
+
+    /**
+     * 提现审核
+     * @param id 提现单号
+     * @param operate 1 通过，2 拒绝
+     */
+    function withdrawAudit(btnDom, operate) {
+        var operateName = "通过";
+        if(operate == "reject"){
+            operateName = "拒绝";
+        }
+        if (!confirm("是否确认"+operateName)) {
+             return;
+        }
+
+        if (!btnDom.hasAttribute("data-id")) {
+            alert("params error：no id ")
+            return;
+        }
+        if (operate != 'approve' && operate !='reject') {
+            alert("params error：no operate")
+            return;
+        }
+
+        id = btnDom.getAttributeNode("data-id").value
+        data = {
+            id: id,
+            operate: operate,
+        }
+        $.ajax({
+            type: "POST",
+            url: "${base}/withdrawCryptoAudit.json",
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                console.log(data)
+                if (data.code == -1) {
+                    window.location.href = "login.html";
+                } else if (data.code == 0) {
+                    $(btnDom).parents('.text-c').children('td.statusDesc').html(data.data)
+                    $(btnDom).parents('.text-c').children('td.operate').html("")
+                    alert(data.message + data.data)
+                } else {
+                    alert(data.message)
+                }
+            },
+            error: function (XmlHttpRequest, textStatus, errorThrown) {
+                alert("http request:" + textStatus)
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

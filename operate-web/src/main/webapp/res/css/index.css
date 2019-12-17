@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+.row-fluid {width: 100%;*zoom: 1}
+input[type="text"], input[type="password"], textarea, select{ border-color: #DDD; width: 100%; font-size: 12px; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; display: inline-block; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; color: #454545; height: 30px; margin-bottom: 0px;}
+textarea,input[type="text"],input[type="password"],input[type="datetime"],input[type="datetime-local"],input[type="date"],input[type="month"],input[type="time"],input[type="week"],input[type="number"],input[type="email"],input[type="url"],input[type="search"],input[type="tel"],input[type="color"],.uneditable-input{background-color: #fff;border: 1px solid #ccc;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition: border linear .2s, box-shadow linear .2s;-moz-transition: border linear .2s, box-shadow linear .2s;-o-transition: border linear .2s, box-shadow linear .2s;transition: border linear .2s, box-shadow linear .2s}
+.row-form{border-bottom: 1px solid #DDD; border-top-color: #FFF; padding: 15px 15px; vertical-align: baseline;font-size: 14px;font-family: 微软雅黑;height: 23px;}
+.span2{width: 14%;height: 20px;float: left;margin-top: 5px;}
+.span10{height: 22px;width: 82%;float: left;}
+
+.span10 input{width: 60%;height: 30px;padding-left: 5px;font-size: 14px;text-align: 30px;padding-top: 5px\9}
+.control_btn{float:left;width:90px;height:36px;line-height:36px;background-color:#2f96d0;border-radius:4px;text-align:center;font-size:16px;color:#fff;cursor:pointer;}
+.control_btn:hover{background-color:#5eb4e7}
+.bottom2{color: red;}

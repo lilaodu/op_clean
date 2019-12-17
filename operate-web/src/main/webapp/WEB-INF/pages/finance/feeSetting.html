@@ -1,0 +1,440 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css"
+          id="skin"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css"/>
+
+    <link href="${base}/res/css/page.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/button.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css"/>
+
+    <title><@spring.message code="finance.feeSetting.title"/> </title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/> <span
+        class="c-gray en">&gt;</span> <@spring.message code="finance.title"/> <span class="c-gray en">&gt;</span>
+    <@spring.message code="finance.feeSetting.title"/> <a class="btn btn-success radius r"
+                                                          style="line-height:1.6em;margin-top:3px"
+                                                          href="javascript:location.replace(location.href);"
+                                                          title="<@spring.message code='admin.refresh'/>"><i
+            class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+<!--    <div class="panel panel-default">
+        &lt;!&ndash; <div class="panel-header">交易手续费</div> &ndash;&gt;
+        <div class="panel-header"><@spring.message code="finance.profit.transaction_fee"/></div>
+        <div class="panel-body">
+            <div id="tab_demo" class="HuiTab">
+                <div class="tabBar clearfix" style="border-bottom: 1px solid #dcd5d5">
+                    &lt;!&ndash;<span>选项卡一</span>&ndash;&gt;
+                    <#if pairMapList?? && (pairMapList?size>0)>
+                        <#list pairMapList as pairMap>
+                            <#if pairMap?? >
+								<span class="">${pairMap.symbol}
+								</span>
+                            </#if>
+                        </#list>
+                    </#if>
+                </div>
+                &lt;!&ndash;<div class="tabCon">内容一</div>&ndash;&gt;
+                <#if pairMapList?? && (pairMapList?size>0)>
+                    <#list pairMapList as pairMap>
+                        <#if pairMap?? >
+                            <div class="tabCon">
+                                <div class="row cl"><br/>
+                                    &lt;!&ndash;
+                                    <label class="form-label col-xs-4 col-sm-3">${pairMap.symbol} 挂单（maker）手续费（千分之一：0.001）</label>
+                                    &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3">${pairMap.symbol} <@spring.message code="finance.profit.pending_order"/>（maker）<@spring.message code="finance.profit.service_charge"/>（<@spring.message code="finance.profit.one_thousandth"/>：0.001）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        &lt;!&ndash;${pairMap.symbol!''}&ndash;&gt;
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${pairMap.symbol}" data-type="TRADE_MAKER_VIP0" value="${pairMap.TRADE_MAKER_VIP0!'0.0'}">
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    &lt;!&ndash;
+                                    <label class="form-label col-xs-4 col-sm-3">${pairMap.symbol} 吃单（Taker）手续费（千分之一：0.001）</label>
+                                    &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3">${pairMap.symbol} <@spring.message code="finance.profit.eat_alone"/>（Taker）<@spring.message code="finance.profit.service_charge"/>（<@spring.message code="finance.profit.one_thousandth"/>：0.001）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${pairMap.symbol}" data-type="TRADE_TAKER_VIP0" value="${pairMap.TRADE_TAKER_VIP0!'0.0'}">
+                                    </div>
+                                </div>
+                            </div>
+                        </#if>
+                    </#list>
+                </#if>
+
+            </div>
+        </div>
+    </div>
+   <br/>
+    <div class="panel panel-default">
+        &lt;!&ndash; <div class="panel-header">充值手续费</div> &ndash;&gt;
+        <div class="panel-header"><@spring.message code="finance.profit.charge_for_recharge"/></div>
+        <div class="panel-body">
+            <div id="tab_demo2" class="HuiTab">
+                <div class="tabBar clearfix" style="border-bottom: 1px solid #dcd5d5">
+                    <#if depositMapList?? && (depositMapList?size>0)>
+                        <#list depositMapList as depositMap>
+                            <#if depositMap?? >
+								<span class="">${depositMap.symbol}
+								</span>
+                            </#if>
+                        </#list>
+                    </#if>
+                </div>
+                <#if depositMapList?? && (depositMapList?size>0)>
+                    <#list depositMapList as depositMap>
+                        <#if depositMap?? >
+                            <div class="tabCon"><br/>&lt;!&ndash;${depositMap.symbol!''}&ndash;&gt;
+                                <div class="row cl">
+                                    &lt;!&ndash;
+                                    <label class="form-label col-xs-6 col-sm-6">平台收用户手续费${depositMap.symbol!''}</label>
+                                    <label class="form-label col-xs-6 col-sm-6">平台支付给充值通道的手续费${depositMap.symbol!''}</label>
+                                    &ndash;&gt;
+                                    <label class="form-label col-xs-6 col-sm-6"><@spring.message code="finance.profit.platform_collecting_fee"/>${depositMap.symbol!''}</label>
+                                    <label class="form-label col-xs-6 col-sm-6"><@spring.message code="finance.profit.service_fee_platform_payment"/>${depositMap.symbol!''}</label>
+                                </div>
+                                <div class="row cl"><br/>
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.initial_amount_charged_percentage"/>（${depositMap.symbol!''}+）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${depositMap.symbol}" data-type="DEPOSIT_USER_RATE_AMOUNT" value="${depositMap.DEPOSIT_USER_RATE_AMOUNT!'0.0'}">
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">按百分比收取的起始金额（${depositMap.symbol!''}+）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.initial_amount_charged_percentage"/>（${depositMap.symbol!''}+）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${depositMap.symbol}" data-type="DEPOSIT_CHANNEL_RATE_AMOUNT" value="${depositMap.DEPOSIT_CHANNEL_RATE_AMOUNT!'0.0'}">
+                                    </div>
+                                </div>
+                                <div class="row cl"><br/>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">每笔收取费率（千分之一：0.001）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.charge_per_charge"/>（<@spring.message code="finance.profit.one_thousandth"/>：0.001）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${depositMap.symbol}" data-type="DEPOSIT_USER_RATE" value="${depositMap.DEPOSIT_USER_RATE!'0.0'}">
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">每笔支付费率（<@spring.message code="finance.profit.one_thousandth"/>：0.001）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.per_payment_rate"/>（<@spring.message code="finance.profit.one_thousandth"/>：0.001）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${depositMap.symbol}" data-type="DEPOSIT_CHANNEL_RATE" value="${depositMap.DEPOSIT_CHANNEL_RATE!'0.0'}">
+                                    </div>
+                                </div>
+                                <div class="row cl"><br/>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">最低收费金额（${depositMap.symbol!''}）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.minimum_charge"/>（${depositMap.symbol!''}）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${depositMap.symbol}" data-type="DEPOSIT_USER_MIN_AMOUNT" value="${depositMap.DEPOSIT_USER_MIN_AMOUNT!'0.0'}">
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">最低收费金额（${depositMap.symbol!''}）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.minimum_charge"/>（${depositMap.symbol!''}）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${depositMap.symbol}" data-type="DEPOSIT_USER_MIN_AMOUNT" value="${depositMap.DEPOSIT_USER_MIN_AMOUNT!'0.0'}">
+                                    </div>
+                                </div>
+                            </div>
+                        </#if>
+                    </#list>
+                </#if>
+
+            </div>
+        </div>
+    </div>
+    <br/>-->
+    <!--<div class="panel panel-default">
+        &lt;!&ndash; <div class="panel-header">提现手续费</div> &ndash;&gt;
+        <div class="panel-header"><@spring.message code="finance.profit.bill_of_charge"/></div>
+        <div class="panel-body">
+            <div id="tab_demo3" class="HuiTab">
+                <div class="tabBar clearfix" style="border-bottom: 1px solid #dcd5d5">
+                    &lt;!&ndash;<span>选项卡一</span>&ndash;&gt;
+                    <#if withdrawMapList?? && (withdrawMapList?size>0)>
+                        <#list withdrawMapList as withdrawMap>
+                            <#if withdrawMap?? >
+								<span class="">${withdrawMap.symbol}
+								</span>
+                            </#if>
+                        </#list>
+                    </#if>
+                </div>
+                &lt;!&ndash;<div class="tabCon">内容一</div>&ndash;&gt;
+                <#if withdrawMapList?? && (withdrawMapList?size>0)>
+                    <#list withdrawMapList as withdrawMap>
+                        <#if withdrawMap?? >
+                            <div class="tabCon">
+                                <br/>&lt;!&ndash;${withdrawMap.symbol!''}&ndash;&gt;
+                                <div class="row cl">
+                                    &lt;!&ndash;
+                                    <label class="form-label col-xs-6 col-sm-6">平台收用户手续费${withdrawMap.symbol}</label>
+                                    <label class="form-label col-xs-6 col-sm-6">平台支付给提现通道的手续费${withdrawMap.symbol}</label>
+                                    &ndash;&gt;
+                                    <label class="form-label col-xs-6 col-sm-6"><@spring.message code="finance.profit.platform_collecting_fee"/>${withdrawMap.symbol}</label>
+                                    <label class="form-label col-xs-6 col-sm-6"><@spring.message code="finance.profit.service_fee_platform_payment_to_present_channel"/>${withdrawMap.symbol}</label>
+                                </div>
+                                <div class="row cl"><br/>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">按百分比收取的起始金额（${withdrawMap.symbol!''}+）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.initial_amount_charged_percentage"/>（${withdrawMap.symbol!''}+）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${withdrawMap.symbol}" data-type="WITHDRAW_USER_RATE_AMOUNT" value="${withdrawMap.WITHDRAW_USER_RATE_AMOUNT!'0.0'}">
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">按百分比收取的起始金额（${withdrawMap.symbol!''}+）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.initial_amount_charged_percentage"/>（${withdrawMap.symbol!''}+）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${withdrawMap.symbol}" data-type="WITHDRAW_CHANNEL_RATE_AMOUNT" value="${withdrawMap.WITHDRAW_CHANNEL_RATE_AMOUNT!'0.0'}">
+                                    </div>
+                                </div>
+                                <div class="row cl"><br/>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">每笔收取费率（千分之一：0.001）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.charge_per_charge"/>（<@spring.message code="finance.profit.one_thousandth"/>：0.001）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${withdrawMap.symbol}" data-type="WITHDRAW_USER_RATE" value="${withdrawMap.WITHDRAW_USER_RATE!'0.0'}">
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">每笔支付费率（千分之一：0.001）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.per_payment_rate"/>（<@spring.message code="finance.profit.one_thousandth"/>：0.001）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${withdrawMap.symbol}" data-type="WITHDRAW_CHANNEL_RATE" value="${withdrawMap.WITHDRAW_CHANNEL_RATE!'0.0'}">
+                                    </div>
+                                </div>
+                                <div class="row cl"><br/>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">最低收费金额（${withdrawMap.symbol!''}）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.minimum_charge"/>（${withdrawMap.symbol!''}）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${withdrawMap.symbol}" data-type="WITHDRAW_USER_MIN_AMOUNT" value="${withdrawMap.WITHDRAW_USER_MIN_AMOUNT!'0.0'}">
+                                    </div>
+                                    <div class="col-xs-1"></div>
+                                    &lt;!&ndash; <label class="form-label col-xs-4 col-sm-3">最低收费金额（${withdrawMap.symbol!''}）</label> &ndash;&gt;
+                                    <label class="form-label col-xs-4 col-sm-3"><@spring.message code="finance.profit.minimum_charge"/>（${withdrawMap.symbol!''}）</label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                               data-symbol="${withdrawMap.symbol}" data-type="WITHDRAW_CHANNEL_MIN_AMOUNT" value="${withdrawMap.WITHDRAW_CHANNEL_MIN_AMOUNT!'0.0'}">
+                                    </div>
+                                </div>
+                            </div>
+                        </#if>
+                    </#list>
+                </#if>
+
+            </div>
+        </div>
+    </div>
+
+    <br/>
+    <div class="panel panel-default">
+        <div class="panel-header">提现手续费（数字货币）</div>
+        <div class="panel-body">
+            <div id="tab_demo4" class="HuiTab">
+                <div class="tabBar clearfix" style="border-bottom: 1px solid #dcd5d5">
+                    &lt;!&ndash;<span>选项卡一</span>&ndash;&gt;
+                    <#if digiccyMapList?? && (digiccyMapList?size>0)>
+                        <#list digiccyMapList as digiccyMap>
+                            <#if digiccyMap?? >
+                                <span class="">${digiccyMap.symbol}
+                                </span>
+                            </#if>
+                        </#list>
+                    </#if>
+                </div>
+                &lt;!&ndash;<div class="tabCon">内容一</div>&ndash;&gt;
+                <#if digiccyMapList?? && (digiccyMapList?size>0)>
+                    <#list digiccyMapList as digiccyMap>
+                        <#if digiccyMap?? >
+                            <div class="tabCon">
+                                <br/>&lt;!&ndash;${digiccyMap.symbol!''}&ndash;&gt;
+                                <div class="row cl">
+                                    <label class="form-label col-xs-4 col-sm-4">最小提币手续费${digiccyMap.symbol}</label>
+                                    <label class="form-label col-xs-4 col-sm-4">最大提币手续费${digiccyMap.symbol}</label>
+                                    <label class="form-label col-xs-4 col-sm-4">默认提币手续费${digiccyMap.symbol}</label>
+                                </div>
+                                <div class="row cl"><br/>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder=""
+                                            data-symbol="${digiccyMap.symbol}" data-type="DIGICCY_MIN_AMOUNT" value="${digiccyMap.DIGICCY_MIN_AMOUNT!'0.0'}">
+                                    </div>
+                                    <label class="form-label col-xs-2 col-sm-1">${digiccyMap.symbol!''}</label>
+                                    <div class="col-xs-1"></div>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder="" data-symbol="${digiccyMap.symbol}" data-type="DIGICCY_MAX_AMOUNT" value="${digiccyMap.DIGICCY_MAX_AMOUNT!'0.0'}">
+                                    </div>
+                                    <label class="form-label col-xs-2 col-sm-1">${digiccyMap.symbol!''}</label>
+                                    <div class="col-xs-1"></div>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder="" data-symbol="${digiccyMap.symbol}" data-type="DIGICCY_DEFAULT_AMOUNT" value="${digiccyMap.DIGICCY_DEFAULT_AMOUNT!'0.0'}">
+                                    </div>
+                                    <label class="form-label col-xs-2 col-sm-1">${digiccyMap.symbol!''}</label>
+                                </div>
+                            </div>
+                        </#if>
+                    </#list>
+                </#if>
+            </div>
+        </div>
+    </div>-->
+
+    <br/>
+	<div class="panel panel-default">
+        <div class="panel-header">资产交易手续费</div>
+        <div class="panel-body">
+            <div id="tab_demo4" class="HuiTab">
+                <div class="tabBar clearfix" style="border-bottom: 1px solid #dcd5d5">
+                    <!--<span>选项卡一</span>-->
+                    <#if otcFees?? && (otcFees?size>0)>
+                        <#list otcFees as otcFee>
+                            <#if otcFee?? >
+								<span class="">${otcFee.coinSymbol}
+								</span>
+                            </#if>
+                        </#list>
+                    </#if>
+                </div>
+                <!--<div class="tabCon">内容一</div>-->
+                <#if otcFees?? && (otcFees?size>0)>
+                    <#list otcFees as otcFee>
+                        <#if otcFee?? >
+                            <div class="tabCon">
+                                <div class="row cl"><br/>
+                                <#if otcFee.fees?? && (otcFee.fees?size>0)>
+                                 	<#list otcFee.fees as fee>
+                                    <label class="form-label col-xs-2 col-sm-2">
+                                    ${otcFee.coinSymbol} <#if fee.type == 700 >交易续费<#elseif  fee.type == 701 >最低续费<#elseif  fee.type == 702 >最高续费</#if>
+                                    </label>
+                                    <div class="formControls col-xs-2 col-sm-2">
+                                        <input type="text" class="input-text" autocomplete="off" placeholder="" data-symbol="${otcFee.coinSymbol}" data-type="OTC_TRADE_FEE_MAX" value="${fee.rate!'0.0'}">
+                                        <span>注：0.01代表收取1%的手续费</span>
+                                    </div>
+                                    </#list>
+                                 </#if>
+                                </div>
+                            </div>
+                        </#if>
+                    </#list>
+                </#if>
+            </div>
+        </div>
+    </div>
+    <br/>
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script>
+    jQuery.Huitab = function (tabBar, tabCon, class_name, tabEvent, i) {
+        var $tab_menu = $(tabBar);
+        // 初始化操作
+        $tab_menu.removeClass(class_name);
+        $(tabBar).eq(i).addClass(class_name);
+        $(tabCon).hide();
+        $(tabCon).eq(i).show();
+
+        $tab_menu.bind(tabEvent, function () {
+            $tab_menu.removeClass(class_name);
+            $(this).addClass(class_name);
+            var index = $tab_menu.index(this);
+            $(tabCon).hide();
+            $(tabCon).eq(index).show()
+        })
+    }
+
+    $(function () {
+        $.Huitab("#tab_demo .tabBar span", "#tab_demo .tabCon", "current", "click", "1")
+        $.Huitab("#tab_demo2 .tabBar span", "#tab_demo2 .tabCon", "current", "click", "1")
+        $.Huitab("#tab_demo3 .tabBar span", "#tab_demo3 .tabCon", "current", "click", "1")
+        $.Huitab("#tab_demo4 .tabBar span", "#tab_demo4 .tabCon", "current", "click", "1")
+    });
+
+</script>
+<script>
+
+    // 更改当前手续费
+    function saveFee(inputDom, preValue){
+        data = {
+            symbol:inputDom.getAttributeNode("data-symbol").value,
+            feeType:inputDom.getAttributeNode("data-type").value,
+            newValue:inputDom.value,
+        }
+        $.ajax({
+            type: "POST",
+            url: "${base}/changeFeeSetting.json",
+            data: JSON.stringify(data),
+            dataType:"json",
+            contentType: "application/json;charset=utf-8",
+            success: function(data){
+                if(data.result==-1){
+                    window.location.href="login.html";
+                } else if(data.code==0){
+                    alert(data.message)
+                } else{
+                    inputDom.value = preValue
+                    alert(data.message)
+                }
+            },
+            error:function(XmlHttpRequest, textStatus, errorThrown){
+                inputDom.value = preValue
+                alert("http request:" + textStatus)
+            }
+        });
+    }
+
+    $(function () {
+        var preValue = 0
+        $(".tabCon .input-text").focus(function(){
+            $(this).css("background-color","#FFFFCC");
+            // 预更新值放到全局
+            preValue = this.value
+        })
+
+        $(".tabCon .input-text").change(function(){
+            if (confirm("确认当前值（" + preValue + "）改变为（" + this.value + "）")) {
+                if (this.hasAttribute("data-type") && this.hasAttribute("data-symbol")) {
+                    symbol = this.getAttributeNode("data-symbol").value
+                    type = this.getAttributeNode("data-type").value
+                    saveFee(this, preValue)
+                } else {
+                    alert("no data-type or data-symbol")
+                    this.value = preValue
+                }
+            } else {
+                this.value = preValue
+            }
+
+        })
+    });
+</script>
+</body>
+</html>

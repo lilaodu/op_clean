@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+<title><@spring.message code="notice.info.title"/></title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="station.service.index"/> <span class="c-gray en">&gt;</span> <@spring.message code="station.service.title"/> <span class="c-gray en">&gt;</span> <@spring.message code="notice.info.title"/><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='station.service.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c"> 
+		<input type="text" class="input-text" style="width:250px" maxlength="200" placeholder="<@spring.message code='notice.info.keyword.info'/>" id="title" name="title" value="<#if title??&&title!=''>${title}<#else></#if>">
+		<span style="vertical-align: middle; margin-left: 5px;"><@spring.message code="notice.info.ctime"/></span>
+		<!-- <input type="text" onfocus="WdatePicker({maxDate:'#F{\'%y-%M-%d\'}'})" id="ctime" class="input-text Wdate size-M" style="width:110px;" value="${ctime!''}">
+		<span style="vertical-align: middle; margin-left: 5px;"><@spring.message code="notice.info.mtime"/></span>
+		<input type="text" onfocus="WdatePicker({maxDate:'#F{\'%y-%M-%d\'}'})" id="mtime" class="input-text Wdate size-M" style="width:110px;" value="${mtime!''}"> -->
+		<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',maxDate:'#F{$dp.$D(\'end\')||\'%y-%M-%d\'}',dateFmt:'${date_format}'})" value="${ctimeStart!''}" id="start" class="input-text Wdate size-M" style="width:170px;">
+		-
+		<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',minDate:'#F{$dp.$D(\'start\')}',maxDate:'%y-%M-%d',dateFmt:'${date_format}'})" value="${ctimeEnd!''}" id="end" class="input-text Wdate size-M" style="width:170px;">
+		<button type="button" class="btn btn-success radius" id="queryBtn" name="queryBtn" onclick="searchNotice(0);"><i class="Hui-iconfont">&#xe665;</i><@spring.message code="station.service.search"/></button>
+	</div>
+	<div class="cl pd-5 mt-10">
+		<span class="l">
+			<#if actionY?? && (actionY?index_of("noticeInfoAdd")!=-1)>
+				<a href="javascript:;" onclick="notice_add('<@spring.message code='notice.info.addBtn'/>','notice_info_add.html','','530')"" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe604;</i><@spring.message code="notice.info.addBtn"/></a>
+			</#if>
+		</span>
+	</div>
+	<table class="table table-border table-bordered table-bg table-hover">
+		<thead>
+			<tr class="text-c">
+				<th style="width: 50%;"><@spring.message code="notice.info.title.head"/></th>
+				<!-- <th><@spring.message code="notice.info.title.content"/></th> -->
+				<th style="width: 10%;"><@spring.message code="cms.advert.language.title"/></th>
+				<th style="width: 15%;"><@spring.message code="notice.info.title.ctime"/></th>
+				<th style="width: 15%;"><@spring.message code="notice.info.title.mtime"/></th>
+				<th style="width: 10%;"><@spring.message code="notice.info.title.operate"/></th>
+			</tr>
+		</thead>
+		<tbody>
+		<#if noticeInfoList?? && (noticeInfoList?size>0)>
+			<#list noticeInfoList as item>
+			<tr>
+				<td>${item.title!''}</td>
+				<!-- <td>${item.content!''}</td> -->
+				<td class="text-c">${item.lang!''}</td>
+				<td class="text-c">${item.ctime?string(date_format)!''}</td>
+				<td class="text-c">${item.mtime?string(date_format)}</td>
+				<td class="text-c">
+					<#if actionY?? && (actionY?index_of("noticeInfoEdit")!=-1)>
+						<a title="<@spring.message code='notice.info.edit.title'/>" href="javascript:;" onclick="notice_edit('<@spring.message code='notice.info.edit.title'/>','notice_info_edit.html?id=${item.id}','','530')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+					</#if>
+					<a title="<@spring.message code='notice.info.stick.title'/>" href="javascript:;" onclick="notice_stick(this,'${item.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe679;</i></a>
+					<#if actionY?? && (actionY?index_of("noticeInfoDel")!=-1)>
+						<a title="<@spring.message code='notice.info.delete.title'/>" href="javascript:;" onclick="notice_del(this,'${item.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					</#if>
+				</td>
+			</tr>
+			</#list>
+		<#else>
+			<tr class="text-c"><td colspan="5"><@spring.message code="station.service.noresult.info"/></td></tr>
+		</#if>
+		</tbody>
+	</table>
+	${jpage.pageSizeButton}
+	<#if noticeInfoList?? && (noticeInfoList?size>0)>
+		<div class="content_page" >${jpage.buttons}</div>
+	</#if>
+</div>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+	/*公告-增加*/
+	function notice_add(title,url,w,h){
+		//layer_show(title,url,w,h);
+		var index = layer.open({
+			type: 2,
+			title: title,
+			content: url
+		});
+		layer.full(index);
+	}
+	
+	/*公告-编辑*/
+	function notice_edit(title,url,w,h){
+		//layer_show(title,url,w,h);
+		var index = layer.open({
+			type: 2,
+			title: title,
+			content: url
+		});
+		layer.full(index);
+	}
+	
+	/*公告-查找*/
+	function searchNotice(pageSize){
+		var title=$("#title").val();
+		var end = $("#end").val();
+		var start = $("#start").val();
+		var url = window.location.href;
+		if (url.indexOf("?") > 0){
+			var ind = url.indexOf("?");
+			url = url.substring(0,ind);
+		}
+		if(pageSize==0){ // 默认20条
+			url+="?title="+ title+ "&ctimeStart="+ start + "&ctimeEnd=" + end +"&pageSize=" + 20;
+		}else{
+			url+="?title="+ title+ "&ctimeStart="+ start + "&ctimeEnd=" + end +"&pageSize="+pageSize;
+		}
+		location.href=url;
+	}
+	
+	/*公告-删除*/
+	function notice_del(obj,id){
+		layer.confirm("<@spring.message code='notice.info.delete.confrim'/>",{title: "<@spring.message code='notice.info.delete.title'/>"},function(index){
+			$.ajax({
+		        type: "POST",   
+		        url: "notice_info_del.html",   
+		        data: "id="+id,
+		        dataType:'json',
+		        success: function(data){
+		        	if(data.result==-1){
+		        		window.location.href="login.html";
+		        	}else{
+		        		layer.msg("<@spring.message code='notice.info.delete.success.info'/>", {time: 1000, icon:1}, function(){
+		        			var url = window.location.href;
+			            	window.location.href=url;
+		        		});
+		        	}
+		        },
+		        error:function(data) {
+					console.log(data.msg);
+				},
+		    });
+		});
+	}
+	
+	/*公告-置顶*/
+	function notice_stick(obj,id){
+		layer.confirm("<@spring.message code='notice.info.stick.confrim'/>",{title: "<@spring.message code='notice.info.stick.title'/>"},function(index){
+			$.ajax({
+		        type: "POST",   
+		        url: "notice_info_stick.html",   
+		        data: "id="+id,
+		        dataType:'json',
+		        success: function(data){
+		        	if(data.result==-1){
+		        		window.location.href="login.html";
+		        	}else{
+		        		layer.msg("<@spring.message code='notice.info.stick.success.info'/>", {time: 1000, icon:1}, function(){
+		        			var url = window.location.href;
+			            	window.location.href=url;
+		        		});
+		        	}
+		        },
+		        error:function(data) {
+					console.log(data.msg);
+				},
+		    });
+		});
+	}
+</script>
+</body>
+</html>

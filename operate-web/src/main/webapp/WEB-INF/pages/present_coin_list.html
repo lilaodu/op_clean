@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="cms.article.page.title"/></title>
+</head>
+<body>
+<!--
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="cms.article.type.nav.level0"/> <span class="c-gray en">&gt;</span> 财务管理 <span class="c-gray en">&gt;</span> 赠币工具 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code="cms.article.type.nav.refresh"/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+-->
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="cms.article.type.nav.level0"/> <span class="c-gray en">&gt;</span> <@spring.message code="financeManager"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.profit.gift_tool"/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code="cms.article.type.nav.refresh"/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c" style="margin-bottom:15px;"> 
+		<!--
+		<span style="vertical-align: middle;">用户id</span>
+		<span style="vertical-align: middle;"> </span>
+		<input class="input-text size-M" style="width:250px" placeholder="输入用户id" id="uid" value="${uid!''}">
+		<span style="vertical-align: middle;">赠币日期</span><input type="text" onfocus="WdatePicker({maxDate:'#F{\'%y-%M-%d\'}'})" id="stime" class="input-text Wdate size-M" style="width:110px;" value="${stime!''}">
+		- <input type="text" onfocus="WdatePicker({maxDate:'#F{\'%y-%M-%d\'}'})" id="etime" class="input-text Wdate size-M" style="width:110px;" value="${etime!''}">
+		<button type="button" class="btn btn-success radius" id="" name="" onclick="search(0)"><i class="Hui-iconfont">&#xe665;</i> <@spring.message code="cms.article.toolbar.query"/></button>
+		-->
+        <span style="vertical-align: middle;"><@spring.message code="finance.profit.user_id"/></span>
+        <span style="vertical-align: middle;"> </span>
+        <input class="input-text size-M" style="width:250px" placeholder='<@spring.message code="finance.profit.msg_tip"/>' id="uid" value="${uid!''}">
+        <span style="vertical-align: middle;"><@spring.message code="finance.profit.gift_date"/></span><input type="text" onfocus="WdatePicker({maxDate:'#F{\'%y-%M-%d\'}'})" id="stime" class="input-text Wdate size-M" style="width:110px;" value="${stime!''}">
+        - <input type="text" onfocus="WdatePicker({maxDate:'#F{\'%y-%M-%d\'}'})" id="etime" class="input-text Wdate size-M" style="width:110px;" value="${etime!''}">
+        <button type="button" class="btn btn-success radius" id="" name="" onclick="search(0)"><i class="Hui-iconfont">&#xe665;</i> <@spring.message code="cms.article.toolbar.query"/></button>
+	</div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+        <!--
+			<tr class="text-c">
+				<th style="width: 45%;">赠币日期</th>
+				<th style="width: 12%;">用户id</th>
+				<th style="width: 12%;">赠币数量</th>
+				<th style="width: 16%;">操作人id</th>
+			</tr>
+        -->
+        <tr class="text-c">
+            <th style="width: 45%;"><@spring.message code="finance.profit.gift_date"/></th>
+            <th style="width: 12%;"><@spring.message code="finance.profit.user_id"/></th>
+            <th style="width: 12%;"><@spring.message code="finance.profit.gift_number"/></th>
+            <th style="width: 16%;"><@spring.message code="finance.profit.msg_operate_uid"/></th>
+        </tr>
+		</thead>
+		<tbody>
+		<#if presentRecordList?? && (presentRecordList?size>0)>
+			<#list presentRecordList as item>
+			<tr class="text-c">
+				<td>${item.ctime?string(date_format)!''}</td>
+				<td>${item.uid!''}</td>
+				<td>${item.amount!''}  ${item.symbol!''}</td>
+				<td>${item.opUid!''}</td>
+			</tr>
+			</#list>
+		<#else>
+			<tr class="text-c"><td colspan="6"><@spring.message code="cms.article.type.table.none"/></td></tr>
+		</#if>
+		</tbody>
+	</table>
+		<#if presentRecordList?? && (presentRecordList?size>0)>
+			${jpage.pageSizeButton}
+			<div class="content_page" >${jpage.buttons}</div>
+		</#if>
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type=text/javascript>
+function search(pageSize){
+	var uid=$("#uid").val();
+	var stime = $("#stime").val();
+	var etime = $("#etime").val();
+
+	var url = window.location.href;
+	if (url.indexOf("?") > 0){
+		var ind = url.indexOf("?");
+		url = url.substring(0,ind);
+	}
+	if(pageSize==0){ // 默认20条
+		url+="?uid="+ uid+ "&stime="+ stime + "&etime=" + etime;
+	}else{
+		url+="?uid="+ uid+ "&stime="+ stime + "&etime=" + etime+"&pageSize="+pageSize;
+	}
+	location.href=url;
+}
+</script>
+</body>
+</html>

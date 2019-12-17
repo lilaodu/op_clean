@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="${base}/favicon.ico" >
+<link rel="Shortcut Icon" href="${base}/favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<title>修改手机</title>
+</head>
+<body>
+<article class="page-container">
+	<div class="row cl" style="padding-left: 30px;">
+	<@spring.message code='user.page.update_mobile_title'/>
+	</div>
+	<form action="" method="post" class="form form-horizontal" id="update_user_mobile">
+	<input type="hidden" id="uid" value="${user.id}"/>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><@spring.message code='user.page.realName'/>：</label>
+			<div class="formControls col-xs-8 col-sm-9" style="margin-top: 4px;">
+				${user.realName!'--'}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><@spring.message code='user.page.certificateNumber'/><!-- 证件号 -->：</label>
+			<div class="formControls col-xs-8 col-sm-9" style="margin-top: 4px;">
+				${authRealname.certificateNumber!'--'}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><@spring.message code='user.page.mobileNumber'/><!-- 原手机号码 -->：</label>
+			<div class="formControls col-xs-8 col-sm-9" style="margin-top: 4px;">
+				${user.countryCode!''}${user.mobileNumber!''}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><@spring.message code='user.page.countryCode'/><!-- 国家或地区 -->：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span class="select-box">
+					<select class="select valid" size="1" name="countryCode" id="countryCode">
+						<#if countryList?? && (countryList?size>0)>
+							<#list countryList as country>
+								<#if country.dialingCode??>
+									<option value="${country.dialingCode}" <#if country_code==country.dialingCode>selected</#if>>${country.cnName}（${country.enName}）</option>
+								</#if>
+							</#list>
+						</#if>
+					</select>
+				</span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><@spring.message code='user.page.newMobile'/><!-- 新手机号码 -->：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="newMobile" name="newMobile">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><@spring.message code='user.page.newMobile2'/><!-- 再次确认新手机号码 -->：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="newMobile2" name="newMobile2">
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;<@spring.message code='user.page.submit'/>&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+//手机号码验证 
+jQuery.validator.addMethod("isMobile", function(value, element) { 
+  	var length = value.length; 
+ 	var mobile = /^[0-9]{1,16}$/; 
+  	return this.optional(element) || mobile.test(value); 
+}, "");
+$("#update_user_mobile").validate({
+	rules:{
+		newMobile:{
+			required:true,
+			equalTo:"#newMobile2",
+			number:true
+		},
+		newMobile2:{
+			required:true,
+			equalTo:"#newMobile",
+            number:true
+		},
+	},
+	messages: {
+		newMobile: {
+			required: "<@spring.message code='user.page.in_newMobile'/>",//请输入新手机号
+			equalTo:"<@spring.message code='user.page.in_newMobile3'/>"//两次新输入的手机号码不一致
+      	},
+      	newMobile2: {
+	        required: "<@spring.message code='user.page.in_newMobile2'/>",//请再次输入新手机号
+	        equalTo:"<@spring.message code='user.page.in_newMobile3'/>"//两次新输入的手机号码不一致
+	    }
+	},
+	submitHandler:function(form){
+		//$(form).ajaxSubmit(options);
+		register();
+	}
+});
+/*提交*/
+function register(){
+	var id=$("#uid").val();
+	var countryCode=$("#countryCode").val();
+	var newMobile = $("#newMobile").val();
+	var data = {"id":id,"mobileNumber":newMobile,"countryCode":countryCode};
+	data = JSON.stringify(data);
+	$.ajax({   
+	    type: "POST",   
+	    url: "update_mobile.html",
+	    dataType:"json",
+	    contentType:"application/json;charset=UTF-8",
+	    data: data,
+	    success: function(data){
+	    	if(data.result==-1){
+        		window.location.href="login.html";
+        	}else if(data.result==0){
+        		layer.msg('<@spring.message code="user.page.in_newMobile4"/>', {time: 2000, icon:0});
+        	}else if(data.result==1){
+        		layer.msg('<@spring.message code="authRelaname.page.czsuccess"/>', {time: 2000, icon:1}, function(){
+        			var index = parent.layer.getFrameIndex(window.name);
+    				window.parent.location.reload();
+    				parent.layer.close(index);
+	        	});
+        	}
+	    },error:function(XmlHttpRequest, textStatus, errorThrown){
+	    	layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+		}  
+	});
+}
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

@@ -1,0 +1,12 @@
+.jqmWindow {
+	BORDER-RIGHT: black 1px solid; PADDING-RIGHT: 12px; BORDER-TOP: black 1px solid; DISPLAY: none; PADDING-LEFT: 12px; LEFT: 50%; PADDING-BOTTOM: 12px; MARGIN-LEFT: -300px; BORDER-LEFT: black 1px solid; WIDTH: 400px; COLOR: #333; PADDING-TOP: 12px; BORDER-BOTTOM: black 1px solid; POSITION: fixed; TOP: 17%; BACKGROUND-COLOR: #eee
+}
+.jqmOverlay {
+	BACKGROUND-COLOR: #fff
+}
+ IFRAME.jqm {
+	Z-INDEX: -1; LEFT: 0px; ; WIDTH: expression(this.parentNode.offsetWidth+'px'); POSITION: absolute; TOP: 0px; ; HEIGHT: expression(this.parentNode.offsetHeight+'px')
+}
+ HTML .jqmWindow {
+	POSITION: absolute; ; TOP: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px')
+}

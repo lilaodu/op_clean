@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+	default-lazy-init="true">
+	
+	<!--标签-->
+	<bean id="process_time" class="com.chainup.common.freemarker.ProcessTimeDirective"/>
+	<bean id="text_cut" class="com.chainup.common.freemarker.TextCutDirective"/>
+	<bean id="html_cut" class="com.chainup.common.freemarker.HtmlCutDirective"/>
+	
+</beans>

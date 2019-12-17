@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="finance.profit.gift_tool"/></title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="finance.title"/> <span class="c-gray en">&gt;</span> <@spring.message code="admin.system"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.profit.gift_tool"/><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div style="height: 225px;margin-top: 10px;width: 99%;font-size: 14px;">
+		<table class="table">
+			<tbody><tr style="height: 45px;">
+                <!--
+				<td width="100">业务类型:</td>
+				<td >赠币转账</td>
+				-->
+                <td width="100"><@spring.message code="finance.profit.business_type"/></td>
+                <td ><@spring.message code="finance.profit.money_transfer"/></td>
+			</tr>
+			<tr style="height: 45px;">
+				<!-- <td >业务场景:</td> -->
+                <td ><@spring.message code="finance.profit.business_scenario"/></td>
+				<td >
+				<select id="type" name="type" class="input-text size-M"  style="width:180px;">
+                    <!--
+				<option value="-1">请选择...</option>
+                <option value="2" >活动红包</option>
+                <option value="3">其它</option>
+                -->
+                    <option value="-1"><@spring.message code="finance.profit.select"/></option>
+                    <option value="2"><@spring.message code="finance.profit.sel_red_envelopes"/></option>
+                    <option value="3"><@spring.message code="finance.profit.sel_other"/></option>
+              </select>
+              </td>
+			</tr>
+			<tr style="height: 45px;">
+				<!-- <td >币种:</td> -->
+                <td ><@spring.message code="finance.profit.money_type"/></td>
+				<td >
+				<select id="zsSymbol" name="zsSymbol" class="input-text size-M"  style="width:180px;">
+               	  <!-- <option value="-1">请选择...</option> -->
+                    <option value="-1"><@spring.message code="finance.profit.select"/></option>
+                   <#if coins?? && (coins?size>0)>
+						<#list coins as coin>
+						    <option value="${coin!''}">${coin!''}</option>
+						</#list>
+					</#if>
+                 </select>
+              </td>
+			</tr>
+			
+							<td >从:</td>
+				<td >
+				<select id="gsAccount" name="gsAccount" class="input-text size-M"  style="width:180px;">
+               	  <option value="-1">请选择...</option>
+                   <#if comAccountTypes?? && (comAccountTypes?size>0) >
+						<#list comAccountTypes as comAccountType>
+						    <option value="${comAccountType.value}">${comAccountType.description}</option>
+						</#list>
+					</#if>
+                </select>
+              </td>
+			</tr>
+			<tr style="height: 45px;">
+				<td >转到:</td>
+				<td >
+				<select id="usAccount" name="usAccount" class="input-text size-M"  style="width:180px;">
+               	  <option value="-1">请选择...</option>
+                   <#if userAccountTypes?? && (userAccountTypes?size>0)>
+						<#list userAccountTypes as userAccountType>
+						    <option value="${userAccountType.value}">${userAccountType.description}</option>
+						</#list>
+					</#if>
+                </select>
+              </td>
+			</tr>
+			
+			<tr style="height: 45px;">
+				<!-- <td >关联用户和数量:</td> -->
+                <td ><@spring.message code="finance.profit.associated_users_numbers"/></td>
+				<td >
+                    <!--
+               	<textarea rows="10" cols="30" class="input-text size-M"  style="width: 580px;height: 260px;" id="ids" name="ids" placeholder="请输入uid:数量,多个uid以','(英文逗号)分隔"></textarea>
+               	-->
+               	<@spring.message code="finance.profit.msg_tip_normal"/></br>
+                <textarea rows="10" cols="30" class="input-text size-M"  style="width: 580px;height: 260px;" id="ids" name="ids" ></textarea>
+              </td>
+			</tr>
+			<tr style="height: 45px;">
+				<td colspan="2">
+					<!--
+               	<input class="btn btn-success radius" type="button" value="确定" onclick="submitForm()">
+               	-->
+					<input class="btn btn-success radius" type="button" value='<@spring.message code="finance.profit.confirm"/>' onclick="submit()">
+              </td>
+			</tr>
+		</tbody></table>
+	</div>
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type=text/javascript>
+function submit(){
+        layer.confirm('<@spring.message code="finance.present.msg.query"/>', {
+            btn: ['<@spring.message code="user.confirm"/>','<@spring.message code="user.cancel"/>'] //按钮
+        }, function(){
+            submitForm();
+        }, function(){
+            layer.msg('<@spring.message code="finance.present.cancel"/>', {
+                time: 1000 //1s后自动关闭
+            });
+        });
+    }
+
+function submitForm(){
+	var type = $('#type').val();
+	var zsSymbol = $('#zsSymbol').val();
+	var gsAccount = $('#gsAccount').val();
+	var usAccount = $('#usAccount').val();
+	var ids = $('#ids').val();
+	
+	if ($.trim(ids)=="") {
+		//layer.msg('id或者数量为空！！', {time: 2000, icon:0});
+        layer.msg('<@spring.message code="finance.profit.msg_empty"/>', {time: 2000, icon:0});
+		return;
+	}
+	
+	if (type=="-1") {
+		//layer.msg('请选择赠币类型！！', {time: 2000, icon:0});
+        layer.msg('<@spring.message code="finance.profit.msg_money_type"/>', {time: 2000, icon:0});
+		return;
+	}
+	
+	if (zsSymbol=="-1") {
+		// layer.msg('请选择赠币币种！！', {time: 2000, icon:0});
+        layer.msg('<@spring.message code="finance.profit.msg_currency"/>', {time: 2000, icon:0});
+		return;
+	}
+	if (gsAccount=="-1") {
+		// layer.msg('请选择赠币发起账户！！', {time: 2000, icon:0});
+		layer.msg('<@spring.message code="finance.profit.msg_money_user"/>', {time: 2000, icon:0});
+		return;
+	}
+	
+	if (usAccount=="-1") {
+		// layer.msg('请选择用户接收账户！！', {time: 2000, icon:0});
+		layer.msg('<@spring.message code="finance.profit.msg_money_user"/>', {time: 2000, icon:0});
+		return;
+	}
+	
+	
+	var sellFlag = true;
+	if(sellFlag){
+		sellFlag = false;
+		$.ajax({
+			  type: "POST",   
+			  url: "present_coin_normal_submit.html",
+		      data:  {ids:ids,type:type,zsSymbol:zsSymbol,gsAccount:gsAccount,usAccount:usAccount}, 
+		      dataType : 'json',
+			  success: function(data){
+				  sellFlag = true;
+				    if(data.code==0){
+		        		// layer.msg('赠币成功', {time: 2000, icon:0});
+                        layer.msg('<@spring.message code="finance.profit.msg_gift_suc"/>', {time: 2000, icon:0});
+		        		$('#amount').val("");
+		        		$('#ids').html("");
+		        	}else if(data.code==1){
+		        		// layer.msg('以下id赠送失败：'+data.message, {time: 10000, icon:0});
+                        layer.msg('<@spring.message code="finance.profit.msg_gift_error"/>'+data.message, {time: 10000, icon:0});
+		        	}else{
+		        		// layer.msg('赠币失败，联系管理员', {time: 2000, icon:0});
+                        layer.msg('<@spring.message code="finance.profit.msg_gift_error_admin"/>', {time: 2000, icon:0});
+		        	}
+			  },error:function(XmlHttpRequest, textStatus, errorThrown){
+				  sellFlag = true;
+				  // layer.msg('提交失败，联系管理员', {time: 2000, icon:0});
+                  layer.msg('<@spring.message code="finance.profit.msg_submit_error_admin"/>', {time: 2000, icon:0});
+			  }  
+		});
+		
+	}
+}
+</script>
+</body>
+</html>

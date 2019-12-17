@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<settings>
+	<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
+	<typeAliases>
+		<!-- 为com.chainup.exchangeop.entity包下的所有实体类配置别名，MyBatis默认的设置别名的方式就是去除类所在的包后的简单的类名 -->
+		<package name="com.chainup.common.exchange.entity" />
+		<package name="com.chainup.common.stats.entity" />
+	</typeAliases>
+</configuration>   

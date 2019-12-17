@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBliC "-//W3C//DTD html 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<#import "/spring.ftl" as spring/>
+<link href="${base}/res/css/backstage.css" rel="stylesheet" type="text/css" />
+<LINK rel="Bookmark" href="${base}/favicon.ico" >
+<LINK rel="Shortcut Icon" href="${base}/favicon.ico" />
+
+<title>资产管理后台系统</title>
+
+<style>
+.sms-txt {
+    position: absolute;
+    right: -110px;
+    top: 13px;
+    width: 100px;
+}
+.count-down {
+    position: absolute;
+    right: -40px;
+    top: 6px;
+    background-color: #112542;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+#countryCode{
+	margin-left: -50px;
+    border: none;
+    width: 308px;
+    padding: 4px;
+}
+
+#captcha2 {
+    width: 300px;
+    display: inline-block;
+}
+.show {
+    display: block;
+}
+#notice2 {
+    color: red;
+}
+#wait2 {
+    text-align: left;
+    color: #666;
+    margin: 0;
+}
+
+.backstage-login-box .backstage-login-tit{ display:none; }
+.backstage-login{
+    background-color:#fff;
+    float:none;
+    width:560px;
+    height:535px;
+    padding:56px 0 45px 0;
+    text-align:center;
+    position:relative;
+    margin:0 auto;
+}
+
+</style>
+</head>
+<body class="backstage-logoing-body">
+<input type="hidden" id="base_path" value="${base}" />
+<!--loging-->
+<div class="backstage-wrap">
+	<div class="backstage-login-box">
+		<!--左边-->
+		<div class="backstage-login-tit">
+			<div class="login-tit">
+				<!-- <p><@spring.message code="exchange.opterate.title_0"/></p> -->
+				<p>资产管理系统</p>
+			</div>
+			<div class="login-tips">
+				<span class="login-line"></span>
+				<p></p>
+				<p></p>
+			</div>
+		</div>
+		<!-- 此段必须要引入 -->
+		<div id="_umfp" style="display:inline;width:1px;height:1px;overflow:hidden"></div>
+		<!-- 引入结束 -->
+		<!--左边 end-->
+		<div class="backstage-login">
+			<!-- <img src="${base}/res/images/backstage-logo.jpg"> -->
+			LONGIN
+			<div class="login-name">
+				<em><@spring.message code="exchange.opterate.login.name"/></em>
+			</div>
+			<div class="back-login-frame">
+				<div id="ValidationSummary1"></div>
+				<div class="back-login-list">
+					<select class="login-input" size="1" name="countryCode" id="countryCode">
+						<#if countryList?? && (countryList?size>0)>
+							<#list countryList as country>
+								<#if country.dialingCode?? && country.dialingCode!='+null'>
+									<option value="${country.dialingCode}" <#if country.dialingCode == countryCode>selected</#if> >${country.showName} ${country.dialingCode}</option>
+								</#if>
+							</#list>
+						</#if>
+					</select>
+				</div>
+				<div class="back-login-list">
+					<span class="login-user"></span>
+					<input id="username" name="username" type="text" onchange="clearUserNameTip();" class="login-input" placeholder="<@spring.message code='exchange.opterate.login.check.username'/>">
+					<div id="validUserNameError" class="back-error"></div>
+				</div>
+				<div class="back-login-list">
+					<span class="login-user login-pass"></span>
+					<input id="password" name="password" type="password" onchange="clearPasswrdTip();" class="login-input" placeholder="<@spring.message code='exchange.opterate.login.check.password'/>">
+					<div id="validPasswordError" class="back-error"></div>
+				</div>
+				
+				
+				<div class="back-login-list" id="smsAuthCodeArea" style="display: none;">
+					<span class="login-user login-pass"></span>
+					<div class="sms-txt">
+						<a href="##" class="txt col-blue"  class="code"" id="code"><@spring.message code='user.login.sendcode'/></a>
+					</div>
+					<input name="smsAuthCode" id="smsAuthCode" type="text" class="input-txt" placeholder="<@spring.message code='user.login.smscode'/>">
+					<span id="note-txt" style="display:none;" class="count-down">90S</span>
+                </div>
+					<div id="smsAuthCode-error-msg" class="back-error" style="color: red;"></div>
+					<div id="countryCode-error-msg" class="back-error" style="color: red;"></div>
+
+                <!--极验-->
+                <!--<div class="back-login-code">
+                    <div id="captcha2" style="width: 310px">
+                        <p id="wait2" class="show">正在加载验证码......</p>
+                    </div>
+                </div>-->
+
+             <!--   <p id="notice2" class="back-error"></p>-->
+
+
+				<a href="javascript:void(0);" title="<@spring.message code='exchange.opterate.login.name'/>" class="back-login-btn" id="btnLogin" onclick="loginSub();"><@spring.message code="exchange.opterate.login.name"/></a>
+			</div>
+			<!--版权-->
+			<div class="back-copyright">Copyright © 2019-2020 <!-- bitfans -->.com. All rights reserved.</div>
+			<!--版权 end-->
+		</div>
+	</div>
+</div>
+<!--loging end-->
+<script type='text/javascript' src='${base}/res/js/jquery-1.10.2.min.js'></script>
+<script type="text/javascript" src="${base}/res/js/gt.js"></script>
+<script type='text/javascript' src='${base}/res/js/login.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js?version=201801291648'></script>
+<script language="javascript">
+    initGt()
+//获取短信验证码
+function getSmsCode(){
+	var countryCode = $("#countryCode").val();
+	if(countryCode.length==0){
+		$("#countryCode-error-msg").html('<@spring.message code="user.login.please_select_where"/>');
+		$("#countryCode-error-msg").show();;
+		return false;
+	}
+	
+	//var mobileRegx = /^1[3|4|5|7|8]\d{9}$/;   
+	//var mobileRegx = /^1\d{10}$/;
+	var mobileRegx = /^[0-9]*$/;
+	var mobileNumber = $("input[name='username']").val();
+	if(mobileNumber.length==0 || !mobileRegx.test(mobileNumber)){
+		$("#validUserNameError").html('<@spring.message code="user.login.please_input_corect_mobile"/>');
+		$("#validUserNameError").show();;
+		return false;
+	}
+
+    var params = "&geetest_challenge="+gtResult.geetest_challenge+"&geetest_seccode="+gtResult.geetest_seccode+"&geetest_validate="+gtResult.geetest_validate;
+	$.ajax({   
+      type: "POST",   
+      url: "smsValidCode.html",
+      data: "mobile="+mobileNumber+"&countryCode="+countryCode+"&operationType=1"+params,
+      dataType : 'json',
+      success: function(data){
+      	if(data.result==1){//发送成功
+      		hasRequestAuthCode = true;
+      		$("#smsAuthCode-error-msg").html('');
+			}
+      	else{
+      		if(data.result==0){//发送短信过于 频繁
+          		$("#smsAuthCode-error-msg").html('<@spring.message code="user.security.info.msg.send.sms.frequent"/>');
+          		$("#smsAuthCode-error-msg").show();
+  			}
+          	else if(data.result==-4){//请先通过验证码校验
+          		$("#notice2").html('<@spring.message code="user.login.smsCode_needAuthCode"/>');
+          		$("#notice2").show();
+  			}
+          	else{//发送短信失败
+          		$("#smsAuthCode-error-msg").html('<@spring.message code="user.security.info.msg.send.sms.failse"/>');
+          		$("#smsAuthCode-error-msg").show();
+  			}
+      		
+      		$('#code').show();
+			$("#code").text('<@spring.message code="user.login.sendcode"/>');   
+			$("#note-txt").hide();
+		    window.clearInterval(InterValObj);
+            // 有验证不通过，需要重新初始化滑动验证
+            initCaptcha.reset();
+            $('#notice2').hide();
+            $('#captcha2').show();
+            $('#smsAuthCodeArea').hide();
+            $('#smsAuthCode').val('');
+      	}
+      },error:function(XmlHttpRequest, textStatus, errorThrown){
+      	$("#smsAuthCode-error-msg").html('<@spring.message code="user.security.info.msg.send.sms.failse"/>');
+      	$("#smsAuthCode-error-msg").show();
+		}  
+  });
+	return true;
+}
+var InterValObj = null ;
+//点击发送短信验证码
+$("#code").click(function(){  
+	if(getSmsCode()===false){
+		return;
+	}
+	
+	 var _time=parseInt(new Date().getTime()/1000);  // 时间戳1
+	 _time=_time+90;     
+	 $('#code').hide();
+	 $("#note-txt").show();
+	 $("#note-txt").text("90S");                  
+	 var _newt;        
+	 InterValObj = window.setInterval(function(){           
+		   _newt=parseInt(new Date().getTime()/1000);    // 时间戳2        
+		   _endT= _time - _newt;           
+		   if(_endT>0){                
+		     $("#note-txt").text(_endT + "S");           
+		   }else{                
+			 $('#code').show();
+			 //$("#code").text('<@spring.message code="user.login.sendcode"/>');   
+			 $("#code").text('<@spring.message code='user.login.sendcode'/>');   
+			 $("#note-txt").hide();
+		     window.clearInterval(InterValObj);
+               initCaptcha.reset();
+               $('#notice2').hide();
+               $('#captcha2').show();
+               $('#smsAuthCodeArea').hide();
+               $('#smsAuthCode').val('');
+		   }
+	 },1000);
+});
+
+function loginSub() {
+	var csessionid = $('#csessionid').val();
+	var sig = $('#sig').val();
+	var token = $('#token').val();
+	var scene = $('#scene').val();
+	var username = $("#username").val();
+	var password = $("#password").val();
+	var smsCode = $('#smsAuthCode').val() ;
+
+    /*if (gtResult == null || gtResult == "" || gtResult == "undefined") {
+        $("#notice2").html("<@spring.message code='exchange.opterate.login.check.code.error'/>");
+        $("#validUserNameError").html("");
+        $("#validPasswordError").html("");
+        $("#ValidationSummary1").html("");
+        return;
+    }*/
+
+	/*if (smsCode == null || smsCode == "" || smsCode == "undefined") {
+		$("#smsAuthCode-error-msg").html('<@spring.message code="user.security.info.msg.input.smsCode"/>');
+  		$("#smsAuthCode-error-msg").show();
+		return ;
+	}*/
+	
+	if (username == null || username == "" || username == "undefined") {
+		$("#validUserNameError").html("<@spring.message code='exchange.opterate.login.check.username.null'/>");
+		$("#validPasswordError").html("");
+		$("#notice2").html("");
+		$("#ValidationSummary1").html("");
+		return ;
+	}
+	if (password == null || password == "" || password == "undefined") {
+		$("#validPasswordError").html("<@spring.message code='exchange.opterate.login.check.password.null'/>");
+		$("#validUserNameError").html("");
+		$("#notice2").html("");
+		$("#ValidationSummary1").html("");
+		return ;
+	}
+
+	$("#validUserNameError").html("");
+	$("#validPasswordError").html("");
+	$("#ValidationSummary1").html("");
+	$("#smsAuthCode-error-msg").html('');
+
+	$.ajax({
+		   type: "POST",
+		   url: "login_in.html",
+		   data:"smsAuthCode="+smsCode+"&mobileNumber="+username+"&loginPword="+password,
+		   dataType:'json',
+		   success: function(data){
+			   if(data.result==1){
+				   location.href = "index.html";
+			   }else{
+				   // 有验证不通过，需要重新初始化
+                   initCaptcha.reset();
+                   $('#notice2').hide();
+                   $('#captcha2').show();
+				   $('#smsAuthCodeArea').hide();
+				   $('#smsAuthCode').val('');
+				   $('#code').show();
+				   $("#note-txt").hide();
+				   if(InterValObj){
+					   window.clearInterval(InterValObj);    
+				   }
+				   if(data.result==-1){
+					   $("#ValidationSummary1").html('<@spring.message code="user.login.smscode_error"/>');
+					   return;
+				   }else if(data.result==-2 || data.result==-3){
+					   $("#ValidationSummary1").html("<@spring.message code='exchange.opterate.login.check.usernamepassword.error'/>");
+					   return;
+				   }else if(data.result==-4){
+					   $("#notice2").html("<@spring.message code='exchange.opterate.login.check.code.error'/>");
+					   return;
+				   }else if(data.result==-5){
+					   $("#ValidationSummary1").html("<@spring.message code='user.security.info.msg.login.frequent'/>");
+					   return;
+				   }
+				   
+					
+			   }
+		   }
+	});
+}
+
+function clearUserNameTip() {
+	$("#ValidationSummary1").html("");
+	$("#validUserNameError").html("");
+}
+
+function clearPasswrdTip() {
+	$("#ValidationSummary1").html("");
+	$("#validPasswordError").html("");
+}
+
+//退回登录页面
+if(top.location!=self.location ){
+	top.location=self.location;
+}
+
+var lang=$("#lang").val();
+if(lang=='zh'){
+	lang='cn';
+}
+
+//滑动结果
+var gtResult = null;
+//极验实例用于初始化
+var initCaptcha = null;
+var handler = function (captchaObj) {
+    initCaptcha = captchaObj
+    captchaObj.onReady(function () {
+        $("#wait2").hide();
+    });
+    captchaObj.onSuccess(function(){
+        gtResult = captchaObj.getValidate();
+        $('#notice2').hide();
+        $('#captcha2').hide();
+        $('#smsAuthCodeArea').show();
+        $('#smsAuthCode').val('');
+    })
+    captchaObj.appendTo("#captcha2");
+
+};
+
+function initGt() {
+    $.ajax({
+        url: "startCaptchaGeetest.html?t=" + (new Date()).getTime(), // 加随机数防止缓存
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            initGeetest({
+                gt: data.result.gt,
+                challenge: data.result.challenge,
+                offline: !data.result.success, // 表示用户后台检测极验服务器是否宕机
+                new_captcha: true, // 用于宕机时表示是新验证码的宕机
+                width: "100%",
+            }, handler);
+        }
+    });
+}
+</script>
+</body>
+</html>

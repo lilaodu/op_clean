@@ -1,0 +1,1023 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<LINK rel="Bookmark" href="${base}/favicon.ico" >
+<LINK rel="Shortcut Icon" href="${base}/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+    
+<title></title>
+</head>
+<body>
+<div class="page-container">
+	<#include "inc/_user_base_info.html"/>
+	<div class="mt-20">
+		<div>
+			<!-- <span>资产信息 &nbsp; &nbsp;总资产：<font color="red">${totalBalance!0}${totalBalanceSymbol!""}</font> &nbsp; &nbsp;净资产:<font color="red">${totalBalance!0}${totalBalanceSymbol!""}</font></span> -->
+			<!--<span><@spring.message code="user.page.asset_information"/> &nbsp; &nbsp;<@spring.message code="user.page.total_assets"/>：<font color="red">${totalBalance!0}${totalBalanceSymbol!""}</font> &nbsp; &nbsp;<@spring.message code="user.page.net_assets"/>:<font color="red">${totalBalance!0}${totalBalanceSymbol!""}</font></span>-->
+			<span><@spring.message code="user.page.asset_information"/></span>
+		</div>
+		<div style="float: left;">
+		<#list otcCoinList as coin>
+				<div style="float: left;margin-left: 10px;border: 1px solid;height: 88px; padding-right: 10px;">
+					<div style="float: left;color: blue;background-color:#F2F2F2;height: 88px;">
+						<p style="margin-top: 30px;"><span>${coin}</span></p>
+					</div>
+					<div style="float: left;">
+						<div>
+                            <p><span>可用 ${otcAllCoinMap[coin]["normal_balance"]!0}</span></p>
+						</div>
+						<div>
+                            <p><span>冻结 ${otcAllCoinMap[coin]["lock_balance"]!0}</span></p>
+						</div>
+					</div>
+				</div>
+		    </#list>
+		</div>
+		<div style="clear: both;"></div>
+	
+	</div>
+	<br>
+		<div id="tab-system" class="HuiTab">
+			<div class="tabBar cl">
+				<!--<span onclick="getInfo('userDetailBillingCheck.html?index=0&uid=${user.id}')"><@spring.message code='user.page.accountinfo'/></span>-->
+				<!--<span onclick="getInfo('userTradeInfo.html?index=1&id=${user.id}')"><@spring.message code='user.page.exchangeinfo'/></span>-->
+				<span onclick="getInfo('user_detail_info_history_login.html?index=2&id=${user.id}')"><@spring.message code='user.page.safeinfo'/></span>
+				<!--<span onclick="getInfo('userDetailDeposit.html?index=3&uid=${user.id}')"><@spring.message code='user.page.chongzhiinfo'/></span>-->
+				<!--<span onclick="getInfo('userDetailWithdraw.html?index=4&uid=${user.id}')"><@spring.message code='user.page.txinfo'/></span>-->
+				<!--<span onclick="getInfo('withdrawAddr.html?index=5&uid=${user.id}')"><@spring.message code='user.page.bindaccount'/></span>-->
+				<span onclick="getInfo('adminLogInfo.html?index=6&id=${user.id}')"><@spring.message code='user.page.activelog'/></span>
+				<span onclick="getInfo('otcOrderPage.html?index=7&id=${user.id}')">场外交易</span>
+				<!--<span onclick="getInfo('userOtcDetailBillingCheck.html?index=8&uid=${user.id}')">场外对账</span>-->
+				
+			</div>
+			<div class="tabCon">
+				<!--对账信息-->
+				<#if index==0>
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+                        <!--
+						<tr class="text-c">
+							<th style="width: 5%;">币种</th>
+							<th style="width: 5%;">充值</th>
+							<th style="width: 5%;">提现</th>
+							<th style="width: 5%;">赠币</th>
+							<th style="width: 5%;">买入</th>
+							<th style="width: 10%;">买入手续费</th>
+							<th style="width: 5%;">卖出</th>
+							<th style="width: 5%;">可用</th>
+							<th style="width: 5%;">冻结</th>
+							<th style="width: 5%;">提现中</th>
+							<th style="width: 5%;">调账收入</th>
+							<th style="width: 5%;">调账支出</th>
+							<th style="width: 5%;">平账</th>
+						</tr>
+						-->
+                        <tr class="text-c">
+                            <th style="width: 5%;"><@spring.message code="user.page.currency"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.recharge"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.withdrawals"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.a_coin"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.purchase"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.service_charge"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.sell_out"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.available"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.freeze"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.in_the_present"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.account_transfer_income"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.account_transfer_expenditure"/></th>
+                            <th style="width: 5%;"><@spring.message code="user.page.pingzhang"/></th>
+                        </tr>
+						</thead>
+						<tbody>
+						<#if billingMapList?? && (billingMapList?size>0)>
+							<#list billingMapList as item>
+								<tr class="text-c">
+									<th>${item.symbol}</th>
+									<td>+${item.depositSum}</td>
+									<td>-${item.withdrawSum}</td>
+									<td>+${item.presentSum}</td>
+									<td>+${item.buySum}</td>
+									<td>-${item.buyFeeSum}</td>
+									<td>-${item.sellSum}</td>
+									<td>-${item.normal}</td>
+									<td>-${item.lock}</td>
+									<td>-${item.withdraw}</td>
+									<td>+${item.opInSum}</td>
+									<td>-${item.opOutSum}</td>
+									<td>${item.check}</td>
+								</tr>
+							</#list>
+							<#else>
+								<tr class="text-c"><td colspan="2">未查询到相关数据</td></tr>
+						</#if>
+						</tbody>
+					</table>
+					<#if withdrawAddrList?? && (withdrawAddrList?size>0)>
+						${jpage.pageSizeButton}
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</#if>
+			</div>
+			<div class="tabCon">
+				<!--交易信息-->
+				<#if index==1>
+							<div class="text-c r">
+								<!-- <input class="input-text size-M" style="width:150px"  placeholder="搜索订单号" id="orderId" value="${orderId!''}"> -->
+                                <input class="input-text size-M" style="width:150px"  placeholder='<@spring.message code="user.page.search_order_number"/>' id="orderId" value="${orderId!''}">
+								<button type="submit" class="btn btn-success radius"  name="" onclick="search()"><i class="Hui-iconfont">&#xe665;</i>查找</button>
+							</div>
+							
+							<#if symbolList?? && (symbolList?size>0)>
+								<#list symbolList as symbol>
+									<a href="userTradeInfo.html?index=1&id=${user.id}&tradeSymbol=${symbol.value}">
+										<#if symbol.value = tradeSymbol>
+											<span class="label label-primary radius" >${symbol.name()}</span>
+										<#else>
+											<span class="label label-default radius" >${symbol.name()}</span>
+										</#if>
+									</a>
+								</#list>
+							</#if>
+							
+						
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+                        <!--
+							<tr class="text-c">
+								<th style="width: 10%;">委托订单号</th>
+								<th style="width: 10%;">委托时间</th>
+								<th style="width: 10%;">委托数量</th>
+								<th style="width: 10%;">委托类型</th>
+								<th style="width: 10%;">委托价格</th>
+								<th style="width: 10%;">委托金额</th>
+								<th style="width: 10%;">成交数量</th>
+								<th style="width: 10%;">成交均价</th>
+								<th style="width: 10%;">成交金额</th>
+								<th style="width: 10%;">操作</th>
+							</tr>
+							-->
+                        <tr class="text-c">
+                            <th style="width: 10%;"><@spring.message code="user.page.entrustment_order_number"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.entrustment_time"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.entrustment_number"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.entrustment_type"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.entrustment_price"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.entrustment_amount"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.number_transactions"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.average_transaction_price"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.transaction_amount"/></th>
+                            <th style="width: 10%;"><@spring.message code="user.page.operating"/></th>
+                        </tr>
+						</thead>
+						<tbody>
+						<#if userOrderList?? && (userOrderList?size>0)>
+							<#list userOrderList as item>
+								<tr class="text-c">
+									<td>${item.id}</td>
+									<td>${item.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+									<td><#if item.type == 2>
+										<#if item.side=="SELL">
+											${item.volume}${currencyCryptoName}
+											<#else>
+											--
+										</#if>
+									<#else>
+										${item.volume}${currencyCryptoName}
+									</#if></td>
+                        <!--
+									<td><#if item.side=="BUY"><span style="color: green;">买入</span><#else><span style="color: red">卖出</span></#if></td>
+									-->
+                                    <td><#if item.side=="BUY"><span style="color: green;"><@spring.message code="user.page.purchase"/></span><#else><span style="color: red"><@spring.message code="user.page.sell_out"/></span></#if></td>
+									<!-- <td><#if item.type == 2>市价<#else>${item.price}${currencyName}</#if></td> -->
+                                    <td><#if item.type == 2><@spring.message code="user.page.shijia"/><#else>${item.price}${currencyName}</#if></td>
+									<td><#if item.type == 2>
+										<#if item.side=="BUY">
+											${item.volume}${currencyName}
+											<#else>
+											--
+										</#if>
+									<#else>
+										${item.price*item.volume}${currencyName}
+									</#if></td>
+									<td>${item.dealVolume}${currencyCryptoName}</td>
+									<td>${item.avgPrice}${currencyName}</td>
+									<td>${item.avgPrice*item.dealVolume}${currencyName}</td>
+									<td>
+										<#if item.status=0 || item.status=1>
+											<!-- 未成交 -->
+                                            <@spring.message code="user.page.no_deal"/>
+										<#elseif item.status=2>
+											<!-- 完全成交 -->
+                                            <@spring.message code="user.page.complete_transaction"/>
+										<#elseif item.status=3>
+											<!-- 部分成交 -->
+                                            <@spring.message code="user.page.partial_transaction"/>
+										<#elseif item.status=4>
+											<!-- 已撤销 -->
+                                            <@spring.message code="user.page.rescinded"/>
+										<#elseif item.status=5>
+											<!-- 待取消 -->
+                                            <@spring.message code="user.page.to_be_cancelled"/>
+										<#elseif item.status=6>
+											<!-- 异常订单 -->
+                                            <@spring.message code="user.page.exception_order"/>
+										</#if>/
+										<a href="##" id="hiddenTrade${item.id}" class="childTable${item.id}" onclick='controlTrade("${item.id}","hidden")' hidden="hidden" style="color: blue;">收起</a>
+										<a href="##" id="showTrade${item.id}" class="childTable${item.id}" onclick='controlTrade("${item.id}","show")' style="color: blue;">展开</a>
+									</td>
+								</tr>
+                        <!--
+									<tr class="text-c childTable${item.id}" style="background-color:#f5fafe; " hidden="hidden">
+										<th>成交单号</th>
+										<th>成交时间</th>
+										<th>成交数量</th>
+										<th>成交价格</th>
+										<th>成交金额</th>
+										<th>手续费</th>
+										<th colspan="5"></th>
+									</tr>
+									-->
+
+                            <tr class="text-c childTable${item.id}" style="background-color:#f5fafe; " hidden="hidden">
+                                <th><@spring.message code="user.page.transaction_number"/></th>
+                                <th><@spring.message code="user.page.transaction_time"/></th>
+                                <th><@spring.message code="user.page.number_transactions"/></th>
+                                <th><@spring.message code="user.page.transactions_price"/></th>
+                                <th><@spring.message code="user.page.transaction_amount"/></th>
+                                <th><@spring.message code="user.page.service_charge"/></th>
+                                <th colspan="5"></th>
+                            </tr>
+								<#if item.tradeList?? && (item.tradeList?size>0)>
+									<#list item.tradeList as trade>
+											<tr class="text-c childTable${item.id}" hidden="hidden">
+												
+												<td>${trade.id}</td>
+												<td>${trade.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+												<td>${trade.volume}${currencyCryptoName}</td>
+												<td>${trade.price}${currencyName}</td>
+												<td>${trade.price*trade.volume}${currencyName}</td>
+												<td>
+													<#if item.side=="BUY">
+														<#if trade.buyFee??>
+															${trade.buyFee?string('0.################')}
+														<#else>
+															${trade.buyFee!0}
+														</#if>
+													<#else>
+														<#if trade.sellFee??>
+															${trade.sellFee?string('0.################')}
+														<#else>
+															${trade.sellFee!0}
+														</#if>
+													</#if>
+												</td>
+												<td colspan="4"></td>
+											</tr>
+									</#list>
+								<#else>
+									<!-- <tr class="text-c childTable${item.id}" hidden="hidden"><td colspan="5">未查询到相关数据</td><td colspan="5"></td></tr> -->
+                                    <tr class="text-c childTable${item.id}" hidden="hidden"><td colspan="5"><@spring.message code="user.page.not_query_data"/></td><td colspan="5"></td></tr>
+								</#if>
+								
+								
+							</#list>
+						<#else>
+							<!-- <tr class="text-c"><td colspan="10">未查询到相关数据</td></tr> -->
+                            <tr class="text-c"><td colspan="10"><@spring.message code="user.page.not_query_data"/></td></tr>
+						</#if>
+						</tbody>
+					</table>
+					<#if userOrderList?? && (userOrderList?size>0)>
+						${jpage.pageSizeButton}
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</#if>
+			</div>
+			<div class="tabCon">
+			<#if index==2>
+			  <div class="cl pd-5 bg-1 bk-gray mt-20">
+			    <span class="l"><a href="javascript:;" onclick="getInfo('user_detail_info_history_login.html?index=2&id=${user.id}')" class="btn btn-default radius <#if tab==1>btn-success</#if>"> <@spring.message code='user.page.historylogin'/></a>
+			    <a href="javascript:;" onclick="getInfo('user_history_setting.html?index=2&id=${user.id}')" class="btn btn-default radius <#if tab==2>btn-success</#if>"><@spring.message code='user.page.historysetting'/></a></span>
+			  </div>
+			  	<div class="mt-20" <#if tab==2>style="display: none;"</#if> >
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+							<tr class="text-c">
+								<th style="width: 10%;"><@spring.message code='user.page.logintime'/></th>
+								<th style="width: 10%;"><@spring.message code='user.page.loginip'/></th>
+								<th style="width: 25%;"><@spring.message code='user.page.logouttime'/></th>
+								<th style="width: 15%;"><@spring.message code='user.page.logintimes'/></th>
+							</tr>
+						</thead>
+						<tbody>
+						<#if historyLoginList?? && (historyLoginList?size>0)>
+							<#list historyLoginList as item>
+							<tr class="text-c">
+								<td>${item.lgInTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+								<td>
+									${item.lgIp!''}
+								</td>
+								<td><#if item.lgOutTime??>${item.lgOutTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+								<td>${item.lgTimeLength!''}</td>
+							</tr>
+							</#list>
+						<#else>
+							<tr class="text-c"><td colspan="4"><@spring.message code='admin.noresult'/></td></tr>
+						</#if>
+						</tbody>
+					</table>
+					${jpage.pageSizeButton}
+					<#if historyLoginList?? && (historyLoginList?size>0)>
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</div>
+				<div class="mt-20" <#if tab==1>style="display: none;"</#if> >
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+							<tr class="text-c">
+								<th style="width: 10%;"><@spring.message code='user.page.uptime'/></th>
+								<th style="width: 10%;"><@spring.message code='user.page.upip'/></th>
+								<th style="width: 15%;"><@spring.message code='user.page.uptype'/></th>
+							</tr>
+						</thead>
+						<tbody>
+						<#if historySettingList?? && (historySettingList?size>0)>
+							<#list historySettingList as item>
+							<tr class="text-c">
+								<td>${item.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+								<td>
+									${item.optIp!''}
+								</td>
+								<td>
+									<#if item.optType==1><@spring.message code="user.security.history.type1"/><#elseif item.optType==2><@spring.message code="user.security.history.type2"/><#elseif item.optType==3><@spring.message code="user.security.history.type3"/><#elseif item.optType==4><@spring.message code="user.security.history.type4"/><#elseif item.optType==5><@spring.message code="user.security.history.type5"/><#elseif item.optType==6><@spring.message code="user.security.history.type6"/><#else></#if>
+								</td>
+							</tr>
+							</#list>
+						<#else>
+							<tr class="text-c"><td colspan="3"><@spring.message code='admin.noresult'/></td></tr>
+						</#if>
+						</tbody>
+					</table>
+					${jpage.pageSizeButton}
+					<#if historySettingList?? && (historySettingList?size>0)>
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</div>
+			</#if>
+			</div>
+			<div class="tabCon">
+				<!--充值信息-->
+				<#if index==3>
+					<div class="mt-20">
+						<#if coinList?? && (coinList?size>0)>
+							<#list coinList as item>
+								<a href="userDetailDeposit.html?index=3&uid=${user.id}&symbol=${item}">
+									<#if item?upper_case = pageMap.symbol?upper_case>
+										<span class="label label-primary radius" >${item}</span>
+										<#else>
+											<span class="label label-default radius" >${item}</span>
+									</#if>
+								</a>
+							</#list>
+						</#if>
+						<br/>
+						<table class="table table-border table-bordered table-bg">
+							<thead>
+                            <!--
+							<tr class="text-c">
+								<th style="width: 10%;">充值单号</th>
+								<th style="width: 10%;">充值时间</th>
+								<th style="width: 10%;">充值金额</th>
+								<th style="width: 30%;">TXID</th>
+								<th style="width: 30%;">到账地址</th>
+								<th style="width: 10%;">状态</th>
+							</tr>
+							-->
+                            <tr class="text-c">
+                                <th style="width: 10%;"><@spring.message code="user.page.recharge_single_number"/></th>
+                                <th style="width: 10%;"><@spring.message code="user.page.recharge_time"/></th>
+                                <th style="width: 10%;"><@spring.message code="user.page.recharge_amount"/></th>
+                                <th style="width: 30%;">TXID</th>
+                                <th style="width: 30%;"><@spring.message code="user.page.account_address"/></th>
+                                <th style="width: 10%;"><@spring.message code="user.page.status"/></th>
+                            </tr>
+							</thead>
+							<tbody>
+							<#if depositCryptoMapList?? && (depositCryptoMapList?size>0)>
+								<#list depositCryptoMapList as item>
+									<tr class="text-c">
+										<td>${item.id!''}</td>
+										<td>${item.createdAt?string("yyyy-MM-dd HH:mm:ss")}</td>
+										<td>${item.amount!''}</td>
+										<td><a target="_blank" href="${coinTxUrl!''}${item.txid!''}">${item.txid!''}</a></td>
+										<td><a target="_blank" href="${coinAddrUrl!''}${item.addressTo!''}">${item.addressTo!''}</a></td>
+										<td>${item.statusDesc!''}</td>
+									</tr>
+								</#list>
+								<#else>
+									<tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+							</#if>
+							</tbody>
+						</table>
+
+						<#if depositCryptoMapList?? && (depositCryptoMapList?size>0)>
+							${jpage.pageSizeButton}
+							<div class="content_page" >${jpage.buttons}</div>
+						</#if>
+					</div>
+				</#if>
+			</div>
+			<div class="tabCon">
+				<!--提现信息-->
+				<#if index==4>
+					<div class="mt-20">
+						<#if coinList?? && (coinList?size>0)>
+							<#list coinList as item>
+								<a href="userDetailWithdraw.html?index=4&uid=${user.id}&symbol=${item}">
+									<#if item?upper_case = pageMap.symbol?upper_case>
+										<span class="label label-primary radius" >${item}</span>
+										<#else>
+											<span class="label label-default radius" >${item}</span>
+									</#if>
+								</a>
+							</#list>
+						</#if>
+						<br/>
+						<table class="table table-border table-bordered table-bg">
+							<thead>
+                            <!--
+							<tr class="text-c">
+								<th style="width: 10%;">提现单号</th>
+								<th style="width: 10%;">提现时间</th>
+								<th style="width: 10%;">提现金额</th>
+								<th style="width: 30%;">TXID</th>
+								<th style="width: 30%;">提现地址</th>
+								<th style="width: 10%;">状态</th>
+							</tr>
+							-->
+                            <tr class="text-c">
+                                <th style="width: 10%;"><@spring.message code="user.page.present_single_number"/></th>
+                                <th style="width: 10%;"><@spring.message code="user.page.present_time"/></th>
+                                <th style="width: 10%;"><@spring.message code="user.page.amount_of_cash"/></th>
+                                <th style="width: 30%;">TXID</th>
+                                <th style="width: 30%;"><@spring.message code="user.page.present_address"/></th>
+                                <th style="width: 10%;"><@spring.message code="user.page.status"/></th>
+                            </tr>
+							</thead>
+							<tbody>
+							<#if withdrawCryptoMapList?? && (withdrawCryptoMapList?size>0)>
+								<#list withdrawCryptoMapList as item>
+									<tr class="text-c">
+										<td>${item.id!''}</td>
+										<td>${item.createdAt?string("yyyy-MM-dd HH:mm:ss")}</td>
+										<td>${item.amount!''}</td>
+										
+										<td><a target="_blank" href="${coinTxUrl!''}${item.txid!''}">${item.txid!''}</a></td>
+										<td><a target="_blank" href="${coinAddrUrl!''}${item.addressTo!''}">${item.addressTo!''}</a></td>
+										<td>${item.statusDesc!''}</td>
+									</tr>
+								</#list>
+								<#else>
+									<tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+							</#if>
+							</tbody>
+						</table>
+
+						<#if withdrawCryptoMapList?? && (withdrawCryptoMapList?size>0)>
+							${jpage.pageSizeButton}
+							<div class="content_page" >${jpage.buttons}</div>
+						</#if>
+					</div>
+				</#if>
+			</div>
+			<div class="tabCon">
+				<!-- 绑定账户 -->
+				<#if index==5>
+					<#if symbolList?? && (symbolList?size>0)>
+						<#list symbolList as symbol>
+							<a href="withdrawAddr.html?index=5&uid=${user.id}&symbol=${symbol.value}">
+								<#if symbol.value?upper_case = coinSymbol?upper_case>
+									<span class="label label-primary radius" >${symbol.name()}</span>
+								<#else>
+									<span class="label label-default radius" >${symbol.name()}</span>
+								</#if>
+							</a>
+						</#list>
+					</#if>
+				</#if>
+				
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+                        <!--
+							<tr class="text-c">
+								<th style="width: 50%;">钱包地址</th>
+								<th style="width: 50%;">用户标注</th>
+							</tr>
+							-->
+                            <tr class="text-c">
+                                <th style="width: 50%;"><@spring.message code='user.page.purse_address'/></th>
+                                <th style="width: 50%;"><@spring.message code='user.page.user_annotation'/></th>
+                            </tr>
+						</thead>
+						<tbody>
+						<#if withdrawAddrList?? && (withdrawAddrList?size>0)>
+							<#list withdrawAddrList as item>
+								<tr class="text-c">
+									<td>${item.address}</td>
+									<td>${item.label}</td>
+								</tr>
+							</#list>
+						<#else>
+							<!-- <tr class="text-c"><td colspan="2">未查询到相关数据</td></tr> -->
+                            <tr class="text-c"><td colspan="2"><@spring.message code='user.page.not_query_data'/></td></tr>
+						</#if>
+						</tbody>
+					</table>
+					<#if withdrawAddrList?? && (withdrawAddrList?size>0)>
+						${jpage.pageSizeButton}
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+			</div>
+			<div class="tabCon">
+				<#if index==6>
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+                        <!--
+						<tr class="text-c">
+							<th style="width: 10%;">操作时间</th>
+							<th style="width: 10%;">操作管理员</th>
+							<th style="width: 25%;">操作行为</th>
+							<th style="width: 15%;">修改前</th>
+							<th style="width: 15%;">修改后</th>
+						</tr>
+						-->
+                        <tr class="text-c">
+                            <th style="width: 10%;"><@spring.message code='user.page.operation_time'/></th>
+                            <th style="width: 10%;"><@spring.message code='user.page.operation_administrator'/></th>
+                            <th style="width: 25%;"><@spring.message code='user.page.operational_behavior'/></th>
+                            <th style="width: 15%;"><@spring.message code='user.page.before_modification'/></th>
+                            <th style="width: 15%;"><@spring.message code='user.page.after_modification'/></th>
+                        </tr>
+						</thead>
+						<tbody>
+						<#if adminOperationLogList?? && (adminOperationLogList?size>0)>
+							<#list adminOperationLogList as item>
+								<tr class="text-c">
+									<td>${item.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+									<td>${item.managerName!''}</td>
+									<td><@spring.message code="${item.eventTypeDesc}"/></td>
+									<#if item.eventType==8>
+										<td><@spring.message code="admin.log.uneven.assets"/>${item.frontDesc!''}</td>
+										<td><@spring.message code="admin.log.increase.assets"/>${item.behindDesc!''}</td>
+									<#elseif item.eventType==9>
+										<td><@spring.message code="admin.log.uneven.assets"/>${item.frontDesc!''}</td>
+										<td><@spring.message code="admin.log.insert.capital.flow"/>${item.behindDesc!''}</td>
+									<#elseif  item.eventType==7>
+										<td>${item.frontDesc!''}</td>
+										<td>${item.behindDesc!''}</td>
+									<#elseif  item.eventType==10>
+										<td>${item.frontDesc!''}</td>
+										<td>${item.behindDesc!''}</td>
+									<#else>
+										<td><@spring.message code="${item.frontDesc}"/></td>
+										<td><@spring.message code="${item.behindDesc}"/></td>
+									</#if>
+								</tr>
+							</#list>
+							<#else>
+								<tr class="text-c"><td colspan="5"><@spring.message code='admin.noresult'/></td></tr>
+						</#if>
+						</tbody>
+					</table>
+					${jpage.pageSizeButton}
+					<#if adminOperationLogList?? && (adminOperationLogList?size>0)>
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</#if>
+			</div>
+		
+			<div class="tabCon">
+				<#if index==7>
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+						<tr class="text-c">
+							<th style="width: 5%;">广告ID</th>
+							<th style="width: 5%;">订单ID</th>
+							<th style="width: 5%;">买方ID</th>
+							<th style="width: 5%;">卖方ID</th>
+							<th style="width: 5%;">交易数量</th>
+							<th style="width: 5%;">交易金额</th>
+							<th style="width: 5%;">交易条款</th>
+							<th style="width: 5%;">备注信息</th>
+							<th style="width: 5%;">聊天记录</th>
+							<th style="width: 5%;">订单状态</th>
+							<th style="width: 15%;">操作</th>
+							<!-- <th style="width: 15%;">创建时间</th> -->
+						</tr>
+						</thead>
+						<tbody>
+						<#if adminOrderList?? && (adminOrderList?size>0)>
+							<#list adminOrderList as item>
+								<tr class="text-c">
+									<td>${item.adsId}</td>
+									<td>${item.id}</td>
+									<td>${item.buyerId}</td>
+									<td>${item.sellerId}</td>
+									<td>${item.volume}</td>
+									<td>${item.totalPrice}</td>
+									<td><span style="cursor: pointer;" onclick="layer_show2('交易条款','${item.terms}','','410');">查看</span></td>
+									<td><span style="cursor: pointer;" onclick="layer_show2('备注信息','${item.description}','','410');">查看</span></td>
+									<td><span style="cursor: pointer;" onclick="layer_show('聊天记录','otc_order_chat.html?orderSequence=${item.sequence}&buyerId=${item.buyerId}','','410');">查看</span></td>
+									<td>
+									<#if item.status == 1>
+									待支付
+									<#elseif item.status == 2>
+									已支付
+									<#elseif item.status == 3>
+									交易成功
+									<#elseif item.status == 4>
+									已取消
+									<#elseif item.status == 5>
+									申诉中
+									<#elseif item.status == 6>
+									打币中
+									<#elseif item.status == 7>
+									异常订单
+									
+									<#elseif item.status == 8>
+									申诉完成-释放资产
+									<#elseif item.status == 9>
+									申诉完成-取消交易
+									</#if>
+									</td>
+									<td>
+										<a href="javascript:void(0);" id="hiddenAdvert_${item.id}" onclick='controlAdvert("${item.id}",false,"showAdvert_")' hidden="hidden" style="color: blue;">收起</a>
+										<a href="javascript:void(0);" id="showAdvert_${item.id}" onclick='controlAdvert("${item.id}",true,"hiddenAdvert_")' style="color: blue;">展开</a>
+										
+										<#if item.status == 5>
+										<a href="javascript:void(0);" onclick="layer_show('场外交易申诉处理','otc_order_complaint.html?orderId=${item.id}&buyerId=${item.buyerId}','','610');" style="color: blue;">处理申述</a>
+										</#if>
+									</td>
+								</tr>
+									<tr class="text-c childTableAdvert_${item.id}" style="background-color:#f5fafe; " hidden="hidden">
+										<th style="width: 10%;">广告发布者ID</th>
+										<th style="width: 10%;">广告类型</th>
+										<th style="width: 10%;">交易价格</th>
+										<th style="width: 10%;">成交数量</th>
+										<th style="width: 10%;">付款方式</th>
+										<th style="width: 10%;">创建时间</th>
+										<th style="width: 5%;">交易条款</th>
+										<th style="width: 5%;">收款信息</th>
+										<th style="width: 5%;">广告状态</th>
+										<th colspan="2"></th>
+									</tr>
+									<#if item.advert??>
+											<tr class="text-c childTableAdvert_${item.id}" hidden="hidden">
+												<td>${item.advert.userId}</td>
+												<td><#if item.advert.side=="BUY">求购<#else>出售</#if></td>
+												<td>${item.advert.price} ${item.advert.paycoin}</td>
+												<td>${item.advert.sell} </td>
+												<td>${item.advert.payment} </td>
+												<td>${item.advert.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+												<td><span style="cursor: pointer;" onclick="layer_show2('交易条款','${item.advert.terms}','','410');">查看</span></td>
+												<td><span style="cursor: pointer;" onclick="layer_show2('收款信息','${item.advert.description}','','410');">查看</span></td>
+												<td>
+												<#if item.advert.status == 1>
+												发布中
+												<#elseif item.advert.status == 2>
+												交易中
+												<#elseif item.advert.status == 3>
+												已过期
+												<#elseif item.advert.status == 4>
+												已关闭
+												</#if>
+												</td>
+												<td colspan="2"></td>
+											</tr>
+									</#if>
+								<!--  
+									<td>${item.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+								 -->
+								</tr>
+							</#list>
+							<#else>
+								<tr class="text-c"><td colspan="5"><@spring.message code='admin.noresult'/></td></tr>
+						</#if>
+						</tbody>
+					</table>
+					${jpage.pageSizeButton}
+					<#if adminOrderList?? && (adminOrderList?size>0)>
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</#if>
+			</div>
+		
+			<div class="tabCon">
+				<!--对账信息-->
+				<#if index==8>
+					<table class="table table-border table-bordered table-bg">
+						<thead>
+						<tr class="text-c">
+							<th style="width: 5%;">币种</th>
+							<th style="width: 5%;">从现货转入</th>
+							<th style="width: 5%;">转出到现货</th>
+							<th style="width: 5%;">买入</th>
+							<th style="width: 10%;">买入手续费</th>
+							<th style="width: 5%;">卖出</th>
+							<th style="width: 5%;">可用</th>
+							<th style="width: 5%;">冻结</th>
+							<th style="width: 5%;">调账收入</th>
+							<th style="width: 5%;">调账支出</th>
+							<th style="width: 5%;">平账</th>
+						</tr>
+						</thead>
+						<tbody>
+						<#if otcBillingMapList?? && (otcBillingMapList?size>0)>
+							<#list billingMapList as item>
+								<tr class="text-c">
+									<th>${item.symbol}</th>
+									<td>+${item.depositSum}</td>
+									<td>-${item.withdrawSum}</td>
+									<td>+${item.buySum}</td>
+									<td>-${item.buyFeeSum}</td>
+									<td>-${item.sellSum}</td>
+									<td>-${item.normal}</td>
+									<td>-${item.lock}</td>
+									<td>+${item.opInSum}</td>
+									<td>-${item.opOutSum}</td>
+									<td>${item.check}</td>
+								</tr>
+							</#list>
+							<#else>
+								<tr class="text-c"><td colspan="2">未查询到相关数据</td></tr>
+						</#if>
+						</tbody>
+					</table>
+					<#if otcBillingMapList?? && (otcBillingMapList?size>0)>
+						${jpage.pageSizeButton}
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</#if>
+			</div>
+		</div>
+		
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	close();
+});
+
+function layer_show2(title,url,w,h){
+	if (title == null || title == '') {
+		title=false;
+	};
+	if (url == null || url == '') {
+		url="";
+	};
+	if (w == null || w == '') {
+		w=800;
+	};
+	if (h == null || h == '') {
+		h=($(window).height() - 50);
+	};
+	layer.open({
+		type: 1,
+		area: [w+'px', h +'px'],
+		fix: false, //不固定
+		maxmin: true,
+		shade:0.4,
+		title: title,
+		content: url
+	});
+}
+function showInfoRemark(id){
+	
+}
+function showTradeRemark(id){
+	
+}
+function controlAdvert(id , isShow , node){
+	$(this).hide() ;
+	$('#'+node+id).show() ;
+	if(isShow){
+		$('.childTableAdvert_'+id).show() ;
+	}else{
+		$('.childTableAdvert_'+id).hide() ;
+	}
+}
+function showRemark(orderId){
+	
+} ;
+
+function showPay(orderId){
+	
+};
+
+function showChat(orderId){
+	
+};
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	$("#tab-system").Huitab({//这里是控制默认显示第几个选项
+		index:${index}
+	});
+	//getUserAccountInfo(${user.id});
+	//getUserTradeInfo(${user.id});
+});
+function close(){
+	$("span.intro").click(function(){
+		//刷新页面
+		alert('aaaa');
+	    window.parent.location.reload();
+	    //获取窗口索引
+	    var index = parent.layer.getFrameIndex(window.name);
+	    //关闭弹出层
+	    parent.layer.close(index);
+	});
+}
+/*更改手机*/
+function updateMobile(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+function updateloginStatus(userId,status){
+	var url = "update_status.html?loginStatus="+status+"&id="+userId;
+	$.ajax({
+		  type: "get",   
+		  url: url,
+		  dataType:"json",
+		  contentType:"application/json;charset=UTF-8",
+		  success: function(data){
+			    if(data.result==-1){
+	        		window.location.href="login.html";
+	        	}else if(data.result==1){
+	        		layer.msg('<@spring.message code="authRelaname.page.czsuccess"/>', {time: 2000, icon:1}, function(){
+	        			window.location.reload();
+		        	});
+	        	}else{
+	        		layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+	        	}
+		  },error:function(XmlHttpRequest, textStatus, errorThrown){
+			  layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+		  }  
+	});
+}
+function updateExcStatus(userId,status){
+	var url = "update_status.html?excStatus="+status+"&id="+userId;
+	$.ajax({
+		  type: "get",   
+		  url: url,
+		  dataType:"json",
+		  contentType:"application/json;charset=UTF-8",
+		  success: function(data){
+			    if(data.result==-1){
+	        		window.location.href="login.html";
+	        	}else if(data.result==1){
+	        		layer.msg('<@spring.message code="authRelaname.page.czsuccess"/>', {time: 2000, icon:1}, function(){
+	        			window.location.reload();
+		        	});
+	        	}else{
+	        		layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+	        	}
+		  },error:function(XmlHttpRequest, textStatus, errorThrown){
+			  layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+		  }  
+	});
+}
+//取消异常订单
+function cancelExpiredOrder(userId){
+	var url = "cancle_all_expired_order.html?uid="+userId;
+	$.ajax({
+		  type: "get",   
+		  url: url,
+		  dataType:"json",
+		  contentType:"application/json;charset=UTF-8",
+		  success: function(data){
+			    if(data.result==-1){
+	        		window.location.href="login.html";
+	        	}else if(data.result==1){
+	        		layer.msg('取消订单成功', {time: 2000, icon:1}, function(){
+	        			window.location.reload();
+		        	});
+	        	}else{
+	        		layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+	        	}
+		  },error:function(XmlHttpRequest, textStatus, errorThrown){
+			  layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+		  }  
+	});
+}
+function updatewithdrawStatus(userId,status){
+	var url = "update_status.html?withdrawStatus="+status+"&id="+userId;
+	$.ajax({
+		  type: "get",   
+		  url: url,
+		  dataType:"json",
+		  contentType:"application/json;charset=UTF-8",
+		  success: function(data){
+			    if(data.result==-1){
+	        		window.location.href="login.html";
+	        	}else if(data.result==1){
+	        		layer.msg('<@spring.message code="authRelaname.page.czsuccess"/>', {time: 2000, icon:1}, function(){
+	        			window.location.reload();
+		        	});
+	        	}else{
+	        		layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+	        	}
+		  },error:function(XmlHttpRequest, textStatus, errorThrown){
+			  layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+		  }  
+	});
+}
+function deleteGoogleAuth(uid){
+	var url = "delete_google_auth.html";
+	$.ajax({
+		  type: "POST",   
+		  url: url,
+		  data: "id="+uid,
+		  dataType:"json",
+		  success: function(data){
+			    if(data.result==-1){
+	        		window.location.href="login.html";
+	        	}else if(data.result==1){
+	        		layer.msg('<@spring.message code="authRelaname.page.czsuccess"/>', {time: 2000, icon:1}, function(){
+	        			window.location.reload();
+		        	});
+	        	}else{
+	        		layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+	        	}
+		  },error:function(XmlHttpRequest, textStatus, errorThrown){
+			  layer.msg('<@spring.message code="authRelaname.page.czfailue"/>', {time: 2000, icon:0});
+		  }  
+	});
+}
+
+function getInfo(url){
+	location.href=url;
+}
+/* function getUserAccountInfo(userId){
+	$("#userAccountInfo").load("userAccountInfo.html?userId="+userId);
+} */
+function controlTrade(id,status){
+	if (status == "show") {
+		$(".childTable"+id).show();
+		$("#showTrade"+id).hide();
+		$("#hiddenTrade"+id).show();
+	}else{
+		$(".childTable"+id).hide();
+		$("#showTrade"+id).show();
+		$("#hiddenTrade"+id).hide();
+		
+	}
+}
+/* function getUserTradeInfo(userId,tradeSymbol,orderId){
+	$("#userTradeInfo").load("userTradeInfo.html?userId="+userId);
+} */
+
+function search(){
+	var url = "userTradeInfo.html?index=1&id=${user.id}&orderId="+$("#orderId").val();
+	getInfo(url);
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

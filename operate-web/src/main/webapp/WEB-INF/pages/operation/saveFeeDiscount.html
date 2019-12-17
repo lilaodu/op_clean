@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="${base}/favicon.ico" >
+<link rel="Shortcut Icon" href="${base}/favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<title><@spring.message code="admin.action.addAction"/></title>
+</head>
+<body>
+
+<article class="page-container">
+	<form action="addFeeDiscount.json" method="post" class="form form-horizontal" id="form-action-add">
+        <input type="hidden" class="input-text" <#if mobileOrEmail??> value="edit" </#if> id="type" name="type" >
+		<div class="row cl" >
+			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;padding:0px"><span class="c-red">*</span><@spring.message code="statistics.mobile"/>/<@spring.message code="statistics.email"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" <#if mobileOrEmail??> readonly="readonly" </#if> id="mobileOrEmail" name="mobileOrEmail" value="${mobileOrEmail!''}">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;padding:0px"><span class="c-red">*</span><@spring.message code="statistics.rate"/>：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" id="rate" name="rate" <#if feeDiscount??> value="${feeDiscount.rate!''}"</#if> >
+                <span style="position: absolute;margin-top: 5px;right: 0px;top: 0px;">%</span>
+            </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;padding:0px"><@spring.message code="statistics.expire"/>：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" placeholder='<@spring.message code="statistics.default.expire"/>' value="${expireTime!''}" name="expireTime" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'%y-%M-%d'})" id="expireTime" class="input-text Wdate size-M" style="height: 28px;margin-top: 5px;"  >
+            </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;padding:0px"><@spring.message code="statistics.remark"/>：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+				<textarea class="textarea"  id="remark" name="remark"><#if feeDiscount??> ${feeDiscount.remark!''}</#if></textarea>
+            </div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;<@spring.message code='admin.submit'/>&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+
+$(function(){
+	var options = {
+		url: 'saveFeeDiscount.json',
+        method: 'POST',
+		dataType : 'json',
+		success: function (data) {
+		    console.log(data);
+			if(data.code=="0"){
+                layer.msg('<@spring.message code="statistics.operate.success"/>', {time: 1000, icon:1});
+                window.parent.location.href="feeDiscount.html";
+			}else if(data.code=="26"){
+                layer.msg('<@spring.message code="statistics.not.user"/>', {time: 1000, icon:2});
+			}else if(data.code=="4"){
+                layer.msg('<@spring.message code="statistics.user.exist"/>', {time: 1000, icon:2});
+            }else{
+				layer.msg('<@spring.message code="statistics.operate.fail"/>', {time: 1000, icon:2});
+			}
+		}
+	};
+
+    jQuery.validator.addMethod("scale", function(value, element) {
+        if(value.toString().indexOf(".")==-1){
+            return true;
+        }
+        var length = value.toString().split(".")[1].length;
+        if(length>2){
+            return false;
+        }
+        return true;
+
+    }, '<@spring.message code="statistics.input.scale"/>');
+	
+	$("#form-action-add").validate({
+		rules:{
+		    mobileOrEmail:{
+		        required: true
+            },
+            rate:{
+		        required: true,
+                number: true,
+                min:0,
+                max:100,
+                scale: true
+            },
+			remark:{
+				maxlength:50
+			}
+		},
+		messages: {
+            mobileOrEmail:{
+                required: '<@spring.message code="statistics.not.null"/>'
+            },
+            rate: {
+                required: '<@spring.message code="statistics.not.null"/>',
+                number: '<@spring.message code="statistics.input.check"/>',
+                min:'<@spring.message code="statistics.input.range"/>',
+                max:'<@spring.message code="statistics.input.range"/>',
+                scale: '<@spring.message code="statistics.input.scale"/>'
+            },
+            remark: {
+		       // required: "<@spring.message code="admin.action.checkInputActionName"/>",
+		        maxlength: '<@spring.message code="statistics.count.limit"/>'
+		      }
+		},
+		submitHandler:function(form){
+			$(form).ajaxSubmit(options);
+		}
+	});
+});
+
+
+</script>
+</body>
+</html>

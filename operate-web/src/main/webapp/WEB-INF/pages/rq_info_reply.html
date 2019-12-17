@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="Bookmark" href="${base}/favicon.ico" >
+<link rel="Shortcut Icon" href="${base}/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<title><@spring.message code="rq.info.reply.title"/></title>
+</head>
+<body>
+<article class="page-container">
+	<form action="admin_action_edit_submit.html" method="post" enctype="multipart/form-data" class="form form-horizontal" id="form-rqinfo-reply">
+		<input type="hidden" class="input-text" value="${rqInfo.id!''}" placeholder="" id="rqId" name="rqId">
+		<div style="padding-left: 8%; padding-right: 8.5%;">
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+			<tr><th colspan="4" scope="col"><@spring.message code="rq.info.show.title"/></th></tr>
+			<tr>
+				<th class="text-c" style="width: 100px;"><@spring.message code="rq.info.title.id"/></th>
+				<td>${rqInfo.id!''}</td>
+				<th class="text-c" style="width: 100px;"><@spring.message code="rq.info.title.status"/></th>
+				<td>${rqInfo.rqStatusName!''}</td>
+			</tr>
+			<tr>
+				<th class="text-c"><@spring.message code="rq.info.title.type"/></th>
+				<td>${rqInfo.rqTypeName!''}</td>
+				<th class="text-c"><@spring.message code="rq.info.title.ctime"/></th>
+				<td>${rqInfo.ctime?string(date_format)!''}</td>
+			</tr>
+			<tr>
+				<th class="text-c"><@spring.message code="rq.info.reply.desc"/></th>
+				<td colspan="3" scope="col">${rqInfo.rqDescribe!''}</td>
+			</tr>
+			<tr>
+				<th class="text-c"><@spring.message code="rq.info.reply.image"/></th>
+				<td colspan="3" scope="col">
+				<#if rqInfo.imageDataStr??>
+					<img class="avatar size-XXXXL" src="${ad_base!''}/${rqInfo.imageDataStr!''}" onmouseover="showElementById(this,'bigImage')" onmouseout="hideElementById(this,'bigImage')">
+					<div id="bigImage" style="position:absolute; z-index:999; left: 0; top: 0; border: 1px solid silver; display: none;">
+					 	<img src="${rqInfo.imageDataStr!''}" style="width: 100%;">
+    				</div>
+				<#else>
+					<@spring.message code="rq.reply.detail.title.image.no"/>
+				</#if>
+				</td>
+			</tr>
+			</thead>
+		</table>
+		</div>
+		<#if rqReplyList?? && (rqReplyList?size>0)>
+			<#list rqReplyList as item>
+				<#if item.userType==2>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"><@spring.message code="rq.reply.detail.title.user.rq.add"/></label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<div class="text-l"><p>${item.replayContent}</p></div>
+							<div class="text-r"><p class="c-999" style="font-size: xx-small;">${item.ctime?string(date_format)!''}</p></div>
+						</div>
+					</div>
+				<#else>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-2"><@spring.message code="rq.reply.detail.title.admin.niname"/>${item.userId}<@spring.message code="rq.reply.detail.title.user.rq.reply"/></label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<div class="text-l"><p class="c-success">${item.replayContent}</p></div>
+							<div class="text-r"><p class="c-success" style="font-size: xx-small;">${item.ctime?string(date_format)!''}</p></div>
+						</div>
+					</div>
+				</#if>
+			</#list>
+		</#if>
+		<!--问题已关闭，不能再回复-->
+		<#if rqInfo.rqStatus != 3 && rqInfo.rqStatus != 4>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span><@spring.message code="rq.info.reply.content"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea id="rqReplyContent" name=rqReplyContent class="textarea" maxlength="1000" placeholder="<@spring.message code='rq.info.reply.content.place'/>"></textarea>
+			</div>
+		</div>
+		<!-- <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><@spring.message code="rq.info.reply.upload"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span class="btn-upload form-group">
+					<input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile" readonly placeholder="<@spring.message code='rq.info.reply.upload.file.type'/>">
+					<a href="javascript:void();" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i><@spring.message code="rq.info.reply.upload.show.image"/></a>
+					<input type="file" multiple name="file" class="input-file">
+				</span>
+			</div>
+		</div> -->
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button class="btn btn-primary radius" type="submit">&nbsp;&nbsp;<@spring.message code="rq.info.reply.saveBtn"/>&nbsp;&nbsp;</button>
+				<button class="btn btn-default radius" type="button" onClick="layer_close();">&nbsp;&nbsp;<@spring.message code="rq.info.reply.cancleBtn"/>&nbsp;&nbsp;</button>
+			</div>
+		</div>
+		</#if>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+function showElementById(obj, id) {
+    var objDiv = $("#" + id + "");
+    $(objDiv).css("display", "block");
+    $(objDiv).css("left", event.clientX);
+    $(objDiv).css("top", event.clientY + 10);
+}
+
+function hideElementById(obj, id) {
+    var objDiv = $("#" + id + "");
+    $(objDiv).css("display", "none");
+}
+
+$(function(){
+	var options = {
+		url: 'rq_info_reply_submit.html',
+		dataType: 'json',
+		success: function (data) {
+			if(data.result==1){
+				//alert("<@spring.message code='rq.info.reply.success.info'/>");
+				layer.msg("<@spring.message code='rq.info.reply.success.info'/>", {time: 1000, icon:1}, function(){
+					$("#rqReplyContent").val("");
+					window.parent.location.reload();
+        		});
+			} else{
+				//alert("<@spring.message code='station.service.excetion.info'/>");
+				layer.msg("<@spring.message code='station.service.excetion.info'/>", {time: 1000, icon:2});
+			}
+		}
+	};
+	
+	// 图片文件格式，文件大小验证 
+	jQuery.validator.addMethod("checkUploadImage", function(value, element) {
+	  var flag = true;
+	  var suffix = value.substr(value.lastIndexOf("."));
+	  if (".jpg" != suffix && ".jpeg" != suffix && ".jpeg" != suffix && ".png" != suffix) {
+			flag = false;
+		}
+	  return this.optional(element) || flag; 
+	}, "<@spring.message code='rq.info.reply.upload.file.type'/>"); 
+	
+	$("#form-rqinfo-reply").validate({
+		rules:{
+			uploadfile:{
+				checkUploadImage:true
+			},
+			rqReplyContent:{
+				required:true,
+				maxlength:1000
+			}
+		},
+		messages: {
+			uploadfile:{
+				checkUploadImage: "<@spring.message code='rq.info.reply.upload.file.type'/>"
+			},
+			rqReplyContent: {
+		        required: "<@spring.message code='rq.info.reply.check.content'/>",
+		        maxlength: "<@spring.message code='rq.info.reply.check.content.length'/>"
+		    }
+		},
+		submitHandler: function(form){
+			$(form).ajaxSubmit(options);
+		}
+	});
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

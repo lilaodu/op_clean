@@ -1,0 +1,189 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<#import "/spring.ftl" as spring/>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<LINK rel="Bookmark" href="${base}/favicon.ico" >
+<LINK rel="Shortcut Icon" href="${base}/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/button.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title><@spring.message code="withdrawStatistics"/></title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code='admin.home'/><span class="c-gray en">&gt;</span>  <@spring.message code='operateManager'/><span class="c-gray en">&gt;</span> <@spring.message code="withdrawStatistics"/><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	
+	<div id="tab_demo" class="HuiTab">
+		<div style="display: inline;margin-right: 10%;float:right;" >
+			<input type="text" value="" id="tradeTimeStart" name="tradeTimeStart"  onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',maxDate:'#F{$dp.$D(\'tradeTimeEnd\')||\'%y-%M-%d\'}'})"  class="input-text Wdate size-M" style="width:165px;">
+			-
+			<input type="text" value="" id="tradeTimeEnd" name="tradeTimeEnd"  onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',minDate:'#F{$dp.$D(\'tradeTimeStart\')}',maxDate:'%y-%M-%d'})" class="input-text Wdate size-M" style="width:165px;">
+			<input type="hidden" value="${symbol}" id="tradeSymbol_id" name="tradeSymbol"  class="input-text Wdate size-M" style="width:165px;">
+			<button class="btn btn-success radius" onclick="selectTradeSort()"><i class="Hui-iconfont">&#xe665;</i><@spring.message code='user.page.search'/></button>
+		</div>
+        <div class="tabBar clearfix">
+            <#if coinList?? && (coinList?size>0)>
+                <#list coinList as coin>
+                        <a href="${base}/withdrawStatistics.html?symbol=${coin}">
+                            <span class="<#if coin == symbol >current</#if>">${coin}</span>
+                        </a>
+                </#list>
+            </#if>
+			<span style="color: red;font-size:10px;background-color:white;cursor:auto;"><@spring.message code="admin.operate.remind"/></span>
+        </div>
+
+    </div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+			<tr class="text-c">
+				<th style="width: 10%;text-align:center" ><@spring.message code='admin.operate.summary'/></th>
+				<#if sumCounts?? && (sumCounts?size>0)>
+					<#list sumCounts as item>
+						<#if item??>
+							<th style="width: 10%;text-align:center" >${item["with_amounts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${item["into_amounts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${item["with_counts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${item["succ_counts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${item["user_counts"]!0}</th>
+							<th style="width: 10%;text-align:center" ><@spring.message code="admin.operate.data.update.time"/>：${item['last_time']}</th>
+							<#else>
+								<th style="width: 10%;text-align:center" colspan="7"><@spring.message code='admin.noresult'/></th>
+						</#if>
+					</#list>
+				</#if>
+			</tr>
+			<#if limitCounts?? && (limitCounts?size>0)>
+				<tr class="text-c">
+					<th style="width: 10%;text-align:center" >
+						<#if tradeTimeStart??  && tradeTimeStart!="">
+							${tradeTimeStart}<#if tradeTimeEnd=="">之后<#else> ~ </#if>
+						</#if>
+						<#if tradeTimeEnd?? && tradeTimeEnd!="">
+							${tradeTimeEnd}<#if tradeTimeStart=="">之前</#if>
+						</#if>
+					</th>
+					<#list limitCounts as limit>
+						<#if limit??>
+							<th style="width: 10%;text-align:center" >${limit["with_amounts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${limit["into_amounts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${limit["with_counts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${limit["succ_counts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${limit["user_counts"]!0}</th>
+							<th style="width: 10%;text-align:center" ><@spring.message code="admin.operate.data.update.time"/>：${limit['last_time']}</th>
+							<#else>
+								<th style="width: 10%;text-align:center" colspan="7"><@spring.message code='admin.noresult'/></th>
+						</#if>
+					</#list>
+				</tr>
+			</#if>
+				<tr class="text-c">
+					<th style="width: 10%;"><@spring.message code="admin.operate.date"/></th>
+					<th style="width: 10%;"><@spring.message code="admin.operate.withdrawal.amount"/></th>
+					<th style="width: 10%;"><@spring.message code="admin.operate.amount.arrival"/></th>
+					<th style="width: 10%;"><@spring.message code="admin.operate.withdraw.items"/></th>
+					<th style="width: 10%;"><@spring.message code="admin.operate.number.of.successes"/></th>
+					<th style="width: 10%;"><@spring.message code="admin.operate.the.number.of.users"/></th>
+					<th style="width: 10%;"><@spring.message code="admin.operate.up.to.the.user"/></th>
+				</tr>
+			</thead>
+			<tbody>
+			<#if withdrawList?? && (withdrawList?size>0)>
+				<#list withdrawList as item>
+				<tr class="text-c">
+					<td>${item.createdDate?string('yyyy-MM-dd')}</td>
+					<td>${item.withAmount}${symbol}</td>
+					<td>${item.intoAmount!0}${symbol}</td>
+					<td>${item.withCount}</td>
+					<td>${item.succCount}</td>
+					<td>${item.userCount}</td>
+					<td><a onclick="userDetail('用户信息','user_detail_info_history_login.html?id=${item.maxUid!""}&index=2')">${item.maxUid!""}</a></td>
+				</tr>
+				</#list>
+			<#else>
+				<tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+			</#if>
+			</tbody>
+		</table>
+		<#if withdrawList?? && (withdrawList?size>0)>
+			${jpage.pageSizeButton}
+			<div class="content_page" >${jpage.buttons}</div>
+		</#if>
+	</div>
+
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#${symbol}").css("color","black");
+});
+
+function changeCurrency(symbol){
+	window.location.href = "withdrawStatistics.html?symbol="+symbol;
+}
+$(function(){
+    var tradeTimeStart = '${tradeTimeStart!""}';
+    var tradeTimeEnd = '${tradeTimeEnd!""}';
+    $("#tradeTimeStart").val(tradeTimeStart);
+    $("#tradeTimeEnd").val(tradeTimeEnd);
+});
+function selectTradeSort(){
+    var tradeTimeStart = $("#tradeTimeStart").val();
+    var tradeTimeEnd = $("#tradeTimeEnd").val();
+    var tradeSymbol  = $("#tradeSymbol_id").val();
+    var url = window.location.href;
+    if (url.indexOf("?") > 0){
+        var ind = url.indexOf("?");
+        url = url.substring(0,ind);
+    }
+    url+="?tradeTimeStart="+tradeTimeStart+ "&tradeTimeEnd="+ tradeTimeEnd+"&symbol="+tradeSymbol;
+    location.href=url;
+
+}
+/*用户详情*/
+function userDetail(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

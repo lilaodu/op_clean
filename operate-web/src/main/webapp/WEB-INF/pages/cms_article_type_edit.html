@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<LINK rel="Bookmark" href="${base}/favicon.ico" >
+<LINK rel="Shortcut Icon" href="${base}/favicon.ico" />
+<title><@spring.message code="cms.article.type.edit.page.title"/></title>
+</head>
+<body>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-article-type-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="cms.article.type.add.form.name"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" maxlength="50" value="${cmsArticleType.articleTypeName!''}" placeholder="<@spring.message code="cms.article.type.add.form.inputName"/>" id="articleTypeName" name="articleTypeName">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="cms.article.type.add.form.sort"/></label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+			<input type="text" class="input-text" value="${cmsArticleType.sortId!0}" maxlength="5" placeholder="" id="sortId" name="sortId">
+			 </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="cms.article.add.form.langType"/></label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+				<#if langList?? && (langList?size>0)>
+					<#list langList as tempLang>
+						<input type="radio" name="lang" value="${tempLang.langTypeId}" id="lang${tempLang.langTypeId}" onclick="changeLangTypeTree(${tempLang.lang}_tree,'${tempLang.cmsTypeId}')" <#if cmsArticleType.lang==tempLang.langTypeId>checked</#if> />
+						<label for="lang${tempLang.langTypeId}">${tempLang.showName}</label>
+					</#list>
+				</#if>
+			 </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="cms.article.type.add.form.parent"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span class="select-box">
+				<input type="hidden" value="${cmsArticleType.id}" id="id" name="id">
+				<input type="hidden" value="" id="parentId" name="parentId">
+				<div id="systree" class="row cl" style="float: left;margin-top: 10px;overflow-y:auto;  height: 160px;margin-left:20px;width: 95%;">
+				</div>
+				</span>
+			</div>
+		</div>	
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;<@spring.message code="cms.article.type.add.form.submit"/>&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>   
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script src="${base}/res/jsTree/js/wtree.js" type=text/javascript></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+	
+	//每种语言环境构建一个对应的下拉列表框
+	<#if langList?? && (langList?size>0)>
+		<#list langList as langEnum>
+			var ${langEnum.lang}_tree = new dTree('${langEnum.lang}_tree', '${base}/res/jsTree/images/system/dept/');
+			${langEnum.lang}_tree.config.useRadio = true;
+			${langEnum.lang}_tree.config.useIcons = false;
+			${langEnum.lang}_tree.add(0, -1, '<@spring.message code="cms.article.type.add.tree.all"/>', "javascript:;", '');
+			//map中取出每种语言对应的typelist
+			<#if cmsTypeMap[langEnum.lang]?? && (cmsTypeMap[langEnum.lang]?size>0)>
+				<#list cmsTypeMap[langEnum.lang] as item>
+					${langEnum.lang}_tree.add(${item.id}, ${item.parentId}, '${item.articleTypeName}', "javascript:;", '');
+				</#list>
+			</#if>	
+		</#list>
+	</#if>
+	
+	//改变树形结构,目前业务只展示cms页面和footer显示页，只允许在cms大分类中添加级分类
+	//tempLang:语言 cmsTypeId：type大类id
+	var currTree;
+	function changeLangTypeTree(tempLang_tree,cmsTypeId,checkedValue){
+		currTree = tempLang_tree;
+		var idArr = cmsTypeId.split(",");
+		if (idArr && idArr.length>0) {
+			document.getElementById('systree').innerHTML = tempLang_tree;
+			$("input[name='chk']").each(function(){
+				//处理cmstype
+				if($(this).val()!=idArr[0] && $(this).val()!=idArr[1]){
+					$(this).attr("disabled","disabled");
+					$(this).hide();
+				}else if($(this).val()==idArr[1]){
+					$(this).attr("disabled","disabled");
+				}
+				//处理footer type
+				if(this.value==0){
+					$(this).removeAttr("disabled");
+					$(this).show();
+				}
+				//回显type
+				if(this.value==checkedValue){
+					this.checked=true;
+				}
+			});
+			
+		}
+	}
+	
+	
+	$(function(){
+		var options = {
+			url: 'cms_article_type_edit_save.html',
+			dataType : 'json',
+			success: function (data) {
+				if(data.result==1){
+					layer.msg('<@spring.message code="cms.article.type.add.msg.editSuccess"/>', {time: 1000, icon:1}, function(){
+						var index = parent.layer.getFrameIndex(window.name);
+						window.parent.location.reload();
+						parent.layer.close(index);
+		        	});
+				}
+				else if(data.result==-2){
+					//alert('<@spring.message code="cms.article.type.add.msg.haveSame"/>');
+					layer.msg("<@spring.message code="cms.article.type.add.msg.haveSame"/>", {time: 1000, icon:0});
+				}
+				else{
+					//alert('<@spring.message code="cms.article.type.add.msg.addFail"/>');
+					layer.msg('<@spring.message code="cms.article.type.add.msg.addFail"/>', {time: 1000, icon:2});
+				}
+			}
+		};
+		
+		jQuery.validator.addMethod("isNum", function(value, element) { 
+			  var reg = /^(0|[1-9]\d*)$/;
+			  return this.optional(element) || reg.test(value); 
+			}, "<@spring.message code="cms.article.type.add.valid.isSort"/>"); 
+		
+		$("#form-article-type-add").validate({
+			rules:{
+				articleTypeName:{
+					required:true,
+					maxlength:50
+				},
+				sortId:{
+					required:true,
+					isNum:true
+				},
+			},
+			messages: {
+			      atName: {
+			        required: "<@spring.message code="cms.article.type.add.valid.inputName"/>",
+			        maxlength: "<@spring.message code="cms.article.type.add.valid.nameMaxlength"/>"
+			      },
+			      sortId:{
+			        required: "<@spring.message code="cms.article.type.add.valid.inputSort"/>",
+			        isNum: "<@spring.message code="cms.article.type.add.valid.isSort"/>"
+			      },
+			},
+			submitHandler:function(form){
+				var selid = currTree.getSelectedNode();
+				if(selid == undefined){
+					//alert("<@spring.message code="cms.article.type.add.valid.selectParent"/>");
+					layer.msg("<@spring.message code="cms.article.type.add.valid.selectParent"/>", {time: 1000, icon:0});
+					return;
+				}
+				$("#parentId").val(selid);
+
+				$(form).ajaxSubmit(options);
+			}
+		});
+		
+		changeLangTypeTree(${typeLang.lang}_tree,"${typeLang.cmsTypeId}",${cmsArticleType.parentId});
+	});
+</script>
+</body>
+</html>

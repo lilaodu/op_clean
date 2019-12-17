@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="${base}/res/risk/css/base.css" rel="stylesheet" type="text/css">
+<link href="${base}/res/risk/css/index.css" rel="stylesheet" type="text/css">
+<link href="${base}/res/risk/css/jquery.validate.error.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<title><@spring.message code="risk.wind_control_operation_state"/></title>
+</head>
+<style>
+td {
+	font-size: 14px;
+}
+</style>
+<body>
+<!--wrap-->
+<div class="wrap">
+	<!--资讯中心-->
+	<div class="information-box">
+		<div class="hd">
+			<h6><@spring.message code="risk.wind_control_operation_state"/></h6>
+		</div>
+	</div>
+	<div class="transaction-box">
+		<!--限价交易-->
+		<div class="limit-transaction-box">
+			<div class="transaction-hd">
+				<div class="tran-tab">
+					<!--
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" >异常价格报警</a>
+					-->
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" ><@spring.message code="risk.abnormal_price_alarm"/></a>
+				</div>
+			</div>
+			<div class="currency-tabs-list">
+				<div id="market-tab">
+					<#assign inx = 0>
+					<#if symbolList?? && (symbolList?size>0)>
+						<#list symbolList as symbol>
+							<#assign inx = inx + 1>
+							<a id="symbol_price_${symbol.symbol}" name="symbol_price" href="javascript:void(0);" <#if inx == 1>class="currency-tabs active"<#else>class="currency-tabs"</#if> value="${symbol.id}" title="${symbol.symbol}">${symbol.symbolName}</a>
+						</#list>
+					</#if>
+					<input id="price_symbol_id" type="hidden" />
+					<input id="abnormal_price_id" type="hidden" />
+					<input id="price_source_id" type="hidden" />
+				</div>
+			</div>
+			<div style="height: 225px;margin-top: 10px;width: 99%;">
+				<table class="table" >
+					<tr style="height: 45px;">
+						<!--
+						<td width="15%">参考价格数据来源</td>
+						-->
+						<td width="15%"><@spring.message code="risk.reference_price_data_source"/></td>
+						<td colspan="5" id="sourceShowTD"></td>
+					</tr>
+					<tr style="height: 45px;">
+                        <!--
+						<td width="200">与以上平台平均价格偏离 >=</td>
+						-->
+                        <td width="200"><@spring.message code="risk.average_price_deviation_platform"/> >=</td>
+						<td width="85"><input id="platform_price_percent" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="120"> % 时发送报警，每</td> -->
+                        <td width="120"> % <@spring.message code="risk.how_long_will_sent"/></td>
+
+						<td width="85"><input id="platform_price_mins" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="200">分钟最多发送一次，目标手机</td> -->
+                        <td width="200"><@spring.message code="risk.send_minute_cell_phone"/></td>
+						<td width="40%"><input id="platform_price_mobile" class="input-text size-M" style="width:150px" value=""></td>
+					</tr>
+					<tr style="height: 45px;">
+						<!-- <td width="200">与上一笔交易价格偏离 >=</td> -->
+                        <td width="200"><@spring.message code="risk.last_transaction_price_deviation"/> >=</td>
+						<td width="85"><input id="deal_price_percent" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="120"> % 时发送报警，每</td> -->
+                        <td width="120"> % <@spring.message code="risk.how_long_will_sent"/></td>
+						<td width="85"><input id="deal_price_mins" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="200">分钟最多发送一次，目标手机</td> -->
+                        <td width="200"><@spring.message code="risk.send_minute_cell_phone"/></td>
+						<td width="40%"><input id="deal_price_mobile" class="input-text size-M" style="width:150px" value=""></td>
+					</tr>
+					<tr style="height: 45px;">
+						<!-- <td width="200">半小时内价格波动 >=</td> -->
+                        <td width="200"><@spring.message code="risk.price_fluctuations_within_half_hour"/> >=</td>
+						<td width="85"><input id="price_volatility_percent" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="120"> % 时发送报警，每</td> -->
+                        <td width="120"> % <@spring.message code="risk.how_long_will_sent"/></td>
+						<td width="85"><input id="price_volatility_mins" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="200">分钟最多发送一次，目标手机</td> -->
+                        <td width="200"><@spring.message code="risk.send_minute_cell_phone"/></td>
+						<td width="40%"><input id="price_volatility_mobile" class="input-text size-M" style="width:150px" value=""></td>
+					</tr>
+					<tr style="height: 45px;">
+						<td colspan="6" >
+                            <!--
+							<input type="submit" value="保存修改" class="medium-btn-blue" onclick="submitAbnormal('price')" style="float: none;min-width:80px;margin-left: 10px;">
+							-->
+                            <input type="submit" value="<@spring.message code="risk.save_modification"/>" class="medium-btn-blue" onclick="submitAbnormal('price')" style="float: none;min-width:80px;margin-left: 10px;">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--限价交易 end-->
+		<!--限价交易-->
+		<div class="limit-transaction-box">
+			<div class="transaction-hd">
+				<div class="tran-tab">
+					<!-- <a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType"  >异常交易报警</a> -->
+                    <a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType"  ><@spring.message code="risk.abnormal_transaction_alarm"/></a>
+				</div>
+			</div>
+			<div class="currency-tabs-list">
+				<div id="market-tab2">
+				    <#assign inx2 = 0>
+					<#if symbolList?? && (symbolList?size>0)>
+						<#list symbolList as symbol>
+						    <#assign inx2 = inx2 + 1>
+							<a href="javascript:void(0);" name="symbol_deal" <#if inx2 == 1>class="currency-tabs active"<#else>class="currency-tabs"</#if> value="${symbol.id}"  title="${symbol.symbol}">${symbol.symbolName}</a>
+						</#list>
+					</#if>
+					<input id="deal_symbol_id" type="hidden" />
+					<input id="abnormal_deal_id" type="hidden" />
+				</div>
+			</div>
+			<div style="height: 90px;margin-top: 10px;width: 99%;">
+				<table class="table" >
+					<tr style="height: 45px;">
+						<!-- <td width="30">每隔</td> -->
+                        <td width="30"><@spring.message code="risk.every_other"/></td>
+						<td width="80"><input id="interval_mins" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="170">分钟统计一次，单个用户交易量占比 >=</td> -->
+                        <td width="170"><@spring.message code="risk.minute_statistics_user_transaction_volume_ratio"/> >=</td>
+						<td width="80"><input id="deal_amount_percent" class="input-text size-M" style="width:80px" value=""></td>
+						<!-- <td width="120"> % 时发送报警，目标手机</td> -->
+                        <td width="120"> % <@spring.message code="risk.send_minute_cell_phone"/></td>
+						<td width="40%"><input id="deal_receive_mobile" class="input-text size-M" style="width:150px" value=""></td>
+					</tr>
+					<tr style="height: 45px;">
+						<td colspan="6" >
+							<input type="submit" value='<@spring.message code="risk.save_modification"/>' class="medium-btn-blue" onclick="submitAbnormal('deal')" style="float: none;min-width:80px;margin-left: 10px;">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--限价交易 end-->
+		<!--限价交易-->
+		<div class="limit-transaction-box">
+			<div class="transaction-hd">
+				<div class="tran-tab">
+                    <!--
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" >异常账目报警</a>
+					-->
+                    <a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" ><@spring.message code="risk.abnormal_account_alarm"/></a>
+				</div>
+			</div>
+			<div style="height: 90px;margin-top: 10px;width: 99%;">
+				<table class="table" >
+					<tr style="height: 45px;">
+						<!-- <td width="170">用户帐目不平的资产折合 >=</td> -->
+                        <td width="170"><@spring.message code="risk.unequal_account_assets_user"/> >=</td>
+						<td width="80"><input id="uneven_property" class="input-text size-M" style="width:80px" value="${abnormalProperty.unevenProperty!''}"></td>
+						<!-- <td width="120"> 时发送报警，目标手机</td> -->
+                        <td width="120"> % <@spring.message code="risk.send_minute_cell_phone"/></td>
+						<td width="60%"><input id="property_receive_mobile" class="input-text size-M" style="width:150px" value="${abnormalProperty.receiveMobile!''}"></td>
+					</tr>
+					<tr style="height: 45px;">
+						<td colspan="4" >
+							<input type="submit" value='<@spring.message code="risk.save_modification"/>' class="medium-btn-blue" onclick="submitAbnormal('property')" style="float: none;min-width:80px;margin-left: 10px;">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--限价交易 end-->
+	</div>
+	<!--资讯中心 end-->
+</div>
+</body>
+<script type="text/javascript">
+var chooseSymbolPrice = "";
+var symbolPrices =  $('a[name="symbol_price"]');
+for (var i = 0; i < symbolPrices.length; i++) {
+	var currObj = symbolPrices[i];
+	if(currObj.className.indexOf("active") != -1){
+		chooseSymbolPrice = currObj.title;
+		var deSymbol = $(currObj).attr('value');
+		$("#price_symbol_id").val(deSymbol);
+	}
+}
+changeSymbolPrice(chooseSymbolPrice);
+//默认展示
+showSourceTD($("#price_symbol_id").val());
+
+function showSourceTD(key){
+	var showHtml = "";
+	var sourceIds = $("#price_source_id").val();
+	<#list sourceList as sourceTObj >
+	  if(key == '${sourceTObj.riskSymbolId}'){
+		showHtml+='<input id="sourceItem_${sourceTObj.riskSourceId}" type="checkbox" ';
+		if(sourceIds == ${sourceTObj.riskSourceId} || sourceIds.indexOf(","+${sourceTObj.riskSourceId})!=-1 || sourceIds.indexOf(${sourceTObj.riskSourceId}+",")!=-1 ){
+			showHtml+=' checked="checked" ';
+		}
+		showHtml+=' value="${sourceTObj.riskSourceId}"  name="sourceItem">${sourceTObj.sourceName}&nbsp;&nbsp;';
+	  }
+	</#list>
+	$('#sourceShowTD').html(showHtml);
+}
+
+$(document).on('click','#market-tab a',function(e){
+   var _taregt= $(e.target);
+   $('#market-tab a').removeClass('active');
+    _taregt.addClass('active');
+    if(_taregt[0].title){
+       chooseSymbolPrice = _taregt[0].title;
+       var deSymbol = $(_taregt[0]).attr('value');
+       $("#price_symbol_id").val(deSymbol);
+       changeSymbolPrice(chooseSymbolPrice);
+	   //修改显示的来源站
+	   showSourceTD(deSymbol);
+    }
+});
+
+var chooseSymbolDeal = "";
+var symbolDeals =  $('a[name="symbol_deal"]');
+for (var i = 0; i < symbolDeals.length; i++) {
+	var currObj = symbolDeals[i];
+	if(currObj.className.indexOf("active") != -1){
+		chooseSymbolDeal = currObj.title;
+		$("#deal_symbol_id").val($(currObj).attr('value'));
+	}
+}
+changeSymbolDeal(chooseSymbolDeal);
+
+$(document).on('click','#market-tab2 a',function(e){
+   var _taregt= $(e.target);
+   $('#market-tab2 a').removeClass('active');
+    _taregt.addClass('active');
+    if(_taregt[0].title){
+    	chooseSymbolDeal = _taregt[0].title;
+    	$("#deal_symbol_id").val($(_taregt[0]).attr('value'));
+    	changeSymbolDeal(chooseSymbolDeal);
+    }
+});
+
+//渲染价格异常
+function changeSymbolPrice(chooseSymbolPrice){
+	$("#platform_price_percent").val("");
+	$("#platform_price_mins").val("");
+	$("#platform_price_mobile").val("");
+	$("#deal_price_percent").val("");
+	$("#deal_price_mins").val("");
+	$("#deal_price_mobile").val("");
+	$("#price_volatility_percent").val("");
+	$("#price_volatility_mins").val("");
+	$("#price_volatility_mobile").val("");
+	$("#abnormal_price_id").val("");
+	$("#price_source_id").val("");
+	if(chooseSymbolPrice){
+		<#list abnormalPriceList as abnormalPriceTObj >
+		  if(chooseSymbolPrice == '${abnormalPriceTObj.symbol}'){
+			$("#platform_price_percent").val("${abnormalPriceTObj.platformPricePercent!''}");
+			$("#platform_price_mins").val("${abnormalPriceTObj.platformPriceMins!''}");
+			$("#platform_price_mobile").val("${abnormalPriceTObj.platformPriceMobile!''}");
+			$("#deal_price_percent").val("${abnormalPriceTObj.dealPricePercent!''}");
+			$("#deal_price_mins").val("${abnormalPriceTObj.dealPriceMins!''}");
+			$("#deal_price_mobile").val("${abnormalPriceTObj.dealPriceMobile!''}");
+			$("#price_volatility_percent").val("${abnormalPriceTObj.priceVolatilityPercent!''}");
+			$("#price_volatility_mins").val("${abnormalPriceTObj.priceVolatilityMins!''}");
+			$("#price_volatility_mobile").val("${abnormalPriceTObj.priceVolatilityMobile!''}");
+			$("#abnormal_price_id").val("${abnormalPriceTObj.id!''}");
+			$("#price_source_id").val("${abnormalPriceTObj.sourceId!''}");
+		  }
+		</#list>  
+	}
+}
+
+//渲染交易异常
+function changeSymbolDeal(chooseSymbolDeal){
+	$("#deal_amount_percent").val("");
+	$("#interval_mins").val("");
+	$("#deal_receive_mobile").val("");
+	$("#abnormal_deal_id").val("");
+	if(chooseSymbolDeal){
+		<#list abnormalDealList as abnormalDealTObj >
+		  if(chooseSymbolDeal == '${abnormalDealTObj.symbol}'){
+			$("#deal_amount_percent").val("${abnormalDealTObj.dealAmountPercent!''}");
+			$("#interval_mins").val("${abnormalDealTObj.intervalMins!''}");
+			$("#deal_receive_mobile").val("${abnormalDealTObj.receiveMobile!''}");
+			$("#abnormal_deal_id").val("${abnormalDealTObj.id!''}");
+		  }
+		</#list>  
+	}
+}
+
+function submitAbnormal(type){
+	var submitData = {};
+	var submitUrl = "";
+	var sourceSelIds = "";
+	$('input[name="sourceItem"]:checked').each(function(){ 
+		sourceSelIds += $(this).val()+",";
+	});
+	if(type == 'price'){
+		var tmpId = 0;
+		if($("#abnormal_price_id").val()){
+			tmpId = $("#abnormal_price_id").val();
+		}
+		submitUrl = "update_abnormal_price.html";
+		submitData = {
+			id:tmpId,
+			symbolId:$("#price_symbol_id").val(),
+			platformPricePercent:$("#platform_price_percent").val(),
+			platformPriceMins:$("#platform_price_mins").val(),
+			platformPriceMobile:$("#platform_price_mobile").val(),
+			dealPricePercent:$("#deal_price_percent").val(),
+			dealPriceMins:$("#deal_price_mins").val(),
+			dealPriceMobile:$("#deal_price_mobile").val(),
+			priceVolatilityPercent:$("#price_volatility_percent").val(),
+			priceVolatilityMins:$("#price_volatility_mins").val(),
+			priceVolatilityMobile:$("#price_volatility_mobile").val(),
+			sourceId:sourceSelIds
+		}
+	}else if(type == 'deal'){
+		var tmpId = 0;
+		if($("#abnormal_deal_id").val()){
+			tmpId = $("#abnormal_deal_id").val();
+		}
+		submitUrl = "update_abnormal_deal.html";
+		submitData = {
+			id:tmpId,
+			symbolId:$("#deal_symbol_id").val(),
+			intervalMins:$("#interval_mins").val(),
+			dealAmountPercent:$("#deal_amount_percent").val(),
+			receiveMobile:$("#deal_receive_mobile").val()
+		}
+	}else if(type == 'property'){
+		var tmpId = 0;
+		if($("#abnormal_property_id").val()){
+			tmpId = $("#abnormal_property_id").val();
+		}
+		submitUrl = "update_abnormal_property.html";
+		submitData = {
+			id:tmpId,
+			unevenProperty:$("#uneven_property").val(),
+			receiveMobile:$("#property_receive_mobile").val()
+		}
+	}
+	//组装json数据
+	$.ajax({
+	   type: "POST",
+	   url: submitUrl,
+	   data: submitData,
+	   dataType:'json',
+	   success: function(data){
+		 if(data.result==1){
+		 	//layer.msg("修改成功", {time: 1000, icon:1}, function(){
+             layer.msg('<@spring.message code="risk.amend_success"/>', {time: 1000, icon:1}, function(){
+				window.location.reload();
+        	});
+		 }else{
+			 // layer.msg("修改失败", {time: 1000, icon:2});
+             layer.msg('<@spring.message code="risk.failure_modify"/>', {time: 1000, icon:2});
+		 }
+	   },
+	   error:function(XmlHttpRequest, textStatus, errorThrown){
+	       // layer.msg("修改失败", {time: 1000, icon:2});
+           layer.msg('<@spring.message code="risk.failure_modify"/>', {time: 1000, icon:2});
+	   } 
+	});
+}
+</script>
+</html>

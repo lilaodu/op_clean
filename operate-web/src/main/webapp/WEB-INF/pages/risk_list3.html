@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="${base}/res/risk/css/base.css" rel="stylesheet" type="text/css">
+<link href="${base}/res/risk/css/index.css" rel="stylesheet" type="text/css">
+<link href="${base}/res/risk/css/jquery.validate.error.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<title><@spring.message code="risk.title"/></title>
+</head><style>
+th,td {
+	font-size: 14px;
+}
+</style>
+
+<body>
+<!--wrap-->
+<div class="wrap">
+	<!--资讯中心-->
+	<div class="information-box">
+		<div class="hd">
+			<h6><@spring.message code="risk.title"/></h6>
+		</div>
+	</div>
+	<div class="transaction-box">
+		<!--限价交易-->
+		<div class="limit-transaction-box">
+			<div class="transaction-hd">
+				<div class="tran-tab">
+					<!--
+					<a href="${base}/risk_list.html" title="" class="tabs-txt orderType" >异常价格报警</a>
+					<a href="${base}/risk_list2.html" title="" class="tabs-txt orderType" >异常交易报警</a>
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" >异常盈亏监控</a>
+					<a href="${base}/risk_list4.html" title="" class="tabs-txt orderType" >异常帐目警报</a>
+					-->
+					<a href="${base}/risk_list.html" title="" class="tabs-txt orderType" ><@spring.message code="risk.abnormal_price_alarm"/></a>
+					<a href="${base}/risk_list2.html" title="" class="tabs-txt orderType" ><@spring.message code="risk.abnormal_transaction_alarm"/></a>
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" ><@spring.message code="risk.abnormal_profit_and_loss_monitoring"/></a>
+					<a href="${base}/risk_list4.html" title="" class="tabs-txt orderType" ><@spring.message code="risk.exception_account_alarm"/></a>
+				</div>
+			</div>
+			<div class="currency-tabs-list">
+				<div id="market-tab">
+					<!--
+					<a href="javascript:void(0);" <#if keyword== 'desc'>class="currency-tabs active"<#else>class="currency-tabs"</#if> onclick="changeOrder('desc')">从高到低排序</a>
+					<a href="javascript:void(0);" <#if keyword== 'asc'>class="currency-tabs active"<#else>class="currency-tabs"</#if> onclick="changeOrder('asc')">从低到高排序</a>
+					-->
+					<a href="javascript:void(0);" <#if keyword== 'desc'>class="currency-tabs active"<#else>class="currency-tabs"</#if> onclick="changeOrder('desc')"><@spring.message code="risk.from_high_low"/></a>
+				<a href="javascript:void(0);" <#if keyword== 'asc'>class="currency-tabs active"<#else>class="currency-tabs"</#if> onclick="changeOrder('asc')"><@spring.message code="risk.from_low_high"/></a>
+				</div>
+				<div class="cl pd-5 mt-10"></div>
+					<table class="table table-border table-bordered table-bg" style="width:99%;">
+						<thead>
+						<!--
+							<tr class="text-c">
+								<th style="width: 20%;">用户UID</th>
+								<th style="width: 20%;">充值资产折合</th>
+								<th style="width: 20%;">提现资产折合</th>
+								<th style="width: 20%;">当前净资产</th>
+								<th style="width: 20%;">收益率</th>
+							</tr>
+							-->
+
+						<tr class="text-c">
+							<th style="width: 20%;"><@spring.message code="risk.uid"/></th>
+							<th style="width: 20%;"><@spring.message code="risk.recharge_assets"/></th>
+							<th style="width: 20%;"><@spring.message code="risk.asset_discount"/></th>
+							<th style="width: 20%;"><@spring.message code="risk.current_net_assets"/></th>
+							<th style="width: 20%;"><@spring.message code="risk.rate_return"/></th>
+						</tr>
+						</thead>
+						<tbody>
+							<#if userProfitLossList?? && (userProfitLossList?size>0)>
+								<#list userProfitLossList as profitLoss>
+									<tr>
+										<td class="text-c" style="color: blue;">${profitLoss.uid}</td>
+										<td class="text-c">${profitLoss.deposit}</td>
+										<td class="text-c">${profitLoss.withdraw}</td>
+										<td class="text-c">${profitLoss.balance}</td>
+										<td class="text-c">${profitLoss.earningsRate?string("0.00#%")}</td>
+									</tr>
+								</#list>
+							</#if>
+						</tbody>
+					</table>
+					<#if userProfitLossList?? && (userProfitLossList?size>0)>
+						${jpage.pageSizeButton}
+						<div class="content_page" >${jpage.buttons}</div>
+					</#if>
+				</div>
+			</div>
+		</div>
+		<!--限价交易 end-->
+	</div>
+	<!--资讯中心 end-->
+</div>
+</body>
+<script type="text/javascript">
+function changeOrder(key){
+	window.location.href="${base}/risk_list3.html?keyword="+key;
+}
+</script>
+</html>

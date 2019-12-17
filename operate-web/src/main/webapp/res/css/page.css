@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+body{margin:0;padding:0;font-family:"微软雅黑",segoe_ui,Tahoma,Helvetica,"宋体",​Arial,"黑体",Verdana;font-size:12px;}
+.show{display:inline;}
+.hidden{display:none;}
+.nocursor{cursor: default;}
+.cursor{cursor: pointer;}
+
+.title{width:100%;height:40px;font-size: 16px;position:absolute;top:90px;left:0;}
+.title .title_text{margin-left:260px;padding-top:8px;}
+.title .title_text a{text-decoration: none;color: #333;}
+.title .title_text a:hover{text-decoration:underline;}
+.content_page{float:right;width:55%;text-align: right;}
+.content_page .page_title{position: relative;width: 96%;}
+.content_page .page_title a{text-decoration: none;color:#241815;display:inline-block;min-width:30px;min-height:26px;text-align: center;}
+.content_page .page_title .page_btn{margin-right: 5px;}
+/*.content{left:260px;position:absolute;top:130px;width: 86%;}*/
+.page_title{font-size: 14px;margin-top:20px;}
+.page_title .page_btn{display:inline-block;min-width:26px;min-height:26px;line-height: 26px;text-align: center;border:1px solid #898989;background:#FFF;text-decoration: none;color:#241815; }
+.page_title .active{background:#898989;color:#fff;}
+
+#scrollUp{bottom:20px;right: 20px;background: #2683c4;color: #fff;font-size: 18px;line-height: 18px;text-decoration: none;opacity: .9;filter: alpha(opacity=90);padding: 10px 15px 5px; font-family: Tahoma;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;-webkit-transition: background 200ms linear;-moz-transition: background 200ms linear;transition: background 200ms linear;-webkit-backface-visibility: hidden;}
+#scrollUp:hover {background: #046eb8;}
+
+.incentives_content_page{float:left; margin:50px 0px ; height:30px;width:100%;text-align: right;}
+.incentives_content_page .page_title{position: relative;width: 96%;}
+.incentives_content_page .page_title a{text-decoration: none;color:#241815;display:inline-block;min-width:25px;min-height:20px;text-align: center;}
+.incentives_content_page .page_title .page_btn{margin-right: 5px;}
+.win_content .item_title {float: left;margin-left: 25px;width: 65px;font-size: 14px;}
+.win_content .item_input {float: left;width: 250px;}
+
+.win_title{font-weight:bold;height:25px;line-height:20px;color:#f1f1f1;cursor:move;font-size: 14px;}
+.win_content{background-color:#fff;padding:5px;border:#0d6e9a 0px solid;}
+.win_content ul{width:100%;height:36px;padding:0px;margin:0px;}
+.win_content ul li{float:left;list-style-type: none;height:36px;line-height:46px;line-height:27px\9;}
+.win_content ul .toolbar2{text-align:center;width:100%;}
+.win_content .win_descript{float:left;margin:5px 10px;height:30px;line-height:30px;}
+.win_content .win_toolbar{float:left;margin:5px 10px;height:30px;line-height:30px;text-align:right;}
+.win_title .btn_close {position:absolute; right:4px; top:5px; color:#0D6E9A;; cursor:pointer;width:15px;height:15px;background:url("../images/div_close.jpg") no-repeat;}

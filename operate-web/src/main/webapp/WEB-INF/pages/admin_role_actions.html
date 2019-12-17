@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="${base}/favicon.ico" >
+<link rel="Shortcut Icon" href="${base}/favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<link href="${base}/res/jsTree/css/dtree.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="admin.role.setAction"/></title>
+</head>
+<body>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-role-actions">
+		<input type="hidden" class="input-text" value="${role.id!''}" placeholder="" id="rid" name="rid">
+		<div class="row cl">
+			<div id="systree" class="row cl" style="float: left;margin-top: 10px;margin-bottom:20px;overflow-y:auto; height: 90%;margin-left: 80px;width: 98%;">
+		</div>
+		<div class="row cl" style="margin-bottom:20px">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="button" onclick="saveActionListEdit()" value="&nbsp;&nbsp;<@spring.message code='admin.submit'/>&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script src="${base}/res/jsTree/js/wtree.js" type=text/javascript></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+	var d = new dTree('d', '${base}/res/jsTree/images/system/dept/');
+	d.config.check = true;
+	d.add(0, -1, '<@spring.message code="admin.action.all"/>', "javascript:;", '');
+	
+	<#if allActionList?? && (allActionList?size>0)>
+		<#list allActionList as item>
+			d.add(${item.id}, ${item.parentId}, '${item.atDes}', "javascript:;", '');
+		</#list>
+	</#if>
+	
+	document.getElementById('systree').innerHTML = d;
+	
+	<#if actionList?? && (actionList?size>0)>
+		<#list actionList as item>
+			$("input[name='"+${item.atId}+"']").each(function(){
+				this.checked=true;
+			});
+		</#list>
+	</#if>
+
+function saveActionListEdit(){
+	if (confirm('<@spring.message code="admin.checkSave"/>')==true){
+		var rid = $("#rid").val();
+		var selids = d.getCheckedNodes();
+		var str = "";
+		for (var n = 0; n < selids.length; n++) {
+			str += selids[n] + ",";
+		}
+		if(str.length>0){
+			str = str.substring(0,str.length-1);
+		}
+		
+		$.ajax({   
+	        type: "POST",   
+	        url: "admin_role_actions_submit.html",   
+	        data: "ids="+str+"&rid="+rid, 
+	        dataType : 'json',
+	        success: function(data){
+	        	if(data.result==-1){
+	        		window.location.href="login.html";
+	        	}else{
+	        		layer.msg("<@spring.message code='admin.role.setActionSuc'/>", {time: 1000, icon:1}, function(){
+	        			var index = parent.layer.getFrameIndex(window.name);
+						window.parent.location.reload();
+						parent.layer.close(index);
+		        	});
+	        	}
+	        },error:function(XmlHttpRequest, textStatus, errorThrown){
+	        	 layer.msg("<@spring.message code='admin.checkOperateFail'/>", {time: 1000, icon:0});
+			}
+	    });
+	}else{
+		return false; 
+	} 
+}
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

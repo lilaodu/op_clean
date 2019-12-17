@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="Bookmark" href="${base}/favicon.ico" >
+<link rel="Shortcut Icon" href="${base}/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<title><@spring.message code="cms.advert.title"/></title>
+</head>
+<body>
+<article class="page-container">
+	<form action="cms_advert_add_submit.html" method="post" enctype="multipart/form-data" class="form form-horizontal" id="form-cms-advert">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><@spring.message code="cms.advert.add.title"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="title" name="title" maxlength="50">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span><@spring.message code="cms.article.add.form.langType"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<#if langList?? && (langList?size>0)>
+					<#list langList as tempLang>
+						<input type="checkbox" name="lang" value="${tempLang.lang}" id="lang${tempLang.langTypeId}" />
+						<label for="lang${tempLang.langTypeId}">${tempLang.showName}</label>
+					</#list>
+				</#if>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span><@spring.message code="cms.advert.add.httpurl"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="httpUrl" name="httpUrl" maxlength="500">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span><@spring.message code="cms.advert.add.type"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<div class="radio-box">
+					<input type="radio" id="type_1" name="type" value="ANDROID" checked="checked">
+					<label for="type_1">Android</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="type_2" name="type" value="IOS">
+					<label for="type_2">Ios</label>
+				</div>
+				<!--<div class="radio-box">
+					<input type="radio" id="type_3" name="type" value="WEB">
+					<label for="type_3">Web</label>
+				</div>-->
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span><@spring.message code="cms.advert.add.sort"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="sort" name="sort" maxlength="5">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span><@spring.message code="cms.advert.add.upload"/></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span class="btn-upload form-group">
+					<input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile" readonly placeholder="<@spring.message code='rq.info.reply.upload.file.type'/>">
+					<a href="javascript:void();" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i><@spring.message code="rq.info.reply.upload.show.image"/></a>
+					<input type="file" multiple name="file" class="input-file">
+				</span>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button class="btn btn-primary radius" type="submit">&nbsp;&nbsp;<@spring.message code="cms.advert.add.saveBtn"/>&nbsp;&nbsp;</button>
+				<button class="btn btn-default radius" type="button" onClick="layer_close();">&nbsp;&nbsp;<@spring.message code="rq.info.reply.cancleBtn"/>&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+$(function() {
+	var options = {
+		url: 'cms_app_advert_add_submit.html',
+		dataType: 'json',
+		success: function (data) {
+			if(data.result==1){
+				layer.msg("<@spring.message code='cms.advert.add.success.info'/>", {time: 1000, icon:1}, function(){
+					$("#title").val("");
+					$("#httpUrl").val("");
+					$("#sort").val("");
+					window.parent.location.reload();
+        		});
+			} else{
+				layer.msg("<@spring.message code='station.service.excetion.info'/>", {time: 1000, icon:2});
+			}
+		}
+	};
+	
+	// 图片文件格式，文件大小验证 
+	jQuery.validator.addMethod("checkUploadImage", function(value, element) {
+	  var flag = true;
+	  var suffix = value.substr(value.lastIndexOf("."));
+	  if (".jpg" != suffix && ".jpeg" != suffix && ".jpeg" != suffix && ".png" != suffix) {
+			flag = false;
+		}
+	  return this.optional(element) || flag; 
+	}, "<@spring.message code='rq.info.reply.upload.file.type'/>"); 
+	
+	$("#form-cms-advert").validate({
+		rules:{
+			lang: {
+	        	required: true
+			},
+			uploadfile:{
+				required:true,
+				checkUploadImage:true
+			},
+			httpUrl:{
+				required:true
+			},
+			sort:{
+				required:true,
+				digits:true
+			},
+		    type:{
+				required:true 
+			},
+		},
+		messages: {
+			lang: {
+				required: "<@spring.message code='exchange.opterate.system.config.language.check.null'/>"
+			},
+			uploadfile:{
+				required: "<@spring.message code='cms.advert.add.check.image.url'/>",
+				checkUploadImage: "<@spring.message code='rq.info.reply.upload.file.type'/>"
+			},
+		    httpUrl: {
+		        required: "<@spring.message code='cms.advert.add.check.http.url'/>"
+		    },
+		    sort: {
+		        required: "<@spring.message code='cms.advert.add.check.sort'/>",
+		     	digits: "<@spring.message code='cms.advert.add.check.sort.number'/>"
+		    },
+		    type: {
+	        	required: "请选择类型",
+	        }
+		},
+		submitHandler: function(form){
+			$(form).ajaxSubmit(options);
+		}
+	});
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

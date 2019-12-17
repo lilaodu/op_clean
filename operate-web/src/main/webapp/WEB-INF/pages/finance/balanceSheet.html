@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/button.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="finance.balanceSheet.title"/> </title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.title"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.balanceSheet.title"/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div id="tab_demo" class="HuiTab">
+		<div class="tabBar clearfix">
+			<a href="${base}/balanceSheet.html?symbol=all">
+				<span class='<#if coinMap.symbol == "all" >current</#if>'>ALL</span>
+			</a>
+			<#if coinList?? && (coinList?size>0)>
+				<#list coinList as coin>
+					<#if coin?? && (coin.isCurency==1)>
+						<a href="${base}/balanceSheet.html?symbol=${coin.name()}">
+							<span class="<#if coinMap.symbol == coin.name()>current</#if>">${coin.name()}</span>
+						</a>
+					</#if>
+				</#list>
+			</#if>
+			<#if coinList?? && (coinList?size>0)>
+				<#list coinList as coin>
+					<#if coin?? && (coin.isCurency==0)>
+					<a href="${base}/balanceSheet.html?symbol=${coin.name()}">
+						<span class="<#if coinMap.symbol == coin.name()>current</#if>">${coin.name()}</span>
+					</a>
+					</#if>
+				</#list>
+			</#if>
+			<div class="text-c r">
+				<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',maxDate:'#F{$dp.$D(\'endDate\')||\'%y-%M-%d\'}',dateFmt:'yyyy-MM-dd'})" value="${beginDate!''}" id="beginDate" class="input-text Wdate size-M" style="width:110px;">
+				-
+				<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',minDate:'#F{$dp.$D(\'beginDate\')}',maxDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd'})" value="${endDate!''}" id="endDate" class="input-text Wdate size-M" style="width:110px;">
+				<button class="btn btn-success radius" onclick="search()"><i class="Hui-iconfont">&#xe665;</i><@spring.message code='user.page.search'/></button>
+			</div>
+		</div>
+	</div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+			<tr class="text-c">
+				<!--
+				<th style="width: 15%;">流动资产</th>
+				<th style="width: 10%;">期初数</th>
+				<th style="width: 10%;">期末数</th>
+				<th style="width: 15%;">备注</th>
+				<th style="width: 15%;">负债及所有者权益</th>
+				<th style="width: 10%;">期初数</th>
+				<th style="width: 10%;">期末数</th>
+				<th style="width: 15%;">备注</th>
+				-->
+				<th style="width: 15%;"><@spring.message code="finance.profit.current_assets"/></th>
+				<th style="width: 10%;"><@spring.message code="finance.profit.initial_number_of_periods"/></th>
+				<th style="width: 10%;"><@spring.message code="finance.profit.final_number"/></th>
+				<th style="width: 15%;"><@spring.message code="finance.profit.notes"/></th>
+				<th style="width: 15%;"><@spring.message code="finance.profit.liabilities_owners_equity"/></th>
+				<th style="width: 10%;"><@spring.message code="finance.profit.initial_number_of_periods"/></th>
+				<th style="width: 10%;"><@spring.message code="finance.profit.final_number"/></th>
+				<th style="width: 15%;"><@spring.message code="finance.profit.notes"/></th>
+			</tr>
+			</thead>
+			<tbody>
+			<#if sumMap?? && (sumMap?size>0)>
+				<tr class="text-c">
+					<!-- <td>各类资产合计</td> -->
+                    <td><@spring.message code="finance.profit.all_of_assets"/></td>
+					<td>${sumMap.sumIncome_BEGIN!''}</td>
+					<td>${sumMap.sumIncome_END!''}</td>
+					<!-- <td>按照USD市价折算后相加</td> -->
+                    <td><@spring.message code="finance.profit.add_to_the_usd_price_after_conversion"/></td>
+					<!-- <td>各类负债合计</td> -->
+                    <td><@spring.message code="finance.profit.all_kinds_of_liabilities"/></td>
+					<td>${sumMap.sumExpend_BEGIN!''}</td>
+					<td>${sumMap.sumExpend_END!''}</td>
+					<!-- <td>按照USD市价折算后相加</td> -->
+                    <td><@spring.message code="finance.profit.add_to_the_usd_price_after_conversion"/></td>
+				</tr>
+			</#if>
+			<#if statsMaps?? && (statsMaps?size>0)>
+				<#list statsMaps? values as value>
+					<tr class="text-c">
+						<!-- <th>${value.symbol!''}资产合计</th> -->
+                        <th>${value.symbol!''}<@spring.message code="finance.profit.total_assets"/></th>
+						<td>${value.income_BEGIN!''}</td>
+						<td>${value.income_END!''}</td>
+						<td></td>
+						<!-- <th>应付用户${value.symbol!''}合计</th> -->
+                        <th><@spring.message code="finance.profit.user_payable"/> ${value.symbol!''} <@spring.message code="finance.profit.total"/></th>
+						<td>${value.expend_BEGIN!''}</td>
+						<td>${value.expend_END!''}</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<!-- <td>冷钱包</td> -->
+                        <td><@spring.message code="finance.profit.cold_purse"/></td>
+						<td>${value.BALANCE_COLD_BEGIN!''}</td>
+						<td>${value.BALANCE_COLD_END!''}</td>
+						<td></td>
+						<!-- <td>用户可用${value.symbol!''}</td> -->
+                        <td><@spring.message code="finance.profit.user_availability"/>${value.symbol!''}</td>
+						<td>${value.BALANCE_USER_NORMAL_BEGIN!''}</td>
+						<td>${value.BALANCE_USER_NORMAL_END!''}</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<!-- <td>热钱包</td> -->
+                        <td><@spring.message code="finance.profit.hot_purse"/></td>
+						<td>${value.BALANCE_HOT_BEGIN!''}</td>
+						<td>${value.BALANCE_HOT_END!''}</td>
+						<td></td>
+						<!-- <td>用户冻结${value.symbol!''}</td> -->
+                        <td><@spring.message code="finance.profit.user_freezing"/>${value.symbol!''}</td>
+						<td>${value.BALANCE_USER_LOCK_BEGIN!''}</td>
+						<td>${value.BALANCE_USER_LOCK_END!''}</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<!-- <td>用户提现中${value.symbol!''}</td> -->
+                        <td><@spring.message code="finance.profit.user_presentation"/>${value.symbol!''}</td>
+						<td>${value.BALANCE_USER_WITHDRAW_BEGIN!''}</td>
+						<td>${value.BALANCE_USER_WITHDRAW_END!''}</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<!-- <td>交易手续费${value.symbol!''}</td> -->
+                        <td><@spring.message code="finance.profit.transaction_fee"/>${value.symbol!''}</td>
+						<td>${value.TRADE_FEE_BEGIN!''}</td>
+						<td>${value.TRADE_FEE_END!''}</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<!-- <td>提现手续费${value.symbol!''}</td> -->
+                        <td><@spring.message code="finance.profit.bill_of_charge"/>${value.symbol!''}</td>
+						<td>${value.WITHDRAW_FEE_BEGIN!''}</td>
+						<td>${value.WITHDRAW_FEE_END!''}</td>
+						<td></td>
+					</tr>
+
+					<!-- 场外添加 -->
+					<tr class="text-c">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>场外交易手续费${value.symbol!''}</td>
+						<td>${value.TRADE_FEE_OTC_BEGIN!''}</td>
+						<td>${value.TRADE_FEE_OTC_END!''}</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>场外用户可用${value.symbol!''}</td>
+						<td>${value.BALANCE_USER_NORMAL_OTC!''}</td>
+						<td>${value.BALANCE_USER_LOCK_OTC!''}</td>
+						<td></td>
+					</tr>
+					<tr class="text-c">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>场外用户冻结${value.symbol!''}</td>
+						<td>${value.BALANCE_USER_NORMAL_OTC_BEGIN!''}</td>
+						<td>${value.BALANCE_USER_NORMAL_OTC_END!''}</td>
+						<td></td>
+					</tr>
+					<!-- 场外添加 End-->
+
+					<tr class="text-c">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<!-- <td>区块链手续费${value.symbol!''}</td> -->
+                        <td><@spring.message code="finance.profit.block_chain_fee"/>${value.symbol!''}</td>
+						<td>-${value.EXPEND_WITHDRAW_FEE_BEGIN!''}</td>
+						<td>-${value.EXPEND_WITHDRAW_FEE_END!''}</td>
+						<td></td>
+					</tr>
+				</#list>
+				<#else>
+					<tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+			</#if>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script>
+    function search(){
+        var beginDate = $("#beginDate").val();
+        var endDate = $("#endDate").val();
+
+        var url = window.location.href;
+        if (url.indexOf("?") > 0){
+            var ind = url.indexOf("?");
+            url = url.substring(0,ind);
+        }
+        url+="?symbol=${coinMap.symbol}&beginDateStr="+ beginDate + "&endDateStr="+ endDate;
+        location.href=url;
+    }
+</script>
+</body>
+</html>

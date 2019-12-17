@@ -1,0 +1,71 @@
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+				<tr class="text-c">
+					<th rowspan="2" style="width: 7%;"><@spring.message code='authRelaname.page.baseinfo'/></th>
+					<th style="width: 10%;">UID</th>
+					<th style="width: 10%;"><@spring.message code='user.page.email'/></th>
+					<th style="width: 15%;"><@spring.message code='user.page.tel'/></th>
+					<th style="width: 15%;"><@spring.message code='user.page.regester.time'/></th>
+					<th style="width: 10%;"><@spring.message code='authRelaname.page.authrenzh'/></th>
+					<th style="width: 15%;"><@spring.message code='authRelaname.page.name'/></th>
+					<th style="width: 20%;"><@spring.message code="admin.operate"/></th>
+				</tr>
+				<tr class="text-c">
+					<td>${user.id!''}</td>
+					<td>${user.email!''}</td>
+					<td>${user.countryCode!''}${user.mobileNumber!''}</td>
+					<td>${user.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+					<td>
+						<#if user.authStatus??>
+							<#if user.authStatus==0>
+								<@spring.message code='authRelaname.page.noshenhe'/>
+							<#elseif user.authStatus==1>
+								<@spring.message code='authRelaname.page.tongguo'/>
+							<#elseif user.authStatus==2>
+								<@spring.message code='authRelaname.page.notongguo'/>
+							</#if>
+						<#else>
+							<@spring.message code='authRelaname.page.noauth'/>
+						</#if>
+					</td>
+					<td>${user.realName!'--'}</td>
+					<td>
+					<#if actionY?? && (actionY?index_of("updateloginStatus")!=-1)>
+						<#if user.loginStatus==0>
+							<span class="label label-danger radius cursor" onclick="updateloginStatus('${user.id}',1)"><@spring.message code='user.page.login_thaw'/></span>
+						<#else>
+							<span class="label label-success radius cursor" onclick="updateloginStatus('${user.id}',0)"><@spring.message code='user.page.nologin'/></span>
+						</#if>
+					</#if>
+				<!--	<#if actionY?? && (actionY?index_of("updateExcStatus")!=-1)>
+						<#if user.excStatus==0>
+							<span class="label label-danger radius cursor" onclick="updateExcStatus('${user.id}',1)"><@spring.message code='user.page.tran_thaw'/></span>
+						<#else>
+							<span class="label label-success radius cursor" onclick="updateExcStatus('${user.id}',0)"><@spring.message code='user.page.noexchange'/></span>
+						</#if>
+					</#if>-->
+					<!--<#if actionY?? && (actionY?index_of("updateExcStatus")!=-1)>
+							&lt;!&ndash; <span class="label label-success radius cursor" onclick="cancelExpiredOrder('${user.id}')">取消异常订单</span> &ndash;&gt;
+							<span class="label label-success radius cursor" onclick="cancelExpiredOrder('${user.id}')"><@spring.message code='user.page.cancel_exception_order'/></span>
+					</#if>-->
+					<!--<#if actionY?? && (actionY?index_of("updatewithdrawStatus")!=-1)>-->
+						<!--<#if user.withdrawStatus==0>-->
+							<!--<span class="label label-danger radius cursor" onclick="updatewithdrawStatus('${user.id}',1)"><@spring.message code='user.page.withdraw_thaw'/></span>-->
+						<!--<#else>-->
+							<!--<span class="label label-success radius cursor" onclick="updatewithdrawStatus('${user.id}',0)"><@spring.message code='user.page.notixina'/></span>-->
+						<!--</#if>-->
+					<!--</#if>-->
+					<#if actionY?? && (actionY?index_of("updateMobile")!=-1)>
+						<span class="label label-success radius cursor" onclick="updateMobile('<@spring.message code='user.page.up_mobile'/>','update_user_mobile.html?uid=${user.id}','','410')"><@spring.message code='user.page.modifymobile'/></span>
+					</#if>
+					<#if actionY?? && (actionY?index_of("deleteGoogleAuth")!=-1)>
+						<#if user.googleAuthenticatorStatus!=0>
+							<span class="label label-success radius cursor" onclick="deleteGoogleAuth('${user.id}')"><@spring.message code='user.page.deleteGoogleAuth'/></span>
+						</#if>
+					</#if>
+					</td>
+				</tr>
+			</thead>
+		</table>
+	</div>

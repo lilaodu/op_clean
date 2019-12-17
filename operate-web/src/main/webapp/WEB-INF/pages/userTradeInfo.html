@@ -1,0 +1,134 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<LINK rel="Bookmark" href="${base}/favicon.ico" >
+<LINK rel="Shortcut Icon" href="${base}/favicon.ico" />/favicon.ico" />
+</head>
+<body>
+<div class="page-container">
+	<div>
+		<div style="display: inline;color: blue;">
+			BTCCNY
+		</div>
+	</div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+        <!--
+			<tr class="text-c">
+				<th style="width: 10%;">委托订单号</th>
+				<th style="width: 10%;">委托时间</th>
+				<th style="width: 10%;">委托数量</th>
+				<th style="width: 10%;">委托类型</th>
+				<th style="width: 10%;">委托价格</th>
+				<th style="width: 10%;">委托金额</th>
+				<th style="width: 10%;">成交数量</th>
+				<th style="width: 10%;">成交均价</th>
+				<th style="width: 10%;">成交金额</th>
+				<th style="width: 10%;">操作</th>
+			</tr>
+			-->
+        <tr class="text-c">
+            <th style="width: 10%;"><@spring.message code="user.page.entrustment_order_number"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.entrustment_time"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.entrustment_number"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.entrustment_type"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.entrustment_price"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.entrustment_amount"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.number_transactions"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.average_transaction_price"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.transaction_amount"/></th>
+            <th style="width: 10%;"><@spring.message code="user.page.operating"/></th>
+        </tr>
+		</thead>
+		<tbody>
+		<#if userOrderList?? && (userOrderList?size>0)>
+			<#list userOrderList as item>
+				<tr class="text-c">
+					<td>${item.id}</td>
+					<td>${item.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+					<td>${item.volume}${currencyCryptoName}</td>
+					<td><#if item.side=="BUY">买入<#else>卖出</#if></td>
+					<td>${item.price}${currencyName}</td>
+					<td>${item.price*item.volume}${currencyName}</td>
+					<td>${item.dealVolume}${currencyCryptoName}</td>
+					<td>${item.avgPrice}${currencyName}</td>
+					<td>${item.avgPrice*item.dealVolume}${currencyName}</td>
+					<td>
+						<span id="hiddenTrade" onclick='controlTrade("childTable${item.id}","hidden")' hidden="hidden" style="color: blue;">收起</span>
+						<span id="showTrade" onclick='controlTrade("childTable${item.id}","show")' style="color: blue;">展开</span>
+					</td>
+				</tr>
+				<#if item.tradeList?? && (item.tradeList?size>0)></#if>
+				<#list item.tradeList as trade>
+        <!--
+					<tr class="text-c childTable${item.id}" style="background-color:#f5fafe; " hidden="hidden">
+						<th>成交单号</th>
+						<th>成交时间</th>
+						<th>成交数量</th>
+						<th>成交价格</th>
+						<th>成交金额</th>
+						<th colspan="5"></th>
+					</tr>
+					-->
+                    <tr class="text-c childTable${item.id}" style="background-color:#f5fafe; " hidden="hidden">
+                        <th><@spring.message code="user.page.transaction_number"/></th>
+                        <th><@spring.message code="user.page.transaction_time"/></th>
+                        <th><@spring.message code="user.page.number_transactions"/></th>
+                        <th><@spring.message code="user.page.transactions_price"/></th>
+                        <th><@spring.message code="user.page.transaction_amount"/></th>
+                        <th colspan="5"></th>
+                    </tr>
+					<#if userOrderList?? && (userOrderList?size>0)>
+						<tr class="text-c childTable${item.id}" hidden="hidden">
+							
+							<td>${trade.id}</td>
+							<td>${trade.ctime?string("yyyy-MM-dd HH:mm:ss")}</td>
+							<td>${trade.volume}${currencyCryptoName}</td>
+							<td>${trade.price}${currencyName}</td>
+							<td>${trade.price*trade.volume}${currencyName}</td>
+							<th colspan="5"></th>
+						</tr>
+					<#else>
+						<!-- <tr class="text-c"><td colspan="5">未查询到相关数据</td></tr> -->
+                        <tr class="text-c"><td colspan="5"><@spring.message code="user.page.not_query_data"/></td></tr>
+					</#if>
+				</#list>
+				
+				
+			</#list>
+		<#else>
+			<!-- <tr class="text-c"><td colspan="10">未查询到相关数据</td></tr> -->
+            <tr class="text-c"><td colspan="10"><@spring.message code="user.page.not_query_data"/></td></tr>
+		</#if>
+		</tbody>
+	</table>
+	<#if userOrderList?? && (userOrderList?size>0)>
+		<div class="content_page" >${jpage.buttons}</div>
+	</#if>
+
+</div>
+
+<script type="text/javascript">
+function controlTrade(childTableClass,status){
+	if (status == "show") {
+		$("."+childTableClass).show();
+		$("#showTrade").hide();
+		$("#hiddenTrade").show();
+	}else{
+		$("."+childTableClass).hide();
+		$("#showTrade").show();
+		$("#hiddenTrade").hide();
+		
+	}
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

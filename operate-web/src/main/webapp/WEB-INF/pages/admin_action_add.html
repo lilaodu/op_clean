@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="${base}/favicon.ico" >
+<link rel="Shortcut Icon" href="${base}/favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<title><@spring.message code="admin.action.addAction"/></title>
+</head>
+<body>
+<article class="page-container">
+	<form action="admin_action_add_submit.html" method="post" class="form form-horizontal" id="form-action-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="admin.action.actionType"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="atType" id="atType">
+					<option value="" selected><@spring.message code="admin.select"/></option>
+					<option value="1"><@spring.message code="admin.action.firstNav"/></option>
+					<option value="2"><@spring.message code="admin.action.secondNav"/></option>
+					<option value="3"><@spring.message code="admin.action.thirdNav"/></option>
+					<option value="0"><@spring.message code="admin.action.pageNav"/></option>
+				</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl" id="firstNavDiv" style="display:none">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="admin.action.firstNav"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+				<span class="select-box">
+					<select class="select" size="1" name="firstNav" id="firstNav">
+						<option value="" selected><@spring.message code="admin.select"/></option>
+					</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl" id="secondNavDiv" style="display:none">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="admin.action.secondNav"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+				<span class="select-box">
+					<select class="select" size="1" name="secondNav" id="secondNav">
+						<option value="" selected><@spring.message code="admin.select"/></option>
+					</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl" id="thirdNavDiv" style="display:none">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span><@spring.message code="admin.action.thirdNav"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+				<span class="select-box">
+					<select class="select" size="1" name="thirdNav" id="thirdNav">
+						<option value="" selected><@spring.message code="admin.select"/></option>
+					</select>
+				</span> 
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="admin.action.actionName"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="atName" name="atName">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="admin.action.actionDesc"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="atDes" name="atDes">
+			</div>
+		</div>
+		<div class="row cl" id="urlDiv" style="display:none">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span><@spring.message code="admin.action.pageUrl"/>：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="atUrl" name="atUrl">
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;<@spring.message code='admin.submit'/>&nbsp;&nbsp;">
+		</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+function updateHtml(){
+	var actionType = $("#atType").val();
+	if(actionType == '0'){//页面权限
+		document.getElementById('firstNavDiv').style.display = 'block';
+		document.getElementById('secondNavDiv').style.display = 'block';
+		document.getElementById('thirdNavDiv').style.display = 'block';
+		document.getElementById('urlDiv').style.display = 'none';
+	}
+	else if(actionType == '3'){//三级导航
+		document.getElementById('firstNavDiv').style.display = 'block';
+		document.getElementById('secondNavDiv').style.display = 'block';
+		document.getElementById('thirdNavDiv').style.display = 'none';
+		document.getElementById('urlDiv').style.display = 'block';
+	}
+	else if(actionType == '2'){//二级导航
+		document.getElementById('firstNavDiv').style.display = 'block';
+		document.getElementById('secondNavDiv').style.display = 'none';
+		document.getElementById('thirdNavDiv').style.display = 'none';
+		document.getElementById('urlDiv').style.display = 'block';
+	}
+	else{//一级导航
+		document.getElementById('firstNavDiv').style.display = 'none';
+		document.getElementById('secondNavDiv').style.display = 'none';
+		document.getElementById('thirdNavDiv').style.display = 'none';
+		document.getElementById('urlDiv').style.display = 'none';
+	}
+}
+
+$(function(){
+	$("select#atType").change(function(){
+		updateHtml();
+	});
+	
+	var options = {
+		url: 'admin_action_add_submit.html',
+		dataType : 'json',
+		success: function (data) {
+			if(data.result==1){
+				layer.msg("<@spring.message code='admin.action.checkAddSuc'/>", {time: 1000, icon:1}, function(){
+					var index = parent.layer.getFrameIndex(window.name);
+					window.parent.location.reload();
+					parent.layer.close(index);
+	        	});
+			}
+			else if(data.result==-2){
+				layer.msg("<@spring.message code='admin.action.checkActionHasAlreadyUsed'/>", {time: 1000, icon:2});
+			}
+			else{
+				layer.msg("<@spring.message code='admin.checkOperateFail'/>", {time: 1000, icon:0});
+			}
+		}
+	};
+	
+	$("#form-action-add").validate({
+		rules:{
+			atName:{
+				required:true,
+				maxlength:64
+			},
+			atDes:{
+				required:true,
+				maxlength:1024
+			},
+			firstNav:{
+				required:true
+			},
+			secondNav:{
+				required:true
+			},
+		},
+		messages: {
+		      atName: {
+		        required: "<@spring.message code="admin.action.checkInputActionName"/>",
+		        maxlength: "<@spring.message code="admin.action.checkValidActionName"/>"
+		      },
+		      atDes: {
+		        required: "<@spring.message code="admin.action.checkInputActionDesc"/>",
+		        maxlength: "<@spring.message code="admin.action.checkValidActionDesc"/>"
+		      },
+		      firstNav: "<@spring.message code="admin.action.checkSelectFirstNav"/>",
+		      secondNav: "<@spring.message code="admin.action.checkSelectSecondNav"/>",
+		},
+		submitHandler:function(form){
+			$(form).ajaxSubmit(options);
+		}
+	});
+});
+	
+function addEvent(node,event,handler){
+    if (!!node.addEventListener){
+        node.addEventListener(event,handler,!1);
+    }else{
+        node.attachEvent('on'+event,handler);
+    }
+}
+function getTarget(event){
+     return event.target || event.srcElement;
+ }
+ 
+// 填充选择器
+function fillSelect(select,list){
+    for(var i=select.length-1;i>0;i--){
+        select.remove(i);
+    }
+
+    for(var i=0,l=list.length,data;i<l;i++){
+        data = list[i];
+        var option = new Option(
+            data.text,data.value
+        ); 
+        select.add(option); 
+    }
+}
+
+function cascade(selectList,data){
+    // 这里selectList为依次级联的选择器元素列表，如[select1,select2,select3,...]
+    if (data.length === 0) {
+        return;
+    }
+
+    for (var j=0, select; select = selectList[j]; j++) {
+        addEvent(select, 'change', function(event){
+            // 获取当前选择的选择器
+            var target = getTarget(event);
+            var datanew = data;
+            var isFill = false, selectID = -1;
+            for(var i=0, selectTemp; selectTemp = selectList[i]; i++){
+                // 获取下一级的数据，由于selectList是动态的，会随着点击而改变，所以可以通过循环获取到下一级选择的数据
+                if (!isFill) {
+                    selectID = selectTemp.selectedIndex-1;
+                    datanew = selectID>=0? datanew[selectID].children : [];
+                    if (selectTemp == target) {
+                        isFill = true;
+                        continue;
+                    }
+                }
+                if (isFill) {
+                    // 下一级填充
+                    fillSelect(selectTemp,datanew);
+                    selectID = selectTemp.selectedIndex-1;
+                    datanew = selectID>=0? datanew[selectID].children : [];
+                }                   
+            }
+        });
+    }
+}
+
+$.ajax({   
+    type: "GET",   
+    url: "admin_action_getnav.html",   
+    dataType : 'json',
+    success: function(data){
+    	if(data.result==1){
+    		var selectList = new Array();
+    		selectList.push(document.getElementById('firstNav'));
+    		selectList.push(document.getElementById('secondNav'));
+    		selectList.push(document.getElementById('thirdNav'));
+    		fillSelect(selectList[0],data.nav);
+    		cascade(selectList,data.nav);
+    	}else{
+    		layer.msg(data.error, {time: 1000, icon:0});
+    	}
+    },error:function(XmlHttpRequest, textStatus, errorThrown){
+	}  
+});
+
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

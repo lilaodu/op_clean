@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/button.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="finance.depositcrypto.title"/> </title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.title"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.depositcrypto.title"/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div id="tab_demo" class="HuiTab">
+		<div class="tabBar clearfix">
+			<#if coinList?? && (coinList?size>0)>
+				<#list coinList as coin>
+					<#if coin?? && (coin.isCurency==0)>
+					<a href="${base}/depositCrypto.html?symbol=${coin.name()}">
+						<span class="<#if depositMap.symbol == coin.name()>current</#if>">${coin.name()}</span>
+					</a>
+					</#if>
+				</#list>
+			</#if>
+			<div class="text-c r">
+				<input class="input-text size-M" style="width:150px" placeholder="TXID" id="keyword" value="">
+				<button type="submit" class="btn btn-success radius"  name="" onclick="search()"><i class="Hui-iconfont">&#xe665;</i>查找</button>
+			</div>
+		</div>
+
+	</div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+			<tr class="text-c">
+				<!--
+				<th style="width: 6%;">充值单号</th>
+				<th style="width: 5%;">UID</th>
+				<th style="width: 10%;">登录账号</th>
+				<th style="width: 13%;">充值时间</th>
+				<th style="width: 7%;">充值金额</th>
+				<th style="width: 25%;">TXID</th>
+				<th style="width: 25%;">到账地址</th>
+				<th style="width: 10%;">状态</th>
+				-->
+				<th style="width: 6%;"><@spring.message code="finance.profit.recharge_single_number"/></th>
+				<th style="width: 5%;">UID</th>
+				<th style="width: 10%;"><@spring.message code="finance.profit.login_account"/></th>
+				<th style="width: 13%;"><@spring.message code="finance.profit.recharge_time"/></th>
+				<th style="width: 7%;"><@spring.message code="finance.profit.recharge_amount"/></th>
+				<th style="width: 25%;">TXID</th>
+				<th style="width: 25%;"><@spring.message code="finance.profit.account_address"/></th>
+				<th style="width: 10%;"><@spring.message code="finance.profit.state"/></th>
+			</tr>
+			</thead>
+			<tbody>
+			<#if depositCryptoMapList?? && (depositCryptoMapList?size>0)>
+				<#list depositCryptoMapList as item>
+					<tr class="text-c">
+						<td>${item.id!''}</td>
+						<td>
+<!--
+							<a href="javascript:void(0)" onclick="userDetail('用户信息','adminLogInfo.html?id=${item.uid}&amp;index=6')">${item.uid!''}</a>
+							-->
+                            <a href="javascript:void(0)" onclick="userDetail('<@spring.message code="finance.profit.user_information"/>','adminLogInfo.html?id=${item.uid}&amp;index=6')">${item.uid!''}</a>
+
+						</td>
+						<td>${item.username!''}</td>
+						<td>${item.createdAt?string("yyyy-MM-dd HH:mm:ss")}</td>
+						<td>${item.amount!''}</td>
+						<td><a target="_blank" href="${item.coinTxUrl}${item.txid!''}">${item.txid!''}</a></td>
+						<td><a target="_blank" href="${item.coinAddrUrl}${item.addressTo!''}">${item.addressTo!''}</a></td>
+						<td>${item.statusDesc!''}</td>
+					</tr>
+				</#list>
+				<#else>
+					<tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+			</#if>
+			</tbody>
+		</table>
+		${jpage.pageSizeButton}
+		<#if depositCryptoMapList?? && (depositCryptoMapList?size>0)>
+			<div class="content_page" >${jpage.buttons}</div>
+		</#if>
+	</div>
+</div>
+	
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script>
+	/*用户详情*/
+    function userDetail(title,url){
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+    function search(){
+        var keyword = $("#keyword").val();
+
+        var url = window.location.href;
+        if (url.indexOf("?") > 0){
+            var ind = url.indexOf("?");
+            url = url.substring(0,ind);
+        }
+        url+="?symbol=${depositMap.symbol}&keyword="+ keyword;
+        location.href=url;
+    }
+</script>
+</body>
+</html>

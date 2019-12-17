@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="${base}/res/risk/css/base.css" rel="stylesheet" type="text/css">
+<link href="${base}/res/risk/css/index.css" rel="stylesheet" type="text/css">
+<link href="${base}/res/risk/css/jquery.validate.error.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<title><@spring.message code="risk.rule_setting"/></title>
+</head>
+<style>
+td {
+	font-size: 14px;
+}
+</style>
+<body>
+<!--wrap-->
+<div class="wrap">
+	<!--资讯中心-->
+	<div class="information-box">
+		<div class="hd">
+			<h6><@spring.message code="risk.rule_setting"/></h6>
+		</div>
+	</div>
+	<div class="transaction-box">
+		<!--限价交易-->
+		<div class="limit-transaction-box">
+			<div class="transaction-hd">
+				<div class="tran-tab">
+					<!--
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType"  >洗钱警告</a>
+					-->
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType"  ><@spring.message code="risk.money_launder_warn"/></a>
+				</div>
+				<input id="abnormal_withdrawal_id" type="hidden" value="${abnormalWithdrawal.id!''}"/> 
+			</div>
+			<div style="height: 90px;margin-top: 10px;width: 99%;">
+				<table class="table" >
+					<!--
+					<tr style="height: 45px;">
+						<td width="120">触发警报条件</td>
+						<td width="200">用户提现时，累计委托交易笔数小于</td>
+						<td width="80"><input id="launder_deal_amount" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.launderDealAmount!''}"></td>
+						<td width="200">笔，且提现后账户总资产折合小于</td>
+						<td width="80"><input id="launder_property" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.launderProperty!''}"></td>
+						<td width="30%">(BTC)时触发</td>
+					</tr>
+					-->
+					<tr style="height: 45px;">
+						<td width="120"><@spring.message code="risk.trigger_alert_condition"/></td>
+						<td width="200"><@spring.message code="risk.pndtu"/></td>
+						<td width="80"><input id="launder_deal_amount" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.launderDealAmount!''}"></td>
+						<td width="200"><@spring.message code="risk.sum_total_account_less_account"/></td>
+						<td width="80"><input id="launder_property" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.launderProperty!''}"></td>
+						<td width="30%"><@spring.message code="risk.btc_trigger"/></td>
+					</tr>
+					<tr style="height: 45px;">
+						<!-- <td>警告等级+</td> -->
+                        <td><@spring.message code="risk.warning_level"/>+</td>
+						<td colspan="5"><input id="launder_level" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.launderLevel!''}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--限价交易 end-->
+		<!--限价交易-->
+		<div class="limit-transaction-box">
+			<div class="transaction-hd">
+				<div class="tran-tab">
+                    <!--
+					<a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" >被盗警报</a>
+					-->
+                    <a href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" ><@spring.message code="risk.theft_alarm"/></a>
+				</div>
+			</div>
+			<div style="height: 270px;margin-top: 10px;width: 99%;">
+				<table class="table" >
+                    <!--
+					<tr style="height: 45px;">
+						<td width="120">触发警报条件</td>
+						<td width="200">用户提现的IP登录次数百分比少于</td>
+						<td width="80"><input id="ip_login_percent" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.ipLoginPercent!''}"></td>
+						<td width="60%">%</td>
+					</tr>
+					-->
+                    <tr style="height: 45px;">
+                        <td width="120"><@spring.message code="risk.trigger_alert_condition"/></td>
+                        <td width="200"><@spring.message code="risk.ip_percentage"/></td>
+                        <td width="80"><input id="ip_login_percent" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.ipLoginPercent!''}"></td>
+                        <td width="60%">%</td>
+                    </tr>
+					<tr style="height: 45px;">
+						<!-- <td>警告等级+</td> -->
+                        <td><@spring.message code="risk.warning_level"/>+</td>
+						<td colspan="3"><input id="ip_login_level" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.ipLoginLevel!''}"></td>
+					</tr>
+                    <!--
+                        <tr style="height: 45px;">
+                            <td width="120">触发警报条件</td>
+                            <td colspan="3">用户提现到的地址之前从未成功提现过</td>
+                        </tr>
+					-->
+                    <tr style="height: 45px;">
+                        <td width="120"><@spring.message code="risk.trigger_alert_condition"/></td>
+                        <td colspan="3"><@spring.message code="risk.user_has_successfully_presented"/></td>
+                    </tr>
+					<tr style="height: 45px;">
+						<!-- <td>警告等级+</td> -->
+                        <td><@spring.message code="risk.warning_level"/>+</td>
+						<td colspan="3"><input id="address_level" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.addressLevel!''}"></td>
+					</tr>
+                    <!--
+                        <tr style="height: 45px;">
+                            <td width="120">触发警报条件</td>
+                            <td colspan="3">两个不同的账户提现到同一个地址</td>
+                        </tr>
+					-->
+                    <tr style="height: 45px;">
+                        <td width="120"><@spring.message code="risk.trigger_alert_condition"/></td>
+                        <td colspan="3"><@spring.message code="risk.two_diff_accounts_present_address"/></td>
+                    </tr>
+					<tr style="height: 45px;">
+						<!-- <td>警告等级+</td> -->
+                        <td><@spring.message code="risk.warning_level"/>+</td>
+						<td colspan="3"><input id="account_level" class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.accountLevel!''}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--限价交易 end-->
+		<!--限价交易-->
+		<div class="limit-transaction-box">
+			<div class="transaction-hd">
+				<div class="tran-tab">
+					<!-- <a  href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" >处理措施</a> -->
+                    <a  href="javascript:void(0);" title="" class="tabs-txt tabs-active orderType" ><@spring.message code="risk.treatment_measures"/></a>
+				</div>
+			</div>
+			<div style="height: 180px;margin-top: 10px;width: 99%;">
+				<table class="table" >
+					<tr style="height: 45px;">
+						<!-- <td width="120">对于警告等级>=</td> -->
+                        <td width="120"><@spring.message code="risk.warning_levels"/>>=</td>
+						<td width="80"><input id="manager_one_level"  class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.managerOneLevel!''}"></td>
+						<!-- <td width="130">的提现，处理方式是</td> -->
+                        <td width="130"><@spring.message code="risk.way_deal_deal"/></td>
+						<td width="70%">
+							<select id="sel1" class="input-text size-M" style="width:200px;">
+                                <!--
+					          <option value="1">要求客服回访用户后处理</option>
+					          <option value="2">延缓12小时处理</option>
+					          <option value="3">延缓24小时处理</option>
+					          <option value="4">冻结用户提现</option>
+					          <option value="5">冻结用户登录</option>
+					          <option value="6">正常允许提现</option>
+					          -->
+                                <option value="1"><@spring.message code="risk.request_cus_ser_after"/></option>
+                                <option value="2"><@spring.message code="risk.postpone_12"/></option>
+                                <option value="3"><@spring.message code="risk.postpone_24"/></option>
+                                <option value="4"><@spring.message code="risk.frozen_user_presentation"/></option>
+                                <option value="5"><@spring.message code="risk.freezing_user_login"/></option>
+                                <option value="6"><@spring.message code="risk.normal_allowable_presentation"/></option>
+					        </select>
+					    </td>
+					</tr>
+					<tr style="height: 45px;">
+						<!-- <td width="120">对于警告等级>=</td> -->
+                        <td width="120"><@spring.message code="risk.warning_levels"/>>=</td>
+						<td width="80"><input id="manager_two_level"  class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.managerTwoLevel!''}"></td>
+						<!-- <td width="130">的提现，处理方式是</td> -->
+                        <td width="130"><@spring.message code="risk.way_deal_deal"/></td>
+						<td width="70%">
+							<select id="sel2"  class="input-text size-M" style="width:200px;">
+                                <!--
+					          <option value="1">要求客服回访用户后处理</option>
+					          <option value="2">延缓12小时处理</option>
+					          <option value="3">延缓24小时处理</option>
+					          <option value="4">冻结用户提现</option>
+					          <option value="5">冻结用户登录</option>
+					          <option value="6">正常允许提现</option>
+					          -->
+                                <option value="1"><@spring.message code="risk.request_cus_ser_after"/></option>
+                                <option value="2"><@spring.message code="risk.postpone_12"/></option>
+                                <option value="3"><@spring.message code="risk.postpone_24"/></option>
+                                <option value="4"><@spring.message code="risk.frozen_user_presentation"/></option>
+                                <option value="5"><@spring.message code="risk.freezing_user_login"/></option>
+                                <option value="6"><@spring.message code="risk.normal_allowable_presentation"/></option>
+					        </select>
+					    </td>
+					</tr>
+					<tr style="height: 45px;">
+						<!-- <td width="120">对于警告等级>=</td> -->
+                        <td width="120"><@spring.message code="risk.warning_levels"/>>=</td>
+						<td width="80"><input id="manager_three_level"  class="input-text size-M" style="width:80px" value="${abnormalWithdrawal.managerThreeLevel!''}"></td>
+						<!-- <td width="130">的提现，处理方式是</td> -->
+                        <td width="130"><@spring.message code="risk.way_deal_deal"/></td>
+						<td width="70%">
+							<select id="sel3"   class="input-text size-M" style="width:200px;">
+                                <!--
+					          <option value="1">要求客服回访用户后处理</option>
+					          <option value="2">延缓12小时处理</option>
+					          <option value="3">延缓24小时处理</option>
+					          <option value="4">冻结用户提现</option>
+					          <option value="5">冻结用户登录</option>
+					          <option value="6">正常允许提现</option>
+					          -->
+                                <option value="1"><@spring.message code="risk.request_cus_ser_after"/></option>
+                                <option value="2"><@spring.message code="risk.postpone_12"/></option>
+                                <option value="3"><@spring.message code="risk.postpone_24"/></option>
+                                <option value="4"><@spring.message code="risk.frozen_user_presentation"/></option>
+                                <option value="5"><@spring.message code="risk.freezing_user_login"/></option>
+                                <option value="6"><@spring.message code="risk.normal_allowable_presentation"/></option>
+					        </select>
+					    </td>
+					</tr>
+					<tr style="height: 45px;">
+						<td colspan="4" >
+							<!-- <input type="submit" value="保存修改" class="medium-btn-blue" onclick="submitAbnormal()" style="float: none;min-width:80px;margin-left: 10px;"> -->
+                            <input type="submit" value='<@spring.message code="risk.save_modification"/>' class="medium-btn-blue" onclick="submitAbnormal()" style="float: none;min-width:80px;margin-left: 10px;">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--限价交易 end-->
+	</div>
+	<!--资讯中心 end-->
+</div>
+</body>
+<script type="text/javascript">
+var tmpId = 0;
+if($("#abnormal_withdrawal_id").val()){
+	tmpId = $("#abnormal_withdrawal_id").val();
+}
+
+var selVal1 = '${abnormalWithdrawal.managerOneValue}';
+if(selVal1){
+	$("#sel1").val(selVal1);
+}
+var selVal2 = '${abnormalWithdrawal.managerTwoValue}';
+if(selVal2){
+	$("#sel2").val(selVal2);
+}
+var selVal3 = '${abnormalWithdrawal.managerThreeValue}';
+if(selVal3){
+	$("#sel3").val(selVal3);
+}
+
+function submitAbnormal(){
+	var submitUrl = "update_abnormal_withdrawal.html";
+	var submitData = {
+		id:tmpId,
+		launderDealAmount:$("#launder_deal_amount").val(),
+		launderProperty:$("#launder_property").val(),
+		launderLevel:$("#launder_level").val(),
+		ipLoginPercent:$("#ip_login_percent").val(),
+		ipLoginLevel:$("#ip_login_level").val(),
+		addressLevel:$("#address_level").val(),
+		accountLevel:$("#account_level").val(),
+		managerOneLevel:$("#manager_one_level").val(),
+		managerTwoLevel:$("#manager_two_level").val(),
+		managerThreeLevel:$("#manager_three_level").val(),
+		managerOneValue:$("#sel1").val(),
+		managerTwoValue:$("#sel2").val(),
+		managerThreeValue:$("#sel3").val()
+	}
+	//组装json数据
+	$.ajax({
+		   type: "POST",
+		   url: submitUrl,
+		   data: submitData,
+		   dataType:'json',
+		   success: function(data){
+			 if(data.result==1){
+				// layer.msg("修改成功", {time: 1000, icon:1}, function(){
+                layer.msg('<@spring.message code="risk.amend_success"/>', {time: 1000, icon:1}, function(){
+					window.location.reload();
+	        	});
+			 }else{
+				 // layer.msg("修改失败", {time: 1000, icon:2});
+                 layer.msg('<@spring.message code="risk.failure_modify"/>', {time: 1000, icon:2});
+			 }
+		   },
+		   error:function(XmlHttpRequest, textStatus, errorThrown){
+		       // layer.msg("修改失败", {time: 1000, icon:2});
+               layer.msg('<@spring.message code="risk.failure_modify"/>', {time: 1000, icon:2});
+           }
+	});
+}
+</script>
+</html>

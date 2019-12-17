@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="${base}/res/risk/css/base.css" rel="stylesheet" type="text/css">
+    <link href="${base}/res/risk/css/index.css" rel="stylesheet" type="text/css">
+    <link href="${base}/res/risk/css/jquery.validate.error.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+    <title>转账工具</title>
+</head>
+<style>
+    td {
+        font-size: 14px;
+    }
+    .popDom{position: absolute;left:50%;top: 50%;background:#fff;border:1px solid #dedede;font-size: 14px;border-radius:3px;overflow: hidden;width: 330px;height:330px;margin:-175px 0 0 -175px;
+        z-index: 999;}
+    .popDom-title{height: 40px;line-height: 40px;background:#dedede;padding:0 0 0 15px;color:#333;margin:0;}
+    .popDom-main{padding:0 15px 10px 15px;line-height: 24px;}
+    .popDom-main span{margin:0 10px;display: inline-block;vertical-align: middle;min-width:60px;}
+    .popDom-main b{display: inline-block;width:60px;text-align: right;padding-right: 10px;vertical-align: middle;}
+    .button-box{text-align:center;}
+    .button-box span.popDom-button{height:30px;width:100px;line-height: 30px;color:#fff;cursor: pointer;background: #0099F1;display: inline-block;vertical-align:middle;border-radius:3px;margin:0 10px;}
+    .popDom-main span input{height:20px;text-indent:10px;}
+</style>
+<body>
+    <div class="wrap">
+        <div class="information-box">
+            <div class="hd">
+                <h6><@spring.message code="finance.transfer.tool.title"/></h6>
+            </div>
+        </div>
+        <form class="form form-horizontal" id="form">
+            <div class="transaction-box">
+                <div class="limit-transaction-box">
+                    <div style="height: 225px;margin-top: 10px;width: 80%;">
+                        <table class="table" >
+                            <input name="scene" type="hidden" value="${scene}"/>
+                            <tr style="height: 45px;">
+                                <td width="5%"></td>
+                                <td width="10%">UID</td>
+                                <td width="10%"><@spring.message code="finance.transfer.tool.accountType"/></td>
+                                <td width="10%"><@spring.message code="finance.transfer.tool.coinType"/></td>
+                            </tr>
+                            <tr style="height: 45px;">
+                                <td width="5%"><@spring.message code="finance.transfer.from"/></td>
+                                <td width="10%">
+                                    <input name="uidOut" id="uidOut" class="input-text size-M" style="width:150px" value="">
+                                </td>
+                                <td width="10%">
+                                    <select name="typeOut" id="typeOut" class="input-text size-M" style="width:150px;" >
+                                        <#list typeList as typeMap>
+                                            <#list typeMap?keys as itemKey>
+                                                <option value="${itemKey}">${typeMap[itemKey]}</option>
+                                            </#list>
+                                        </#list>
+                                    </select>
+                                </td>
+                                <td width="10%">
+                                    <select name="symbolOut" id="symbolOut" class="input-text size-M" style="width:150px;" onchange="optionChange(this.options[this.options.selectedIndex].value)">
+                                        <#list symbolList as symbol>
+                                            <option value="${symbol}">${symbol}</option>
+                                        </#list>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="height: 45px;"/>
+                            <tr style="height: 45px;">
+                                <td width="5%"></td>
+                                <td width="10%">UID</td>
+                                <td width="10%"><@spring.message code="finance.transfer.tool.accountType"/></td>
+                                <td width="10%"><@spring.message code="finance.transfer.tool.coinType"/></td>
+                            </tr>
+                            <tr style="height: 45px;">
+                                <td width="5%"><@spring.message code="finance.transfer.to"/></td>
+                                <td width="10%">
+                                    <input name="uidIn" id="uidIn" class="input-text size-M" style="width:150px" value="">
+                                </td>
+                                <td width="10%">
+                                    <select name="typeIn" id="typeIn" class="input-text size-M" style="width:150px;" >
+                                        <#list typeList as typeMap>
+                                            <#list typeMap?keys as itemKey>
+                                                <option value="${itemKey}">${typeMap[itemKey]}</option>
+                                            </#list>
+                                        </#list>
+                                    </select>
+                                </td>
+                                <td width="10%">
+                                    <select name="symbolIn" id="symbolIn" class="input-text size-M" style="width:150px;" disabled>
+                                        <#list symbolList as symbol>
+                                            <option value="${symbol}">${symbol}</option>
+                                        </#list>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="height: 45px;">
+                                <td width="5%"><@spring.message code="finance.transfer.table.thead6"/></td>
+                                <td width="5%">
+                                    <input name="money" id="money" class="input-text size-M" style="width:150px" value="" width="10%"> <label id="moneyLabel"></label>
+                                </td>
+                            </tr>
+                            <tr style="height: 45px;">
+                                <td width="5%"><@spring.message code="finance.transfer.remark"/></td>
+                                <td width="10%">
+                                    <input name="remarks" id="remarks" class="input-text size-M" style="width:150px" value="">
+                                </td>
+                            </tr>
+                            <tr style="height: 45px;">
+                                <td colspan="6" >
+                                    <input type="button" value="<@spring.message code="finance.transfer.submit"/>" class="medium-btn-blue" onclick="saveLayer()" style="float: none;min-width:80px;margin-left: 10px;">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#form").validate({
+            rules : {
+                uidOut : {
+                    required: true,
+                    number: true
+                },
+                uidIn : {
+                    required: true,
+                    number: true
+                },
+                money :{
+                    required: true,
+                    number: true
+                }
+            },
+            showErrors: function(errorMap, errorList) {
+                // debugger
+                var msg = "";
+                $.each( errorList, function(i,v){
+                    msg += (v.message+"\r\n");
+                    newClassName = v.element.className;
+                    newClassName += " error";
+                    v.element.className = newClassName;
+                });
+                if(msg!=""){
+                    layer.msg(msg, {time: 2000, icon:0});
+                }
+            }
+        });
+    });
+    window.onload = function () {
+        var DomIn = $("#symbolOut option").first().val()
+        $("#moneyLabel").text(DomIn);
+    }
+    function optionChange(opt) {
+        $("#symbolIn option[value='"+opt+"']").attr("selected","selected");
+        $("#moneyLabel").text(opt);
+    }
+    function saveLayer() {
+        if($("#form").valid()){
+            $('body').append('<div class="popDom">\n' +
+                '<h4 class="popDom-title">你确定要转账么？</h4>\n' +
+                '<div class="popDom-main">\n' +
+                '<p>即将转账</p>\n' +
+                '<p><b>从</b><span>' + $('#uidOut').val() + '</span><span>' + $('#typeOut option:selected').text() + '</span></p>\n' +
+                '<p><b>转入</b><span>' + $('#uidIn').val() + '</span><span>' + $('#typeIn option:selected').text() + '</span></p>\n' +
+                '<p><b>转账金额</b><span>' + $('#money').val() + $('#symbolOut option:selected').val() + '</span></p>\n' +
+                '<P><b>备注</b><span>' + $('#remarks').val() + '</span></P>\n' +
+                '<p></p>\n' +
+                '<p class="button-box">\n' +
+                '<span class="popDom-button" id="popDom-c">取消</span>\n' +
+                '<span class="popDom-button" id="popDom-s">确定</span>\n' +
+                '</p>\n' +
+                '</div>\n' +
+                '</div>')
+        }
+    }
+    $(document).on('click','#popDom-c',function () {
+        $('.popDom').remove();
+        $("#symbolIn").attr("disabled", true);
+    })
+    $(document).on('click','#popDom-s',function () {
+        $("#symbolIn").attr("disabled", false);
+        $.ajax({
+            type: "GET",
+            url: "transfer_check.html",
+            data:$("#form").serialize(),
+            dataType:'json',
+            success: function(data){
+                if(data.code == 0){
+                    $('.popDom').remove();
+                    layer.msg(data.message);
+                    $("#symbolIn").attr("disabled", true);
+                } else {
+                    layer.msg(data.message, function(){
+
+                    });
+                }
+
+            }
+        });
+    })
+</script>
+</html>

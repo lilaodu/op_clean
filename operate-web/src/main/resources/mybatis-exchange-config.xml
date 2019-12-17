@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	 xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<!-- 两个数据源的功用配置，方便下面直接引用 -->
+    <bean id="abstractXADataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close" abstract="true">
+        <!--<property name="xaDataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource"/>-->
+        <property name="xaDataSourceClassName" value="com.mysql.cj.jdbc.MysqlXADataSource"/>
+        <property name="poolSize" value="10" />
+        <property name="minPoolSize" value="10"/>
+        <property name="maxPoolSize" value="30"/>
+        <property name="borrowConnectionTimeout" value="60"/>
+        <property name="reapTimeout" value="2000"/>
+        <!-- 最大空闲时间 -->
+        <property name="maxIdleTime" value="600"/>
+		<!-- <property name="maxLifetime" value="3600000"/>  -->
+        <property name="maintenanceInterval" value="60" />
+        <property name="loginTimeout" value="60"/>
+        <property name="logWriter" value="60"/>
+        <property name="testQuery">
+            <value>select 1</value>
+        </property>
+    </bean>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSourceManage" parent="abstractXADataSource">
+    <!-- value只要两个数据源不同就行，随便取名 -->
+        <property name="uniqueResourceName" value="mysql/db1" />
+        <property name="xaDataSourceClassName" value="com.mysql.cj.jdbc.MysqlXADataSource" />
+        <property name="xaProperties">
+            <props>
+                <prop key="URL">${db_exchange_jdbc_url}</prop>
+                <prop key="user">${db_exchange_jdbc_username}</prop>
+                <prop key="password">${db_exchange_jdbc_password}</prop>
+            </props>
+        </property>
+    </bean>
+
+	<!-- 配置SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactoryManage" name="sqlSessionFactoryManage" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceManage" />
+		<!-- mapper和resultmap配置路径 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/chainup/exchange/dao/**/*Mapper.xml</value>
+			</list>
+		</property>
+		<property name="configLocation" value="classpath:mybatis-typealias.xml" />
+		<property name="plugins">  
+		    <array>  
+		        <bean id="tableSegInterceptor" class="com.chainup.common.mybatis.MybatisInterceptor">
+		        	<constructor-arg index="0">
+						<value>debug</value>
+					</constructor-arg>
+					<constructor-arg index="1">
+						<value>1</value>
+					</constructor-arg>
+				</bean>  
+		    </array>  
+	    </property>		
+	</bean>
+
+	<!-- 通过扫描的模式，扫描目录在com/exchange/mapper目录下，所有的mapper都继承SqlMapper接口的接口， 这样一个bean就可以了 -->
+	<bean id="manageMapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.chainup.exchange.dao" />
+		<property name="markerInterface" value="com.chainup.common.dao.SqlMapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryManage" />
+	</bean>
+	
+	<!-- 事务这块用spring管理atomikos -->
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+        <property name="forceShutdown">
+            <value>true</value>
+        </property>
+    </bean>
+    <bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+        <property name="transactionTimeout" value="30000" />
+    </bean>
+
+    <bean id="springTransactionManager"   class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManager">
+            <ref bean="atomikosTransactionManager" />
+        </property>
+        <property name="userTransaction">
+            <ref bean="atomikosUserTransaction" />
+        </property>
+        <!-- 必须设置，否则程序出现异常 JtaTransactionManager does not support custom isolation levels by default -->
+         <property name="allowCustomIsolationLevels" value="true"/> 
+    </bean> 
+    
+    <!-- 配置事务管理 -->
+    <tx:annotation-driven transaction-manager="springTransactionManager" proxy-target-class="true" />
+    <!-- 支持 @AspectJ 标记--> 
+     <aop:aspectj-autoproxy />
+    
+    <!-- 以AspectJ方式 定义 AOP -->
+    <aop:config proxy-target-class="true">
+        <aop:advisor pointcut="execution(* com.chainup.operate.service..*.*(..))" advice-ref="txAdvice"/>
+    </aop:config>
+    
+     
+     <!-- 配置事务传播特性:如果存在一个事务，则支持当前事务。如果没有事务则开启：REQUIRED -->
+    <tx:advice id="txAdvice" transaction-manager="springTransactionManager">
+        <tx:attributes>
+           <tx:method name="add*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="create*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="del*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="createOrder*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="cancel*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="pendingCancel*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="trade*" propagation="REQUIRED" rollback-for="Exception"/>
+           <tx:method name="*" read-only="true"/>
+       </tx:attributes>
+    </tx:advice>
+
+</beans>

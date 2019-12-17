@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<title>系统设置</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/> <span class="c-gray en">&gt;</span> <@spring.message code="admin.system"/> <span class="c-gray en">&gt;</span> <@spring.message code="exchange.opterate.system.config"/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='station.service.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-system_config-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span><@spring.message code="exchange.opterate.system.config.language"/></label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<#if langList?? && (langList?size>0)>
+					<#list langList as tempLang>
+						<#if tempLang.operateOpen??>
+							<#if tempLang.operateOpen == 1>
+								<div class="radio-box">
+									<input id="language-${tempLang_index+1}" name="language" type="radio" value="${tempLang.langType}" <#if systemConfig?? && systemConfig.language == tempLang.langType>checked</#if>>
+									<label for="language-${tempLang_index+1}">${tempLang.showName}</label>
+								</div>
+							</#if>
+						<#else>
+							<div class="radio-box">
+								<input id="language-${tempLang_index+1}" name="language" type="radio" value="${tempLang.langType}" <#if systemConfig?? && systemConfig.language == tempLang.langType>checked</#if>>
+								<label for="language-${tempLang_index+1}">${tempLang.showName}</label>
+							</div>
+						</#if>
+					</#list>
+				</#if>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<#if actionY?? && (actionY?index_of("systemConfigSetting")!=-1)>
+					<button class="btn btn-primary radius" type="submit">&nbsp;&nbsp;<@spring.message code="station.message.add.saveBtn"/>&nbsp;&nbsp;</button>
+				</#if>
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+	$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	var options = {
+			url: 'system_config_setting.html',
+			dataType : 'json',
+			success: function (data) {
+				if(data.result==1){
+					layer.msg("<@spring.message code='exchange.opterate.system.config.success.info'/>", {time: 1000, icon:1}, function(){
+						window.parent.location.href="index.html";
+	        		});
+				} else{
+					layer.msg("<@spring.message code='station.service.excetion.info'/>", {time: 1000, icon:2});
+				}
+			}
+		};
+		
+		$("#form-system_config-add").validate({
+			rules:{
+				language:{
+					required:true
+				}
+			},
+			messages: {
+				language: {
+					required: "<@spring.message code='exchange.opterate.system.config.language.check.null'/>"
+				}
+			},
+			submitHandler: function(form){
+				$(form).ajaxSubmit(options);
+			}
+		});
+	});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

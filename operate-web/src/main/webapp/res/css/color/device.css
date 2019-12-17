@@ -1,0 +1,51 @@
+#maunal_process{float:left;width:730px;}
+.ac_control_topbar{float:left;width:100%;height:35px;line-height:35px;text-align:center;border-bottom:1px solid #ccc;margin-bottom:10px;}
+.ac_control_topbar label{margin-right:20px;}
+.content_main_left { float:left; height:280px; width:120px; padding:10px 10px 10px 10px;margin:0px 10px 10px 10px}
+.content_main_left li { list-style-type: none; font-size:0px; display:block;}
+.content_main_left_01{float:left;width:110px;text-align:center;margin-bottom:30px;}
+.content_main_left_02{float:left;margin:10px 40px;border:#ccc 1px solid;width:130px;height:130px;}
+.content_main_left_03{float:left;margin:65px 5px 5px 5px;+width:200px;}
+.content_main_left .wt {font-size: 14px;font-weight: bold;color: #444444;text-decoration: none;line-height: 28px;display: block;}
+.content_main_left .no {font-family: Arial, Helvetica, sans-serif;font-size: 30px;font-weight: bold;color: #444444;margin-top: 3px;}
+.content_main_right {height: 315px;width: 500px;float: left;}
+.content_main_right .content_main_right_top {background-image: url(../images/Arc.jpg);background-repeat: no-repeat;background-position: 0px 0px;float: left;height: 140px;width: 490px;margin:15px 0px 0px 0px;padding:0px;}
+.content_main_right_top h2 {font-size: 14px;line-height: 16px;font-weight: bold;color: #444444;text-decoration: none;padding-left: 34px;margin:-3px 0px 0px 0px;}
+.content_main_right_bottom h2 {float:left;font-size: 14px;line-height: 16px;font-weight: bold;color: #444444;text-decoration: none;margin:0px 80px 20px 25px;}
+.content_main_right_bottom_1{float:left;width:100%;}
+.content_main_right .content_main_right_top ul {padding:16px 0 0 34px;}
+.content_main_right_top li {float: left;list-style-type: none;margin:0px 16px;}
+*html .content_main_right_top li {margin-left: 8px;}
+.content_main_right .content_main_right_top p {text-align: center;margin-top: 3px;}
+.content_main_right_bottom { float: left;height: 140px;width: 490px;margin:25px 0px 0px 0px;padding:0px;}
+*html .content_main_right_bottom{ margin-bottom:-6px;}
+.content_main_third{ float:left; height:80px; width:81px;margin:0px 0px 0px 15px/9;margin:0px 0px 0px 24px;+margin:0px 0px 0px 5px;}
+.content_main_third input{margin:5px 0px;}
+*html .content_main_third{ margin:240px 0px 0px 15px;}
+.content_main_left_bottom{float:left;width:200px;height:60px;margin:20px 50px 0px 0px;}
+#ir_img{float:left;width:140px;height:140px;margin:50px 5px 20px 5px;text-align:center;}
+.ac_control_toolbar{float:left;width:682px;width:662px;text-align:right;margin:10px 0px 0px 0px; padding:0px;}
+.ac_control_toolbar input{margin:0px\0;padding:0px\0;}
+.run_model{width:50px;height:50px;background: url(../images/run_model.jpg) no-repeat;cursor:pointer;}
+.auto{background-position:-50px 0px;}
+.auto1{background-position:0px 0px;}
+.heat{background-position:-50px -100px;}
+.heat1{background-position:0px -100px;}
+.cool{background-position:-50px -50px;}
+.cool1{background-position:0px -50px;}
+.chushi{background-position:-50px -150px;}
+.chushi1{background-position:0px -150px;}
+.tongfeng{background-position:-50px -200px;}
+.tongfeng1{background-position:0px -200px;}
+.tongfeng_dis{background-position:0px -325px;}
+.set_temprature{background:url(../images/run_model.jpg) no-repeat 0 -250px; width:68px;width:68px\9; height:73px; font-family:Arial, Helvetica, sans-serif; font-size:30px; text-align:center;line-height:73px;border:1px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none; font-weight:bold; color:#444444;}
+#tempareture_plus{float:left;cursor:pointer;width:30px;height:30px;background: url(../images/run_model.jpg) no-repeat -70px -250px;}
+#tempareture_minus{float:left;margin-top:6px; cursor:pointer;width:30px;height:30px;background: url(../images/run_model.jpg) no-repeat -70px -280px;}
+.stand_brand{width:600px;margin:0 auto;}
+.stand_brand li{float:left;list-style-type: none;height:50px;line-height:50px;}
+.stand_brand .item_title{width:180px;text-align:center;}
+.stand_brand .item_info{width:420px;}
+.stand_brand .item_info select{width:300px;height:22px;line-height:22px;}
+.ac_toolbar{float:left;width:420px;text-align:center;height:50px;line-height:50px;margin:10px 0 0 205px;}
+#acMateCurrentPower{display:none;}
+.refreshIcon{width:20px;height:25px;background: url(../images/refresh.png) no-repeat;cursor:pointer;display: inline-block;}

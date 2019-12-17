@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+
+<!-- <title>赠币工具</title> -->
+    <title><@spring.message code="finance.profit.gift_tool"/></title>
+</head>
+<body>
+
+
+
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>  <@spring.message code="finance.title"/> <span class="c-gray en">&gt;</span> <@spring.message code="admin.system"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.profit.gift_tool"/><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div>
+        <!--赠币工具 -->
+        <@spring.message code="finance.profit.gift_tool"/>
+	</div>
+	<div>
+		<!-- 赠送ylb币 -->
+        <@spring.message code="finance.profit.gift_ylb"/>
+	</div>
+	<div>
+		<div>
+			<input type="radio" value="1" name="type">
+			<!--全部赠送 -->
+            <@spring.message code="finance.profit.gift_all"/>
+		</div>
+		<div>
+			<input type="radio" checked="checked" value="2" name="type">
+			<!-- 分账户赠送 -->
+            <@spring.message code="finance.profit.gift_user"/>
+		</div>
+        <!--
+		<textarea rows="10" cols="30" id="ids" name="ids" placeholder="请输入uid，多个uid以‘,’(英文逗号)分隔"></textarea>
+		-->
+        <textarea rows="10" cols="30" id="ids" name="ids" placeholder="<@spring.message code="finance.profit.msg_tip"/>"></textarea>
+	</div>
+	<div>
+		<div>
+            <!--赠币数量 -->
+            <@spring.message code="finance.profit.gift_number"/>
+        </div>
+		<input type="text" class="input-text" style="width:250px" id="amount" name="amount">ADI
+	</div>
+    <!--
+	<input class="btn btn-success radius" type="button" value="提交" onclick="submitForm()">
+	-->
+    <input class="btn btn-success radius" type="button" value='<@spring.message code="admin.submit"/>' onclick="submitForm()">
+
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type=text/javascript>
+function submitForm(){
+	var type = $('input:radio:checked').val();
+	var amount = $('#amount').val();
+	var ids = $('#ids').val();
+	var url = "${base}/present_coin_submit.json?type="+type+"&amount="+amount+"&ids="+ids;
+	
+	if ($.trim(ids)=="" || $.trim(amount)=="") {
+		//layer.msg('id或者数量为空！！', {time: 2000, icon:0});
+        layer.msg('<@spring.message code="finance.profit.msg_empty"/>', {time: 2000, icon:0});
+		return;
+	}
+	
+	var sellFlag = true;
+	if(sellFlag){
+		sellFlag = false;
+		$.ajax({
+			  type: "get",   
+			  url: url,
+			  dataType:"json",
+			  contentType:"application/json;charset=UTF-8",
+			  success: function(data){
+				  sellFlag = true;
+				    if(data.code==0){
+		        		//layer.msg('赠币成功', {time: 2000, icon:0});
+                        layer.msg('<@spring.message code="finance.profit.msg_gift_suc"/>', {time: 2000, icon:0});
+		        		$('#amount').val("");
+		        		$('#ids').html("");
+		        	}else if(data.code==1){
+		        		// layer.msg('以下id赠送失败：'+data.message, {time: 10000, icon:0});
+                        layer.msg('<@spring.message code="finance.profit.msg_gift_error"/>：'+data.message, {time: 10000, icon:0});
+		        	}else{
+		        		// layer.msg('赠币失败，联系管理员', {time: 2000, icon:0});
+                        layer.msg('<@spring.message code="finance.profit.msg_gift_error_admin"/>', {time: 2000, icon:0});
+		        	}
+			  },error:function(XmlHttpRequest, textStatus, errorThrown){
+				  sellFlag = true;
+				  // layer.msg('提交失败，联系管理员', {time: 2000, icon:0});
+                layer.msg('<@spring.message code="finance.profit.msg_submit_error_admin"/>', {time: 2000, icon:0});
+			  }  
+		});
+		
+	}
+}
+</script>
+</body>
+</html>

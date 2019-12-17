@@ -1,0 +1,140 @@
+@CHARSET "UTF-8";
+.top{background-color:#046eb8;}
+.top .logo{background:url(../../images/menu/logo_light.png) no-repeat;}
+.top .site_titile{color:#fff}
+.top .toolbar ul li{color:#fff}
+.top .toolbar ul li a{color:#fff}
+.top .userbar .ico-member{float:right;display:block;width:15px;height:15px;margin:5px 10px;background:url(../../images/icons/blue/ico-member.png) no-repeat;}
+.top .userbar .user{float:right;display:block;height:25px;line-height:25px;color:#fff;text-align:left;margin-right:20px;}
+.top .userbar .ico_new_diagnose{float:right;display:block;width:16px;height:16px;margin:5px;background:url(../../images/icons/blue/ico_new_diagnose.png) no-repeat;}
+.top .userbar .ico_diagnose{float:right;display:block;width:16px;height:16px;margin:5px;background:url(../../images/icons/blue/ico_diagnose.png) no-repeat;}
+.top .userbar .diagnose{float:right;display:block;height:25px;line-height:25px;color:#fff;text-align:left;margin-right:20px;}
+.nav{background-color:#fff;}
+.nav .main{background-color:#fff;}
+.nav .main li{background-color:#fff}
+.nav .main li .active{background-color:#efefef;}
+.nav .main li a:hover{background-color:#efefef;}
+.nav .main li a .text{color:#026db5;}
+.nav .main li a .ico_index{background:url(../../images/menu/blue/nav_1.png) no-repeat;}
+.nav .main li a:hover .ico_index{background:url(../../images/menu/blue/nav_1_hover.png) no-repeat;}
+.nav .main li .active .ico_index{background:url(../../images/menu/blue/nav_1_hover.png) no-repeat;}
+.nav .main li a .ico_device{background:url(../../images/menu/blue/nav_2.png) no-repeat;}
+.nav .main li a:hover .ico_device{background:url(../../images/menu/blue/nav_2_hover.png) no-repeat;}
+.nav .main li .active .ico_device{background:url(../../images/menu/blue/nav_2_hover.png) no-repeat;}
+.nav .main li a .ico_room{background:url(../../images/menu/blue/nav_3.png) no-repeat;}
+.nav .main li a:hover .ico_room{background:url(../../images/menu/blue/nav_3_hover.png) no-repeat;}
+.nav .main li .active .ico_room{background:url(../../images/menu/blue/nav_3_hover.png) no-repeat;}
+.nav .main li a .ico_chart{background:url(../../images/menu/blue/nav_4.png) no-repeat;}
+.nav .main li a:hover .ico_chart{background:url(../../images/menu/blue/nav_4_hover.png) no-repeat;}
+.nav .main li .active .ico_chart{background:url(../../images/menu/blue/nav_4_hover.png) no-repeat;}
+.nav .main li a .ico_message{background:url(../../images/menu/blue/nav_5.png) no-repeat;}
+.nav .main li a:hover .ico_message{background:url(../../images/menu/blue/nav_5_hover.png) no-repeat;}
+.nav .main li .active .ico_message{background:url(../../images/menu/blue/nav_5_hover.png) no-repeat;}
+.nav .main li a .ico_setting{background:url(../../images/menu/blue/nav_6.png) no-repeat;}
+.nav .main li a:hover .ico_setting{background:url(../../images/menu/blue/nav_6_hover.png) no-repeat;}
+.nav .main li .active .ico_setting{background:url(../../images/menu/blue/nav_6_hover.png) no-repeat;}
+.nav .main li a .ico_member{background:url(../../images/menu/blue/nav_7.png) no-repeat;}
+.nav .main li a:hover .ico_member{background:url(../../images/menu/blue/nav_7_hover.png) no-repeat;}
+.nav .main li .active .ico_member{background:url(../../images/menu/blue/nav_7_hover.png) no-repeat;}
+.nav .sub{background-color:#efefef}
+.interval{background-color:#f8f8f8;}
+.nav .sub ul li a{color:#878787;}
+.nav .sub ul .default{background-color:#fce3cd;}
+.nav .sub ul .default a{float:left;color:#056cb7}
+.nav .sub ul .default span{float:left;display:block;width:6px;height:10px;margin:15px -8px 15px 15px;background:url(../../images/menu/blue/ico_menu_default.png) no-repeat;}
+.ico-query{background:url(../../images/icons/blue/btn_query.png) no-repeat;}
+.ico-add{background:url(../../images/icons/blue/ico_add.png) no-repeat;}
+.ico-delete{background:url(../../images/icons/blue/ico_delete.png) no-repeat;}
+.ico-edit{background:url(../../images/icons/blue/ico_edit.png) no-repeat;}
+.ico-m-status{background:url(../../images/icons/blue/ico_m_status.png) no-repeat;}
+.ico-m-status-unline{background:url(../../images/icons/blue/ico_m_status_unline.png) no-repeat;}
+
+/* .content .page_title{background-color:#c7e8fb} */
+.title{background-color: #C8E6FA;color: #251812;}
+
+
+/*  弹出层样式 */
+.header{width: 100%; height: 38px; border-top: 1px solid #0c9ee2; border-bottom: 1px solid #0c9ee2;
+        background-color: #099be0;
+        background: -moz-linear-gradient(top,#11a6ec,#0ca2e9);
+        /* background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#11a6ec), color-stop(100%,#0ca2e9)); */
+        background: -webkit-linear-gradient(top, #11a6ec 0%,#0ca2e9 100%);
+        background: -o-linear-gradient(top, #11a6ec 0%,#0ca2e9 100%);
+        background: -ms-linear-gradient(top, #11a6ec 0%,#0ca2e9 100%);
+        background: linear-gradient(top, #11a6ec 0%,#0ca2e9 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF11a6ec', endColorstr='#FF0ca2e9',GradientType=0);
+        -moz-box-shadmodal-footerow: inset 0 1px #4D6383, 2px 0 4px rgba(0, 0, 0, 0.1), 0px 1px 4px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: inset 0 1px #4D6383, 2px 0 4px rgba(0, 0, 0, 0.1),0px 1px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 1px #4D6383, 2px 0 4px rgba(0, 0, 0, 0.1), 0px 1px 4px rgba(0, 0, 0, 0.2);}
+.header .win_title{font-weight:bold;height:25px;line-height:20px;color:#f1f1f1;cursor:move;font-size: 12px;}
+.header .win_title .btn_close {position:absolute; right:4px; top:5px; color:#0D6E9A;; cursor:pointer;width:15px;height:15px;background:url("../../images/icons/div_close.jpg") no-repeat;}
+.header .win_content{background-color:#fff;padding:5px;border: #640B20 0px solid;}
+.header .win_content ul{width:100%;height:36px;padding:0px;margin:0px;}
+.header .win_content ul li{float:left;list-style-type: none;height:36px;line-height:36px;}
+.header .win_content ul .toolbar2{text-align:center;width:100%;}
+.header .win_content .win_descript{float:left;margin:5px 10px;height:30px;line-height:30px;}
+.header .win_content .win_toolbar{float:left;margin:5px 10px;height:30px;line-height:30px;text-align:right;}
+.header .win_content .ac .ac_control_topbar{border-bottom:1px solid #ccc;}
+.header .win_content .ac .content_main_left .wt {font-size: 14px;font-weight: bold;color: #444444;text-decoration: none;line-height: 28px;display: block;}
+.header .win_content .ac .content_main_left .no {font-family: Arial, Helvetica, sans-serif;font-size: 30px;font-weight: bold;color: #444444;margin-top: 3px;}
+.header .win_content .ac .content_main_right_top h2 {font-size: 14px;font-weight: bold;color: #444444;text-decoration: none;}
+.header .win_content .ac .content_main_right_bottom h2 {font-size: 14px;font-weight: bold;color: #444444;text-decoration: none;}
+
+/* 发送成功层 */
+.notification {width: 200px; height: 25px; color:#585E66; line-height: 25px;  font-size: 12px;text-align: left;padding:0 7px; display: none;}
+.notyfy-success{background: none repeat scroll 0 0 #EBF3FE; border: 1px solid #9ABCEB;}
+.notyfy-error{background: none repeat scroll 0 0 red;border: 1px solid #D02090;}
+.notification .notify_text{float:left;display: inline-block;max-width: 210px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.notification .ico_del{display: inline-block;float:right;margin:5px 0px;cursor: pointer; }
+.notification .div_close{float:right;width:10px;height:10px;margin-top: 6px;}
+
+/**系统提示框**/
+.mye_loading{width:66px;height:66px;background-image: url('../../images/icons/loading.gif');background-repeat: no-repeat;position:absolute;z-index:9999;}
+
+.showMsg{float:left;width:300px;height:auto;position:absolute;z-index:8888;padding: 2px;}
+.showinfor_handle{float:left;width:300px;height:25px;}
+#msbcont{float:left;width:286px;height:auto;background-color: #F1F1F1;padding: 7px;}
+
+/* #content_table .toolbar{background-color: #c7e8fb;border-bottom:#036fba 2px solid;}
+#m_table thead{background-color: #c7e8fb;display:block}
+#m_table thead th{border-right:#036fba 1px solid;color:#036db7;}
+#m_table tbody{background-color: #efefef;color:#878787;display:block}
+#m_table tbody .default{background-color:#fce3cd;color:#0254a6;} */
+#m_table tbody .default .ico-m-status{background:url(../../images/icons/blue/ico_m_status_hover.png) no-repeat;}
+#m_table tbody .default .ico-edit{background:url(../../images/icons/blue/ico_edit_hover.png) no-repeat;}
+
+.device .onlinestate span{float: left;margin: 30px 0px 0px 15px;font-size: 19px;color: #ffffff}
+.device .devicecontrol{ width:70px;height:149px; margin:0px auto;}
+@media \0screen\,screen\9 {/*只支持IE6、7、8 */
+	.device .devicecontrol{ width:56px;height:149px; margin:0px auto; padding:15px 0px 0px; filter:Alpha(opacity=20); background:#23AA37;}
+	.device:hover .devicecontrol{ width:100px;height:149px; margin:0px auto; padding:15px 0px 0px; filter:Alpha(opacity=20); background:#23AA37;}
+}
+.title .ico-adddevice{background:url(../../images/icons/device1.png) no-repeat;}
+
+.room .onlinestate span{font-size: 22px;color: #eb9700;overflow: hidden;font-weight: bold;}
+.room .control{ width:100px; margin:0px auto;  }
+/* .room:hover .control{ width:100px;height:115px; margin:0px auto; padding:15px 0px 0px 0px; background:rgba(250, 180, 45, 0.3)!important;background:#FAB42D;} */
+/* @media \0screen\,screen\9 {只支持IE6、7、8 */
+/* 	.room .control{ width:40px;height:115px; margin:0px auto; padding:15px 0px 0px 0px; filter:Alpha(opacity=30); background:#FAB42D;} */
+/* 	.room:hover .control{ width:100px;height:115px; margin:0px auto; padding:15px 0px 0px 0px; filter:Alpha(opacity=30); background:#FAB42D;} */
+/* } */
+.title .ico-addroom{background:url(../../images/icons/room1.png) no-repeat;}
+
+
+.default{background-color:#fce3cd;color:#0254a6;}
+/* #t_table thead{background-color:#fce3cd;color:#0254a6;}
+#t_table thead th{border-top:#ea5415 2px solid;border-right:#ea5415 1px solid;color:#036db7;}
+#t_table{background-color: #efefef;}
+#t_table tbody{background-color: #efefef;color:#878787;}
+#t_table .tr_bottom td{border-bottom:#fde2cd 5px solid;} */
+.ico-rf{background:url(../../images/icons/blue/icos_rf.png) no-repeat;}
+.ico-rf-unline{background:url(../../images/icons/blue/icos_rf_unline.png) no-repeat;}
+.btn_old{color:#fff;background-color:#2f96d0;border-radius:3px;box-shadow: 0 0 2px rgba(81, 203, 238, 1);cursor: pointer;;
+    -webkit-box-shadow: 0 0 2px rgba(81, 203, 238, 1);
+    -moz-box-shadow: 0 0 2px rgba(81, 203, 238, 1);}
+.btn_old:hover{background-color:#3fb0ef;color:#fae607;}
+.ico-upgrade{background:url(../../images/icons/blue/icos_upgrade.png) no-repeat;}
+.ico-upgrade-info{background:url(../../images/icons/blue/icos_upgrade_info.png) no-repeat;}
+
+
+

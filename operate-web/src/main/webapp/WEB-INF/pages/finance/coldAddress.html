@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/button.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="finance.coldAddress.title"/> </title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.title"/> <span class="c-gray en">&gt;</span> <@spring.message code="finance.coldAddress.title"/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div id="tab_demo" class="HuiTab">
+		<div class="tabBar clearfix">
+			<#if coinList?? && (coinList?size>0)>
+				<#list coinList as coin>
+					<#if coin?? && (coin.isCurency==0)>
+					<a href="${base}/coldAddress.html?symbol=${coin.name()}">
+						<span class="<#if coinMap.symbol == coin.name()>current</#if>">${coin.name()}</span>
+					</a>
+					</#if>
+				</#list>
+			</#if>
+		</div>
+
+	</div>
+	<div class="mt-20">
+
+		<#if statusList?? && (statusList?size>0)>
+			<#list statusList as status>
+				<#if status??>
+					<span class="label <#if status.value==coinMap.status>label-primary<#else>label-default</#if> radius">
+						<a href="${base}/coldAddress.html?symbol=${coinMap.symbol}&&status=${status.value}">
+							${status.description}
+						</a>
+					</span>
+				</#if>
+			</#list>
+		</#if>
+
+		<br/>
+		<br/>
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+			<tr class="text-c">
+				<!--
+				<th style="width: 10%;">地址</th>
+				<th style="width: 5%;">当前余额</th>
+				<th style="width: 15%;">使用状态</th>
+				-->
+				<th style="width: 10%;"><@spring.message code="finance.profit.path"/></th>
+				<th style="width: 5%;"><@spring.message code="finance.profit.current_balance"/></th>
+				<th style="width: 15%;"><@spring.message code="finance.profit.use_state"/></th>
+
+			</tr>
+			</thead>
+			<tbody>
+			<#if addressMapList?? && (addressMapList?size>0)>
+				<#list addressMapList as item>
+					<tr class="text-c">
+						<td><a target="_blank" href="https://blockchain.info/address/${item.address!''}">${item.address!''}</a></td>
+						<td>${item.balance!''}</td>
+						<td>${item.statusDesc!''}</td>
+					</tr>
+				</#list>
+				<#else>
+					<tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+			</#if>
+			</tbody>
+		</table>
+	</div>
+</div>
+	
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script>
+	/*用户详情*/
+    function userDetail(title,url){
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+    function search(){
+        var keyword = $("#keyword").val();
+
+        var url = window.location.href;
+        if (url.indexOf("?") > 0){
+            var ind = url.indexOf("?");
+            url = url.substring(0,ind);
+        }
+        url+="?symbol="+${coinMap.symbol}+ "&keyword="+ keyword;
+        location.href=url;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <#import "/spring.ftl" as spring/>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <LINK rel="Bookmark" href="${base}/favicon.ico" >
+    <LINK rel="Shortcut Icon" href="${base}/favicon.ico" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+    <link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/res/css/button.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css" />
+    <link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <!--/meta 作为公共模版分离出去-->
+
+    <title><@spring.message code='admin.operate.trading.volume.ranking'/></title>
+</head>
+<body>
+<div class="page-container">
+    <div class="">
+        <div style="display: inline;margin-right: 10%;float:right;" >
+            <input type="text"  <#if selectTime??>value="${selectTime}"<#else>value=""</#if> id="selectTime" name="selectTime"  onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',maxDate:'#F{$dp.$D(\'tradeTimeEnd\')}',maxDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd'})"  class="input-text Wdate size-M" style="width:165px;">
+            <input type="hidden" value="${tradeSymbol}" id="tradeSymbol_id" name="tradeSymbol"  class="input-text Wdate size-M" style="width:165px;">
+            <button class="btn btn-success radius" onclick="selectTradeSort()"><i class="Hui-iconfont">&#xe665;</i><@spring.message code="user.page.search"/></button>
+        </div>
+        <div id="tab_demo" class="HuiTab" style="clear: both;">
+            <div class="tabBar clearfix">
+                <#if symbolList?? && (symbolList?size>0)>
+                    <#list symbolList as symbol>
+                        <a href="${base}/tradingVolumeRanking.html?tradeSymbol=${symbol}&selectTime=<#if selectTime??>${selectTime}</#if>">
+                            <span class="<#if symbol == tradeSymbol?upper_case >current</#if>">${symbol}</span>
+                        </a>
+                    </#list>
+                </#if>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-bg">
+            <thead>
+            <tr class="text-c">
+                <th style="width: 10%;">UID</th>
+                <th style="width: 10%;"><@spring.message code="admin.operate.trading.volume.ranking"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <#if statsTradeUserList?? && (statsTradeUserList?size>0)>
+                <#list statsTradeUserList as item>
+                    <tr class="text-c">
+                        <td>${item.uid}</td>
+                        <td>${item.volume}${item.symbolBase}</td>
+                    </tr>
+                </#list>
+                <#else>
+                    <tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+            </#if>
+            </tbody>
+        </table>
+        ${jpage.pageSizeButton}
+        <#if statsTradeUserList?? && (statsTradeUserList?size>0)>
+            <div class="content_page" >${jpage.buttons}</div>
+        </#if>
+    </div>
+
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var selectTime = '${selectTime!""}';
+        $("#selectTime").val(selectTime);
+    });
+    function selectTradeSort(){
+        var selectTime = $("#selectTime").val();
+        var tradeSymbol  = $("#tradeSymbol_id").val();
+        var url = window.location.href;
+        if (url.indexOf("?") > 0){
+            var ind = url.indexOf("?");
+            url = url.substring(0,ind);
+        }
+        url+="?selectTime="+selectTime+"&tradeSymbol="+tradeSymbol;
+        location.href=url;
+
+    }
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

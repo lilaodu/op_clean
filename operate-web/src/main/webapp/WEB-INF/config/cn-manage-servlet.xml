@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- 国际化资源文件 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="cacheSeconds" value="-1"/>
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/languages/messages</value>
+				<value>/WEB-INF/languages/user</value>
+				<value>/WEB-INF/languages/cms</value>
+				<value>/WEB-INF/languages/admin</value>
+				<value>/WEB-INF/languages/action</value>
+				<value>/WEB-INF/languages/authRealname</value>
+				<value>/WEB-INF/languages/statistics</value>
+				<value>/WEB-INF/languages/stationService</value>
+				<value>/WEB-INF/languages/finance</value>
+				<value>/WEB-INF/languages/userSecurity</value>
+				<value>/WEB-INF/languages/risk</value>
+			</list>
+		</property>
+	</bean>
+
+	<mvc:annotation-driven />
+	
+	<mvc:interceptors>
+		<bean class="com.chainup.operate.Interceptor.RequestInterceptor"></bean>
+		<bean class="com.chainup.operate.Interceptor.LogInterceptor">
+			<property name="adminOptLogService">
+				<bean class="com.chainup.operate.service.impl.AdminOptLogServiceImpl"/>
+			</property>
+		</bean>
+	</mvc:interceptors>
+	
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" > 
+	    <property name="defaultEncoding" value="UTF-8"/> <!-- 默认编码 (ISO-8859-1) -->    
+	    <property name="maxInMemorySize" value="10240"/> <!-- 最大内存大小 (10240)-->  
+	    <property name="maxUploadSize" value="-1"/> <!-- 最大文件大小，-1为无限止(-1) -->  
+	 </bean> 
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="com.chainup.common.web.springmvc.BindingInitializer"/>
+		</property>
+	</bean>
+
+	<!-- 本地化配置 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieName" value="servicelanguage"/>
+        <property name="cookieMaxAge" value="94608000"/>
+        <property name="defaultLocale" value="zh_CN"/>
+	</bean>
+
+	<bean class="com.chainup.common.web.springmvc.CustomSimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.web.bind.MissingServletRequestParameterException">/error/requiredParameter.html</prop>
+				<prop key="org.springframework.beans.TypeMismatchException">/error/mismatchParameter.html</prop>
+				<prop key="org.springframework.web.bind.ServletRequestBindingException">/error/bindException.html</prop>
+				<prop key="org.springframework.dao.DataIntegrityViolationException">/error/dataException.html</prop>
+				<prop key="org.springframework.jdbc.BadSqlGrammarException">/error/sqlException.html</prop>
+				<prop key="java.lang.NullPointerException">/error/nullPointerException.html</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="freemarkerViewResolver" class="com.chainup.common.web.springmvc.RichFreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8"/>
+		<property name="exposeRequestAttributes" value="false"/>
+		<property name="exposeSessionAttributes" value="false"/>
+		<property name="exposeSpringMacroHelpers" value="true"/>
+	</bean>
+	
+	<bean id="fmHtmlEscape" class="freemarker.template.utility.HtmlEscape" />
+	
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF"/>
+		<property name="freemarkerVariables">
+			<map>
+				<!-- 自定义标签 -->
+				<entry key="appBase" value="/"/>
+				<entry key="process_time" value-ref="process_time"/>
+				<entry key="text_cut" value-ref="text_cut"/>
+				<entry key="html_cut" value-ref="html_cut"/>
+				<entry key="html_escape" value-ref="fmHtmlEscape" />
+			</map>
+		</property>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">0</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="number_format">0.######</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<prop key="auto_import">/ftl/pony/index.ftl as p,/ftl/spring.ftl as spring</prop>
+			</props>
+		</property>
+	</bean>
+	<context:annotation-config/>	
+	<context:component-scan base-package="com.chainup.operate.action" /> 
+	<context:property-placeholder location="classpath:config.properties"/>  
+</beans>

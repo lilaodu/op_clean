@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css"
+          id="skin"/>
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css"/>
+
+    <link href="${base}/res/css/page.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/button.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css"/>
+
+    <title><@spring.message code="finance.withdrawcrypto.title"/> </title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/> <span
+        class="c-gray en">&gt;</span> <@spring.message code="statistics.page.yunyin"/> <span class="c-gray en">&gt;</span>
+    <@spring.message code="discount"/>
+    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);"
+            title="<@spring.message code='admin.refresh'/>"><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+
+<div class="page-container">
+    <div class="text-c">
+        <span style="vertical-align: middle;"><@spring.message code="statistics.uid"/>：</span><input class="input-text size-M" style="width:150px" placeholder="" id="uid" value="">
+        <span style="vertical-align: middle;"><@spring.message code="statistics.mobile"/>/<@spring.message code="statistics.email"/>：</span><input class="input-text size-M" style="width:150px" placeholder="" id="mobileNumber" value="">
+        <span style="vertical-align: middle;"><@spring.message code="statistics.rate"/>：</span>
+        <input class="input-text size-M" style="width:150px" placeholder="" id="minRate" value=""><span>-</span>
+        <input class="input-text size-M" style="width:150px" placeholder="" id="maxRate" value="">
+        <button type="submit" class="btn btn-success radius" id="" name="" onclick="search()"><i class="Hui-iconfont"></i> <@spring.message code="statistics.search"/></button>
+    </div>
+    <div class="mt-20">
+        <a href="javascript:;" onclick="add()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe604;</i><@spring.message code="statistics.new"/></a>
+        <table class="table table-border table-bordered table-bg">
+            <thead>
+            <tr class="text-c">
+                <th style="width: 7%;"><@spring.message code="statistics.uid"/></th>
+                <th style="width: 10%;"><@spring.message code="statistics.mobile"/></th>
+                <th style="width: 10%;"><@spring.message code="statistics.email"/></th>
+                <th style="width: 8%;"><@spring.message code="statistics.rate"/>%</th>
+                <th style="width: 13%;"><@spring.message code="statistics.expire"/></th>
+                <th style="width: 5%;"><@spring.message code="statistics.status"/></th>
+                <th style="width: 35%;"><@spring.message code="statistics.remark"/></th>
+                <th style="width: 12%;"><@spring.message code="statistics.operate"/></th>
+
+            </tr>
+
+            </thead>
+            <tbody>
+            <#if list?? && (list?size>0)>
+                <#list list as item>
+                    <tr class="text-c">
+                        <td>
+                            <!--
+                            <a href="javascript:void(0)"
+                               onclick="userDetail('用户信息','adminLogInfo.html?id=${item.uid}&amp;index=6')">${item.uid!''}</a>
+                               -->
+                            <a href="javascript:void(0)"
+                               onclick="userDetail('<@spring.message code="finance.profit.user_information"/>','adminLogInfo.html?id=${item.uid}&amp;index=6')">${item.uid!''}</a>
+                        </td>
+                        <td>${item.mobileNumber!''}</td>
+                        <td>${item.email!''}</td>
+                        <td>${item.rate!''}</td>
+                        <td>${item.endTime!''}</td>
+                        <td>${item.statusStr!''}</td>
+                        <td>${item.remark!''}</td>
+                        <td class="operate">
+                            <button type="submit" class="btn btn-link" data-id="${item.id!''}" onclick="operate(this, 'edit')"><@spring.message code="statistics.edit"/></button>
+                            <button type="submit" class="btn btn-link" data-id="${item.id!''}" onclick="operate(this, 'delete')"><@spring.message code="statistics.delete"/></button>
+                        </td>
+                    </tr>
+                </#list>
+                <#else>
+                    <tr class="text-c">
+                        <td colspan="12"><@spring.message code='admin.noresult'/></td>
+                    </tr>
+            </#if>
+            </tbody>
+        </table>
+        ${jpage.pageSizeButton}
+        <#if list?? && (list?size>0)>
+            <div class="content_page" >${jpage.buttons}</div>
+        </#if>
+    </div>
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script>
+    /*用户详情*/
+    function userDetail(title, url) {
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+
+    function search() {
+        var uid = $("#uid").val();
+        var mobileNumber = $("#mobileNumber").val();
+        var minRate = $("#minRate").val();
+        var maxRate = $("#maxRate").val();
+
+        var url = window.location.href;
+        if (url.indexOf("?") > 0) {
+            var ind = url.indexOf("?");
+            url = url.substring(0, ind);
+        }
+        url += "?uid="+ uid +"&mobileNumber=" + mobileNumber + "&minRate="+minRate+"&maxRate="+maxRate;
+        location.href = url;
+    }
+
+    function add(){
+        layer_show('<@spring.message code="statistics.new.fee.discount"/>',"saveFeeDiscount.html",530,400);
+    }
+
+    function operate(dom,type){
+        var id = dom.getAttributeNode("data-id").value;
+        console.log(uid);
+        if(type=="edit"){
+            layer_show('<@spring.message code="statistics.edit.fee.discount"/>',"saveFeeDiscount.html?id="+id,530,400);
+        }
+        if(type=="delete"){
+            layer.confirm('<@spring.message code="statistics.confirm.delete"/>',{title: '<@spring.message code="statistics.info"/>'},function(){
+                $.ajax({
+                    type: 'POST',
+                    url: "deleteFeeDiscount.json",
+                    data: {id: id},
+                    success: function (data) {
+                        console.log(data);
+                        if(data.code=="0"){
+                            layer.msg('<@spring.message code="statistics.operate.success"/>', {time: 1000, icon:1});
+                            window.location.href="feeDiscount.html";
+                        }else{
+                            layer.msg('<@spring.message code="statistics.operate.fail"/>', {time: 1000, icon:2});
+                        }
+                    },
+                    dataType: "json"
+                });
+            });
+        }
+    }
+</script>
+</body>
+</html>

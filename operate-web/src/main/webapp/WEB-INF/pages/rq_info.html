@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+<title><@spring.message code="rq.info.title"/></title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="station.service.index"/> <span class="c-gray en">&gt;</span> <@spring.message code="station.service.title"/> <span class="c-gray en">&gt;</span> <@spring.message code="rq.info.title"/><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='station.service.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c">
+		<form onsubmit="searchRqInfo(0);" >
+            <span style="vertical-align: middle; margin-left: 5px;"><@spring.message code="rq.info.query.id"/></span>
+            <input type="text" class="input-text" style="width:70px" maxlength="200" id="id" name="id" value="<#if id?? && id!=''>${id}<#else></#if>">
+            <span style="vertical-align: middle; margin-left: 5px;"><@spring.message code="rq.info.query.userid"/></span>
+            <input type="text" class="input-text" style="width:70px" maxlength="200" id="userId" name="userId" value="<#if userId?? &&userId!=''>${userId}<#else></#if>">
+            <span style="vertical-align: middle; margin-left: 5px;"><@spring.message code="rq.info.query.type"/></span>
+            <select id="rqType" name="rqType" class="select-box select" style="width:100px;">
+                <#if rqTypelist?? && (rqTypelist?size>0)>
+                <option value=""><@spring.message code="station.service.select.all"/></option>
+                <#list rqTypelist as item>
+                    <option value="${item.value}" <#if rqType?? && rqType==item.value> selected='selected' </#if>>${item.name}</option>
+                </#list>
+            </#if>
+            </select>
+            <span style="vertical-align: middle; margin-left: 5px;"><@spring.message code="rq.info.query.status"/></span>
+            <select id="rqStatus" name="rqStatus" class="select-box select" style="width:100px;">
+                <#if rqStatuslist?? && (rqStatuslist?size>0)>
+                <option value=""><@spring.message code="station.service.select.all"/></option>
+                <#list rqStatuslist as item>
+                    <option value="${item.value}" <#if rqStatus?? && rqStatus==item.value> selected='selected' </#if>>${item.name}</option>
+                </#list>
+        </#if>
+        </select>
+        <span style="vertical-align: middle; margin-left: 5px;"><@spring.message code="rq.info.query.ctime"/></span>
+        <input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',maxDate:'#F{$dp.$D(\'end\')||\'%y-%M-%d\'}',dateFmt:'${date_format}'})" value="${ctimeStart!''}" id="start" name="ctimeStart" class="input-text Wdate size-M" style="width:170px;">
+        <span>-</span>
+        <input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',minDate:'#F{$dp.$D(\'start\')}',maxDate:'%y-%M-%d',dateFmt:'${date_format}'})" value="${ctimeEnd!''}" id="end" name="ctimeEnd" class="input-text Wdate size-M" style="width:170px;">
+        <button type="submit" class="btn btn-success radius" id="queryBtn" ><i class="Hui-iconfont">&#xe665;</i><@spring.message code="station.service.search"/></button>
+		</form>
+
+	</div>
+	<div class="cl pd-5 mt-10"></div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr class="text-c">
+				<!-- <th style="width: 20%;"><@spring.message code="rq.info.title.head"/></th> -->
+				<th style="width: 6%;"><@spring.message code="rq.info.title.id"/></th>
+				<th style="width: 6%;"><@spring.message code="rq.info.title.userid"/></th>
+				<th style="width: 15%;"><@spring.message code="rq.info.title.user"/></th>
+				<th style="width: 10%;"><@spring.message code="rq.info.title.type"/></th>
+				<th><@spring.message code="rq.info.title.desc"/></th>
+				<th style="width: 10%;"><@spring.message code="rq.info.title.status"/></th>
+				<th style="width: 15%;"><@spring.message code="rq.info.title.ctime"/></th>
+				<th style="width: 15%;"><@spring.message code="rq.info.order.id"/></th>
+				<th style="width: 10%;"><@spring.message code="rq.info.title.operate"/></th>
+			</tr>
+		</thead>
+		<tbody>
+		<#if rqInfoList?? && (rqInfoList?size>0)>
+			<#list rqInfoList as item>
+			<tr>
+				<td class="text-c">${item.id!''}</td>
+				<td class="text-c"><a href="otcOrderPage.html?id=${item.userId!''}&index=7">${item.userId!''}</a></td>
+				<!-- <td>${item.rqTitle!''}</td> -->
+				<td class="text-c">${item.userName!''}</td>
+				<td class="text-c">${item.rqTypeName!''}</td>
+				<td>${item.rqDescribe!''}</td>
+				<td class="text-c">${item.rqStatusName!''}</td>
+				<td class="text-c">${item.ctime?string(date_format)!''}</td>
+				<td class="text-c">${item.rqTitle!''}</td>
+				<td class="text-c">
+					<#if item.rqStatus!=3>
+						<#if actionY?? && (actionY?index_of("rqInfoReply")!=-1)>
+							<a title="<@spring.message code='rq.info.reply.title'/>" href="javascript:;" onclick="rqInfo_reply('<@spring.message code='rq.info.reply.title'/>','rq_info_reply.html?id=${item.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe647;</i></a>
+						</#if>
+						<#if actionY?? && (actionY?index_of("rqInfoClose")!=-1)>
+							<a title="<@spring.message code='rq.info.close.title'/>" href="javascript:;" onclick="rqInfo_close(this,'${item.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe706;</i></a>
+						</#if>
+					<#else>
+						<a title="<@spring.message code='rq.info.show.title'/>" href="javascript:;" onclick="rqInfo_show('<@spring.message code='rq.info.show.title'/>','rq_info_reply.html?id=${item.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe695;</i></a>
+					</#if>
+					<#if actionY?? && (actionY?index_of("rqInfoDel")!=-1)>
+						<a title="<@spring.message code='rq.info.delete.title'/>" href="javascript:;" onclick="rqInfo_del(this,'${item.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					</#if>
+				</td>
+			</tr>
+			</#list>
+		<#else>
+			<tr class="text-c"><td colspan="8"><@spring.message code="station.service.noresult.info"/></td></tr>
+		</#if>
+		</tbody>
+	</table>
+	${jpage.pageSizeButton}
+	<#if rqInfoList?? && (rqInfoList?size>0)>
+		<div class="content_page" >${jpage.buttons}</div>
+	</#if>
+</div>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+<script type="text/javascript">
+	/*工单-回复*/
+	function rqInfo_reply(title,url){
+		var index = layer.open({
+			type: 2,
+			title: title,
+			content: url
+		});
+		layer.full(index);
+	}
+
+	/*工单-详情*/
+	function rqInfo_show(title,url){
+		var index = layer.open({
+			type: 2,
+			title: title,
+			content: url
+		});
+		layer.full(index);
+	}
+
+	/*工单-查找*/
+	function searchRqInfo(pageSize){
+		var rqTitle=$("#rqTitle").val();
+		//var ctime = $("#ctime").val();
+		var end = $("#end").val();
+		var start = $("#start").val();
+		var rqType = $("#rqType").val();
+		var rqStatus = $("#rqStatus").val();
+		var url = window.location.href;
+		if (url.indexOf("?") > 0){
+			var ind = url.indexOf("?");
+			url = url.substring(0,ind);
+		}
+		if(pageSize==0){ // 默认20条
+			url+="?rqTitle="+ rqTitle+ "&ctimeStart="+ start + "&ctimeEnd=" + end + "&rqType=" + rqType + "&rqStatus=" + rqStatus +"&pageSize=" + 20;
+		}else{
+			url+="?title="+ title+ "&ctimeStart="+ start + "&ctimeEnd=" + end + "&rqType=" + rqType + "&rqStatus=" + rqStatus +"&pageSize="+pageSize;
+		}
+		location.href=url;
+		return false;
+	}
+
+	/*工单-删除*/
+	function rqInfo_del(obj,id){
+		layer.confirm("<@spring.message code='rq.info.delete.confrim'/>",{title: "<@spring.message code='rq.info.delete.title'/>"},function(index){
+			$.ajax({
+		        type: "POST",
+		        url: "rq_info_del.html",
+		        data: "id="+id,
+		        dataType:'json',
+		        success: function(data){
+		        	if(data.result==-1){
+		        		window.location.href="login.html";
+		        	}else{
+		        		//alert("<@spring.message code='rq.info.delete.success.info'/>");
+		        		layer.msg("<@spring.message code='rq.info.delete.success.info'/>", {time: 1000, icon:1}, function(){
+		        			var url = window.location.href;
+			            	window.location.href=url;
+		        		});
+		        	}
+		        },
+		        error:function(data) {
+					console.log(data.msg);
+				},
+		    });
+		});
+	}
+
+	/*工单-关闭*/
+	function rqInfo_close(obj,id){
+		layer.confirm("<@spring.message code='rq.info.close.confrim'/>",{title: "<@spring.message code='rq.info.close.title'/>"},function(index){
+			$.ajax({
+		        type: "POST",
+		        url: "rq_info_close.html",
+		        data: "id="+id,
+		        dataType:'json',
+		        success: function(data){
+		        	if(data.result==-1){
+		        		window.location.href="login.html";
+		        	}else{
+		        		//alert("<@spring.message code='rq.info.close.success.info'/>");
+		        		layer.msg("<@spring.message code='rq.info.close.success.info'/>", {time: 1000, icon:1}, function(){
+		        			var url = window.location.href;
+			            	window.location.href=url;
+		        		});
+		        	}
+		        },
+		        error:function(data) {
+					console.log(data.msg);
+				},
+		    });
+		});
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/button.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/nav.css" rel="stylesheet" type="text/css" />
+<link href="${base}/res/css/color/blue.css" rel="stylesheet" type="text/css" />
+
+<title><@spring.message code="admin.user.title"/></title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> <@spring.message code="admin.home"/><span class="c-gray en">&gt;</span> <@spring.message code="admin.system"/><span class="c-gray en">&gt;</span> <@spring.message code="admin.user.list"/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c"> 
+		<span style="vertical-align: middle;"><@spring.message code="admin.user.mobileno"/>：</span><input class="input-text size-M" style="width:150px" placeholder="" id="mobile" value="<#if mobile??&&mobile!='' >${mobile}</#if>">
+		<span style="vertical-align: middle;"><@spring.message code="admin.user.username"/>：</span><input class="input-text size-M" style="width:150px" placeholder="" id="username" value="<#if username??&&username!='' >${username}</#if>">
+		<button type="submit" class="btn btn-success radius" id="" name="" onclick="search()"><i class="Hui-iconfont">&#xe665;</i> <@spring.message code="admin.search"/></button>
+	</div>
+	<div class="cl mt-20 <#if actionY?? && ((actionY?index_of("adminUserAdd")!=-1) || (actionY?index_of("adminUserDel")!=-1))>pd-5 bg-1 bk-gray</#if>">
+		<span class="l">
+			<#if actionY?? && (actionY?index_of("adminUserDel")!=-1)>
+			<a href="javascript:;" onclick="deleteUser()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> <@spring.message code="admin.batchdel"/></a>
+			</#if>
+			<#if actionY?? && (actionY?index_of("adminUserAdd")!=-1)>
+			<a href="javascript:;" onclick="add_user('<@spring.message code="admin.user.adduser"/>','admin_user_add.html','','480')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe607;</i> <@spring.message code="admin.user.adduser"/></a>
+			</#if>
+		</span>
+	</div>
+	<table class="table table-border table-bordered table-hover table-bg table-sort">
+		<thead>
+			<tr class="text-c">
+				<th style="width: 5%;"><input type="checkbox" name="chkAll" value=""></th>
+				<th style="width: 15%;"><@spring.message code="admin.user.mobileno"/></th>
+				<th style="width: 15%;"><@spring.message code="admin.user.username"/></th>
+				<th><@spring.message code="admin.user.email"/></th>
+				<th style="width: 15%;"><@spring.message code="admin.user.lastLoginTime"/></th>
+				<th style="width: 15%;"><@spring.message code="admin.user.lastLoginIp"/></th>
+				<th style="width: 10%;"><@spring.message code="admin.operate"/></th>
+			</tr>
+		</thead>
+		<tbody>
+		<#if users?? && (users?size>0)>
+			<#list users as item>
+			<tr class="text-c">
+				<td><input type="checkbox" value="${item.id!''}" name="chkItem"></td>
+				<td>${item.mobileNumber!''} </td>
+				<td>${item.nickname!''}</td>
+				<td>${item.email!''}</td>
+				<td>${item.lastTime?string(date_format)}</td>
+				<td>${item.lastIp!''}</td>
+
+				<td class="td-manage">
+					<#if actionY?? && (actionY?index_of("adminUserEdit")!=-1)>
+					<a title="<@spring.message code='admin.user.edituser'/>" href="javascript:;" onclick="edit_user('<@spring.message code="admin.user.edituser"/>','admin_user_edit.html?id=${item.id}','','480')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+					</#if>
+					
+					<!--<a title="解冻登录" href="javascript:;" onclick="unlockUser('${item.id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe72a;</i></a>-->
+				</td>
+			</tr>
+			</#list>
+		<#else>
+			<tr class="text-c"><td colspan="7"><@spring.message code='admin.noresult'/></td></tr>
+		</#if>
+		</tbody>
+	</table>
+		${jpage.pageSizeButton}
+		<#if users?? && (users?size>0)>
+			<div class="content_page" >${jpage.buttons}</div>
+		</#if>
+	</div>
+</div>
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+<script type='text/javascript' src='${base}/res/js/cookie.js'></script>
+<script type='text/javascript' src='${base}/res/js/public.js'></script>
+
+<script src="${base}/res/js/base64.js" type=text/javascript></script>
+
+<script type=text/javascript>
+function search(){
+	var mobile = $("#mobile").val();
+	var username=$("#username").val();
+
+	var b = new Base64();     
+	username = b.encode(username);
+	
+	var url = window.location.href;
+	if (url.indexOf("?") > 0){
+		var ind = url.indexOf("?");
+		url = url.substring(0,ind);
+	}
+	url+="?mobile="+mobile+ "&username="+ username;
+	location.href=url;
+}
+
+/*添加用户*/
+function add_user(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+
+/*编辑用户*/
+function edit_user(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+
+/*删除用户*/
+function deleteUser(){
+	var checkedNum = $("input[name='chkItem']:checked").length;
+	if(checkedNum == 0) {
+		layer.msg("<@spring.message code='admin.checkSelectOne'/>", {time: 1000, icon:0});
+		return;
+	}
+	layer.confirm("<@spring.message code='admin.checkDel'/>",{title: "<@spring.message code='admin.tip'/>"},function(index){
+		var id="";
+		$("input[name='chkItem']:checked").each(function(){
+			id += $(this).val()+",";
+		});
+		id = id.substring(0,id.length-1);
+		
+		$.ajax({   
+	        type: "POST",   
+	        url: "admin_user_del.html",
+	        data: "ids="+id, 
+	        dataType : 'json',
+	        success: function(data){
+	        	if(data.result==-1){
+					  window.location.href="login.html";
+				 }
+	        	else{
+	        		layer.msg("<@spring.message code='admin.checkDelSuc'/>", {time: 1000, icon:1}, function(){
+						  var url = window.location.href;
+				          window.location.href=url;
+			        	});
+				  }
+	        	
+	        },error:function(XmlHttpRequest, textStatus, errorThrown){
+	        	layer.msg("<@spring.message code='admin.checkDelFail'/>", {time: 1000, icon:2});
+			}  
+	    });
+	});
+}
+
+/*删除用户*/
+function unlockUser(id){
+	layer.confirm("<@spring.message code='admin.action.unfreeze.login.confirm'/>",{title: "<@spring.message code='admin.tip'/>"},function(index){
+		
+		$.ajax({   
+	        type: "POST",   
+	        url: "unlock_account.html",
+	        data: {id: id}, 
+	        dataType : 'json',
+	        success: function(data){
+	        	if(data.code == -1){
+					  window.location.href="login.html";
+				 }
+	        	else if(data.code == -2){
+	        		layer.msg(data.message, {time: 1000, icon:2}, function(){
+						  var url = window.location.href;
+				          window.location.href=url;
+			        	});
+	        	}else if(data.code == -3){
+	        		layer.msg("<@spring.message code='admin.action.unfreeze.login.faild'/>", {time: 1000, icon:2}, function(){
+						  var url = window.location.href;
+				          window.location.href=url;
+			        	});
+				}else if(data.code==1){
+	        		layer.msg("<@spring.message code='admin.action.freeze.login.success'/>", {time: 1000, icon:1}, function(){
+						  var url = window.location.href;
+				          window.location.href=url;
+			        	});
+				}
+	        	
+	        },error:function(XmlHttpRequest, textStatus, errorThrown){
+	        	layer.msg("<@spring.message code='admin.action.unfreeze.login.faild'/>", {time: 1000, icon:2});
+			}  
+	    });
+	});
+}
+</script>
+
+</body>
+</html>

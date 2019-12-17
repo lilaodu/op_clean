@@ -1,0 +1,28 @@
+<aside class="Hui-aside">
+	<input runat="server" id="divScrollValue" type="hidden" value="" />
+	<div class="menu_dropdown bk_2">
+		<#if menuList?? && (menuList?size>0)>
+			<#list menuList as subList>
+				<#if subList?? && (subList?size==1)>
+					<dl id="menu-tongji">
+						<dt><div class="left-menu menu-${subList_index+1}"></div><a data-href="${subList[0].atUrl}" data-title="${subList[0].atDes}">${subList[0].atDes}</a></dt>
+					</dl>
+				<#else>
+					<dl id="menu-tongji">
+						<dt><div class="left-menu menu-${subList_index+1}"></div>${subList[0].atDes}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+						<dd>
+							<ul>
+								<#list subList as item>
+									<#if item_index!=0>
+										<li><a data-href="${item.atUrl}" data-title="${item.atDes}" href="javascript:void(0)">${item.atDes}</a></li>
+									</#if>
+								</#list>
+							</ul>
+						</dd>
+					</dl>
+				</#if>
+			</#list>
+		</#if>
+	</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>

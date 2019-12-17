@@ -1,0 +1,76 @@
+@charset "utf-8";
+/* CSS reset */
+body,span,object,iframe,p,blockquote,pre,a,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;font-size:100%;}
+h1,h2,h3,h4,h5,h6{ margin:0; padding:0; font-weight: normal;}
+body{line-height:1; color:#333; }
+section,article,aside,header,footer,nav,dialog,figure{display:block;}
+figure{margin:0;}
+ul, ol,li { list-style:none outside; }
+a { text-decoration: none;color:#333;outline:0 none; }
+a:hover {  text-decoration:none;}
+i,em{font-style:normal;}
+abbr[title], acronym[title] { border-bottom: 1px dotted; cursor: help;}
+fieldset, img { border: none; }
+body,button, input, select, textarea { font: 14px/1.5 Tahoma, 'Droid Sans', 'Hiragino Sans GB','Microsoft YaHei';}
+body{ font-family: 'Microsoft YaHei';}
+button, input, select, textarea { font-size: 100%; margin:0; padding:0;outline: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+hr { border: none; height:1px; background-color:#e9e9e9; }
+textarea ,input{ resize: none;outline: none;}
+textarea{ resize: none;-webkit-appearance: none;border:1px solid #ccc;}
+b{ font-weight:normal;}
+del { font-family:Arial;}
+img { vertical-align:middle;}
+table{width: 100%;}
+.clearfix:after,.back-login-list:after{content:"\20";display: block;height: 0;visibility: hidden;clear: both;}
+.clearfix,.back-login-list{ zoom:1; position:relative;}
+.ellips {text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+
+input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color: #c9c9c9;}
+
+.backstage-logoing-body{ background: url(../images/backstage-bg.jpg) no-repeat center top;}
+.backstage-wrap{ padding: 150px 0;}
+.backstage-login-box{ width: 1284px; margin: auto; overflow: hidden; zoom:1;}
+.backstage-login-box .backstage-login-tit{ width:588px; height: 717px; float: left; padding: 63px 0 0 56px; background: url(../images/backstage-login-bg.jpg) no-repeat; }
+.backstage-login-tit .login-tit{ font-size:60px; line-height: 80px; color: #0060b3; font-family: 'Microsoft YaHei'; }
+.backstage-login-box .login-tips{ padding-top: 15px; color: #0060b3;}
+.backstage-login-box .login-tips .login-line{ height: 8px; width: 50px; background-color: #0060b3; margin-bottom: 10px; display: inline-block; *display: inline; overflow: hidden; zoom:1;}
+
+.backstage-login{ background-color: #fff; float: left; width: 638px; height: 630px; padding: 104px 0 45px 0; text-align: center; position: relative;}
+.back-copyright{ position: absolute; left: 0; right: 0; color: #245093; bottom: 45px;}
+.backstage-login .login-name em{ margin-top: 20px; border-top: 5px solid #0060b3; padding-top: 15px; font-size: 18px; color: #245093; display: inline-block; *display: inline; overflow: hidden; zoom:1;}
+
+.back-login-frame{ width: 310px; margin: auto; text-align: left; padding-top: 30px;}
+.back-login-list{ border: 1px solid #9fb4d4; padding: 6px 20px 6px 50px;position: relative; margin-bottom: 25px;}
+.back-login-list .login-user{ float: left; width:40px; border-right: 1px solid #9fb4d4; background: url(../images/t1.jpg) center 4px no-repeat; height: 26px; margin-left: -50px; }
+.back-login-list .login-pass{ background: url(../images/t2.jpg) center 4px no-repeat; }
+.back-login-list input{ border: 0; width: 100%; height: 26px;}
+.back-login-code{ padding-bottom: 20px;}
+.back-login-code input{ border: 1px solid #9fb4d4; width: 110px; padding: 8px 5px; margin-right: 5px;}
+.back-login-code img{ width: 80px; height: 33px; padding-bottom: 2px;}
+.back-login-code .code{ color: #245093; margin-left: 5px;}
+.back-login-list .back-error{ color: #ff0000; position: absolute; bottom: -22px; left: 0;}
+.back-login-code .back-error{ color: #ff0000; }
+.back-login-btn{ background-color: #245093; color: #fff; border: 0; display: block; padding: 10px 0; text-align: center;}
+#ValidationSummary1{width:100%;height:20px;text-align:center;color:red; padding-bottom: 20px;}
+
+/* 2019122隐藏滑动验证 */
+
+ /*#validCodeErrorArea{ display:none; }*/
+
+ /*#smsAuthCodeArea{ display: block !important; }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

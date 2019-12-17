@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+	">
+	<context:annotation-config />
+	<context:component-scan base-package="com.chainup.operate" />
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:config.properties</value>
+		</property>
+	</bean>
+	
+	<import resource="mybatis-exchange-config.xml" />
+
+	<!-- redis -->
+    	<bean id="redisHttpSessionConfiguration"
+	      class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+	    <property name="maxInactiveIntervalInSeconds" value="${redis_SSSION_TIMEOUT}"/>
+	    <property name="cookieSerializer" ref="defaultCookieSerializer"/>
+	    </bean>
+	
+	<!-- 设置Cookie domain 和 名称 -->
+    <bean id="defaultCookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
+        <property name="domainName" value="${base_cookie}"/>   
+        <property name="cookieName" value="LOGIN_SESSION_ADMIN"/>  
+        <property name="cookiePath" value="/"></property>  
+        <!--<property name="domainNamePattern" value="^.+?\\.(\\w+\\.[a-z]+)$"/>-->
+    </bean>
+	
+	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+	    <property name="maxTotal" value="${redis_MAX_TOTAL}" />
+	    <property name="maxIdle" value="${redis_MAX_IDLE}" />
+	</bean>
+	<bean id="jedisConnectionFactory"
+      class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+	    <property name="hostName" value="${redis_REDIS_HOST}"/>
+	    <property name="port" value="${redis_REDIS_PORT}"/>
+	    <property name="password" value="${redis_REDIS_PWD}" />
+	    <property name="timeout" value="${redis_TIMEOUT}"/>
+	    <property name="usePool" value="true"/>
+	    <property name="poolConfig" ref="jedisPoolConfig"/>
+	</bean>
+	<bean  
+        class="org.springframework.data.redis.core.RedisTemplate"  
+        p:connection-factory-ref="jedisConnectionFactory">
+    </bean>
+	<!-- 用于自动启动站内信的发送处理任务 -->
+	<bean id="stationMessageSendTaskService" class="com.chainup.operate.service.impl.StationMessageSendTaskServiceImpl"></bean>
+	<bean id="stationMessageService" class="com.chainup.operate.service.impl.StationMessageServiceImpl"></bean>
+	<bean id="userMessageService" class="com.chainup.operate.service.impl.UserMessageServiceImpl"></bean>
+	<bean id="userMessageScheduleTimer" class="com.chainup.operate.timer.UserMessageScheduleTimer">
+		<property name="stationMessageSendTaskService" ref="stationMessageSendTaskService" />
+		<property name="stationMessageService" ref="stationMessageService" />
+		<property name="userMessageService" ref="userMessageService" />
+	</bean>
+	
+	<!-- 定时更新关闭超过期限的工单任务配置 -->
+	<!--<bean id="rqInfoService" class="com.chainup.operate.service.impl.RqInfoServiceImpl"/>
+	<bean id="autoUpdateRqStatusTaskJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.chainup.operate.timer.UpdateRqStatusTask"/>
+		<property name="jobDataMap">
+	        <map>
+	            <entry key="rqInfoService" value-ref="rqInfoService" />  
+	        </map>  
+    	</property>
+		<property name="durability" value="true" />
+	</bean>
+	<bean id="cronAutoUpdateRqStatusTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoUpdateRqStatusTaskJob" />
+		<property name="cronExpression">
+			<value>0 15 2 * * ?</value>
+		</property>
+	</bean>-->
+	
+	<!-- 定时更新用户状态任务配置 -->
+	<!--<bean id="userService" class="com.chainup.operate.service.impl.UserServiceImpl"/>
+	<bean id="autoUpdateUserStatusTaskJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.chainup.operate.timer.UpdateUserStatusTask"/>
+		<property name="jobDataMap">
+	        <map>
+	            <entry key="userService" value-ref="userService" />
+	        </map>
+    	</property>
+		<property name="durability" value="true" />
+	</bean>
+	<bean id="cronAutoUpdateUserStatusTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoUpdateUserStatusTaskJob" />
+		<property name="cronExpression">
+			<value>0 0/10 * * * ?</value>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronAutoUpdateRqStatusTaskTrigger" />
+				<ref bean="cronAutoUpdateUserStatusTrigger" />
+			</list>
+		</property>
+	</bean>-->
+</beans>

@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+	<link rel="icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="${base}/favicon.ico" mce_href="${base}/favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+
+	<link href="${base}/res/css/page.css" rel="stylesheet" type="text/css" />
+
+
+	<title></title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i><@spring.message code='admin.home'/> <span class="c-gray en">&gt;</span> <@spring.message code='statistics.page.yunyin'/> <span class="c-gray en">&gt;</span><@spring.message code='statistics.page.register.statistics'/> <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="<@spring.message code='admin.refresh'/>" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c">
+		<span style="vertical-align: middle;"><@spring.message code='user.page.regester.time'/>：</span>
+		<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',maxDate:'#F{$dp.$D(\'end\')||\'%y-%M-%d\'}'})" value="${ctimeStart!''}" id="start" class="input-text Wdate size-M" style="width:165px;">
+		-
+		<input type="text" onfocus="WdatePicker({lang:'<#if lang=='zh'>zh-cn<#else>en</#if>',minDate:'#F{$dp.$D(\'start\')}',maxDate:'%y-%M-%d'})" value="${ctimeEnd!''}" id="end" class="input-text Wdate size-M" style="width:165px;">
+		<button class="btn btn-success radius" onclick="findByKey()"><i class="Hui-iconfont">&#xe665;</i><@spring.message code='user.page.search'/></button>
+	</div>
+	<div class="mt-20">
+		<table>
+			<tr class="text-c" style="text-align:right; background-color:white;">
+				<th colspan="6">
+					<span style="color: red;font-size:7px;background-color:white;"><@spring.message code="admin.operate.remind"/></span>
+				</th>
+			</tr>
+		</table>
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+			<tr class="text-c">
+				<#list sumCounts as item>
+				<#if item??>
+				<th style="width: 20%;text-align:center" >
+					<@spring.message code='admin.operate.summary'/>
+					<br>
+					<@spring.message code="admin.operate.data.update.time"/>：${item['last_time']}
+				</th>
+				<th style="width: 10%;text-align:center" >${item["regist_counts"]!0}</th>
+				<th style="width: 10%;text-align:center" >${item["bind_pcounts"]!0}</th>
+				<th style="width: 10%;text-align:center" >${item["bind_mcounts"]!0}</th>
+				<!--<th style="width: 10%;text-align:center" >${item["capital_counts"]!0}</th>-->
+				<th style="width: 10%;text-align:center" >${item["regist_depcounts"]!0}</th>
+				<#else>
+				<th style="width: 10%;text-align:center" colspan="6"><@spring.message code='admin.noresult'/></th>
+			</#if>
+			</#list>
+			</tr>
+			<#if limitCounts?? && (limitCounts?size>0)>
+				<tr class="text-c">
+					<#list limitCounts as limit>
+						<#if limit??>
+							<th style="width: 20%;text-align:center" >
+								<#if ctimeStart??  && ctimeStart!="">
+									${ctimeStart}<#if ctimeEnd=="">之后<#else> ~ </#if>
+						</#if>
+								<#if ctimeEnd?? && ctimeEnd!="">
+									${ctimeEnd}<#if ctimeStart=="">之前</#if>
+								</#if>
+								<br>
+								<@spring.message code="admin.operate.data.update.time"/>：${limit['last_time']}
+							</th>
+							<th style="width: 10%;text-align:center" >${limit["regist_counts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${limit["bind_pcounts"]!0}</th>
+							<th style="width: 10%;text-align:center" >${limit["bind_mcounts"]!0}</th>
+							<!-- <th style="width: 10%;text-align:center" >${limit["capital_counts"]!0}</th> -->
+							<th style="width: 10%;text-align:center" >${limit["regist_depcounts"]!0}</th>
+							<#else>
+								<th style="width: 10%;text-align:center" colspan="6"><@spring.message code='admin.noresult'/></th>
+						</#if>
+					</#list>
+				</tr>
+			</#if>
+			</thead>
+			<thead>
+				<tr class="text-c">
+					<th style="width: 10%;"><@spring.message code='statistics.page.time'/></th>
+					<th style="width: 10%;"><@spring.message code='statistics.page.register'/></th>
+					<th style="width: 10%;"><@spring.message code='statistics.page.bindtelnum'/></th>
+					<th style="width: 10%;"><@spring.message code='statistics.page.bindemail'/></th>
+					<!-- <th style="width: 10%;"><@spring.message code='statistics.page.setcappwd'/></th> -->
+					<th style="width: 10%;"><@spring.message code='statistics.page.finishchongzhi'/></th>
+				</tr>
+			</thead>
+			<tbody>
+			<#if userList?? && (userList?size>0)>
+				<#list userList as item>
+				<tr class="text-c">
+					<td>${item.createdDate?string('yyyy-MM-dd')}</td>
+					<td>
+						<a data-href="user.html?ctimeStart=${item.createdDate?string('yyyy-MM-dd')}&ctimeEnd=${item.createdDate?string('yyyy-MM-dd')}" data-title="会员管理" href="javascript:;" onclick="window.parent.Hui_admin_tab(this);">${item.registCount!''}</a>
+					</td>
+					<td>${item.bindPcount!''}</td>
+					<td>${item.bindMcount!''}</td>
+					<!-- <td>
+					${item.capitalCount!''}
+					</td> -->
+					<td>
+					${item.registDepcount!''}
+					</td>
+				</tr>
+				</#list>
+			<#else>
+				<tr class="text-c"><td colspan="6"><@spring.message code='admin.noresult'/></td></tr>
+			</#if>
+			</tbody>
+		</table>
+		${jpage.pageSizeButton}
+		<#if userList?? && (userList?size>0)>
+			<div class="content_page" >${jpage.buttons}</div>
+		</#if>
+	</div>
+
+</div>
+
+
+
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type='text/javascript' src='${base}/res/js/jquery-migrate-1.1.1.min.js'></script>
+
+<script type=text/javascript>
+    /*用户详情*/
+    function userDetail(title,url){
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+    function findByKey(){
+        var end = $("#end").val();
+        var start = $("#start").val();
+        var url = window.location.href;
+        if (url.indexOf("?") > 0){
+            var ind = url.indexOf("?");
+            url = url.substring(0,ind);
+        }
+        url+="?ctimeStart="+ start + "&ctimeEnd=" + end;
+        location.href=url;
+    }
+</script>
+</body>
+</html>

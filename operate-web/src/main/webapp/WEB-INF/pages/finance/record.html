@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="${base}/res/risk/css/base.css" rel="stylesheet" type="text/css">
+    <link href="${base}/res/risk/css/index.css" rel="stylesheet" type="text/css">
+    <link href="${base}/res/risk/css/jquery.validate.error.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+    <script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="${base}/res/h_ui_admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+    <title>转账记录</title>
+</head>
+<style>
+    th,td {
+        font-size: 14px;
+    }
+</style>
+
+<body>
+    <div class="wrap">
+        <div class="information-box">
+            <div class="hd">
+                <h6><@spring.message code="finance.transfer.title"/></h6>
+            </div>
+        </div>
+        <div class="transaction-box">
+            <div class="limit-transaction-box">
+                <div class="currency-tabs-list">
+                    <div id="market-tab" style="padding-top:5px;float:right;padding-right:4px;">
+                        <input type="text" onfocus="WdatePicker({lang:'zh-cn',maxDate:'#F{$dp.$D(\'ctimeEnd\')||\'%y-%M-%d HH-mm-ss\'}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="ctimeStart" class="input-text Wdate size-M" style="width:165px;height: 28px;margin-top: 5px;margin-left: 20px;"  value="${ctimeStart!''}">
+                        -
+                        <input type="text" onfocus="WdatePicker({lang:'zh-cn',minDate:'#F{$dp.$D(\'ctimeStart\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="ctimeEnd" class="input-text Wdate size-M" style="width:165px;height: 28px;margin-top: 5px;" value="${ctimeEnd!''}">
+                        <input type="button" value="<@spring.message code="finance.transfer.search"/>" class="medium-btn-blue" style="float: none;min-width:80px;margin-left: 10px;" onclick="findByKey()" />
+                    </div>
+                    <div class="cl pd-5 mt-10"></div>
+                        <table class="table table-border table-bordered table-bg" style="width:99%;">
+                            <thead>
+                                <tr class="text-c">
+                                    <th style="width: 20%;"><@spring.message code="finance.transfer.table.thead1"/></th>
+                                    <th style="width: 10%;"><@spring.message code="finance.transfer.table.thead2"/></th>
+                                    <th style="width: 15%;"><@spring.message code="finance.transfer.table.thead3"/></th>
+                                    <th style="width: 10%;"><@spring.message code="finance.transfer.table.thead4"/></th>
+                                    <th style="width: 15%;"><@spring.message code="finance.transfer.table.thead5"/></th>
+                                    <th style="width: 10%;"><@spring.message code="finance.transfer.table.thead6"/></th>
+                                    <th style="width: 10%;"><@spring.message code="finance.transfer.table.thead7"/></th>
+                                    <th style="width: 10%;"><@spring.message code="finance.transfer.table.thead8"/></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <#if transactionList?? && (transactionList?size>0)>
+                                    <#list transactionList as record>
+                                    <tr>
+                                        <td class="text-c">${(record.ctime)?string("yyyy-MM-dd HH:mm:ss")}</td>
+                                        <td class="text-c">${record.fromUid}</td>
+                                        <td class="text-c">${record.fromType}</td>
+                                        <td class="text-c">${record.toUid}</td>
+                                        <td class="text-c">${record.toType}</td>
+                                        <td class="text-c" style="color: red;">${record.amount} ${record.symbol}</td>
+                                        <td class="text-c">${record.meta}</td>
+                                        <td class="text-c">${record.opUid}</td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                        </tbody>
+                    </table>
+                    <#if transactionList?? && (transactionList?size>0)>
+                        ${jpage.pageSizeButton}
+                        <div class="content_page" >${jpage.buttons}</div>
+                    </#if>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function findByKey(){
+            var end = $("#ctimeEnd").val();
+            var start = $("#ctimeStart").val();
+            window.location.href="${base}/record.html?ctimeStart="+ start + "&ctimeEnd=" + end;
+        }
+    </script>
+</body>
+</html>

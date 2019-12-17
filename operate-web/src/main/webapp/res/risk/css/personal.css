@@ -1,0 +1,225 @@
+body{ background-color: #f5f5f5}
+
+.grade-icon,.set-icon,.grade-set-list li i,.dialogue-list .dia-arrow,.strategy-icon,.record-icon,.cap-icon,.pop-friendship-mode .hd .close,
+.friend-icon{ background: url(../img/personal-sprite.png)  no-repeat;}
+
+.personal-wrap{padding-top: 15px;}
+/* 安全等级 */
+.safety-grade{ padding: 30px 10px 0}
+.safety-grade .hd{ border-bottom: 0;}
+.grade-icon,.set-icon,.strategy-icon,.record-icon{ width:23px; height: 25px; margin-right: 5px; display: inline-block; *display: inline; overflow:  hidden; zoom:1; vertical-align: middle; }
+.grade-box{position: relative;}
+.grade-box .detection-txt{ float: left;  border:1px solid #33457e; margin-left: 20px; border-radius: 20px; font-size:14px; color: #33457e; padding: 5px 15px; }
+.grade{ width: 755px; height:6px; float: left; border-radius: 5px; background-color: #dcdcdc; margin-top: 16px;}
+.grade .grade-i{ background: url(../img/step-bg.jpg); position: relative; height: 6px; border-radius: 5px;}
+.grade .grade-i em{ position: absolute;  right: 14px; bottom: -23px; color: #2f4482}
+
+.grade-middle .grade-i{ background-color: #fdbb2c}
+
+
+/* 安全设置 */
+.set-icon{ background-position: -32px 0;}
+.grade-set{ border-top: 1px solid #e5e5e5;}
+.grade-set-list li{ border-bottom: 1px solid #e5e5e5; padding: 10px; overflow: hidden; zoom:1;}
+.grade-set-list li .set-name{ float: left; width:220px; padding-right: 10px; }
+.grade-set-list li .txt{ float: left; width: 240px; padding-right: 10px; color: #777}
+.grade-set-list li .col-orange{ color: #ee762e}
+.grade-set-list li .set{ float: left;}
+.grade-set-list li a{ color: #4f8de1}
+.grade-set-list li a:hover{ color: #f4711c}
+.grade-set-list li i{ width:19px; height: 19px; background-position:-66px 0; vertical-align: middle; display: inline-block; *display: inline; overflow: hidden; zoom:1; margin-right: 10px; }
+.grade-set-list li.set-amend i{ background-position:-219px; }
+.grade-set-list li i.set-mail-icon{ background-position:-94px 2px}
+.grade-set-list li i.set-pass-icon{ background-position:-129px 0; height: 21px;}
+.grade-set-list li i.set-capital-icon{ background-position:-161px 0; height: 21px;}
+.grade-set-list li i.set-autonym-icon{ background-position:-190px 3px}
+.grade-set-list li.set-amend i{ background-position:-219px 0; }
+.grade-set-list li.set-amend i.set-mail-icon{ background-position:-247px 2px}
+.grade-set-list li.set-amend i.set-pass-icon{ background-position:-282px 0; height: 21px;}
+.grade-set-list li.set-amend i.set-capital-icon{ background-position:-314px 0; height: 21px;}
+.grade-set-list li.set-amend i.set-autonym-icon{ background-position:-343px 3px}
+
+.approve-info{ padding:10px 0 20px 40px; line-height: 30px; color: #999}
+
+
+/* 绑定邮箱 */
+.binding-email{ width: 700px; margin: auto; padding: 50px 0;}
+.register-list li .name{color: #333}
+.personal-btn{ padding:20px 0 0 160px; overflow: hidden; zoom:1;}
+.binding-email .register-list{ padding: 20px 0 0;}
+/* 基本信息 */
+.elementary-info-list{ padding: 30px 0 80px 45px;}
+.elementary-info-list li { padding-bottom: 20px;}
+.elementary-info-list li .elem-txt{ color: #999;}
+.elementary-info-list li .col-blue{ margin:0 15px;}
+
+/* 实名认证 */
+.autonym-tips{ padding: 20px 20px 0; line-height: 25px;}
+.ster-txt{ padding-top: 10px; float: left}
+.autonym-mode{ padding: 40px 0;}
+.autonym-mode .register-list{ padding: 0 10px 0}
+.autonym-mode .register-list li{ padding:0 0 20px 170px;}
+.autonym-mode .register-list li .name{ margin-left: -170px; width: 165px;}
+.certificate{ overflow: hidden; zoom:1;}
+.certificate .certificate-hint{ background-color: #f1f1f1; margin-right: 20px; padding: 20px 0; border-radius: 3px; text-align: center; color: #999; float: left; width:214px; }
+.certificate .certificate-hint img{ margin-bottom: 10px;}
+.cerif-txt{ padding-top: 50px; font-size: 12px; float: left;}
+.cerif-tips{ padding-top: 10px; font-size: 14px;}
+.cerif-txt .small-btn-blue{ display: inline-block; *display:inline; overflow: hidden; zoom :1; vertical-align: middle; float: none; position: relative;}
+.autonym-mode .personal-btn{ padding-left: 180px;}
+.autonym-passmode{ padding: 30px 20px 20px;}
+.autonym-passmode .pass-list{ padding-bottom: 20px;}
+.pass-list li{ padding:0 0 15px 200px; overflow: hidden; zoom:1;}
+.pass-list li .tit{ float: left; margin-left: -200px; width: 200px; text-align: right; *display: inline;}
+.pass-list li .pass-txt{ color: #777}
+.passmode h6{ border-bottom: 1px solid #e5e5e5; padding-bottom: 5px; font-size: 14px; margin-bottom: 15px;}
+.pass-list li .pass-t{ padding-left: 40px; color: #d71d1d}
+.pass-list li .col-gray{color: #999}
+.pass-list li p{ padding-bottom: 10px;}
+.autonym-succeed{ padding: 120px 0; text-align: center; font-size: 14px;}
+.autonym-succeed h6{ color: #e96c1f; font-size: 18px; padding-bottom: 5px;}
+.register-win-icon{ width: 60px; height: 60px; background-position: 0 -14px; margin-bottom: 5px; display: inline-block;*display: inline; overflow: hidden; zoom:1;}
+
+.cerif-txt .small-btn-blue input{ opacity: 0;*filter: alpha(opacity=0); width:90px;  height: 33px; position: absolute; top: 0; left: 0; cursor: pointer;}
+
+.register-list li .alter-input{ width: 260px;}
+.set-suc{ padding-top: 20px;}
+.cert-pic{ background: url(../img/approve4.jpg) no-repeat; width: 214px; height: 136px; float: left;}
+.cert-pic img{ width: 215px; height: 136px; border-radius: 3px;}
+.hint-txt{ padding: 60px 10px 0;  color: #999; float: left;}
+.hint-icon{ width: 10px; height: 11px; margin-left: 5px; background-position:-317px -28px; display: inline-block; *display: inline; overflow: hidden; zoom:1; }
+
+.hand-certificate .cert-pic{ height: 283px; background: url(../img/approve3.jpg) no-repeat;}
+.hand-certificate .cert-pic img{ height: 283px;}
+.hand-certificate .certificate-hint{ height: 243px;}
+
+/* 消息  */
+.myself-information-mode{ padding: 30px 0 0;}
+.myself-info-list dt,.myself-info-list dd{ border-bottom: 1px solid #dcdcdc; padding: 15px 300px 15px 100px; overflow: hidden; zoom:1;}
+.myself-info-list dt{padding: 10px 300px 5px 100px;}
+.myself-info-list dd.not-read{ font-weight: bold;}
+.myself-info-list .myself-label{ float: left; margin-left: -85px; width: 75px; padding:3px 10px 0 0; font-size: 12px; cursor: pointer;}
+.myself-info-list .myself-check{ margin:2px 5px 0 0; float: left;}
+.myself-info-list .myself-time{ float: right; margin-right: -300px; padding-right: 40px;*display: inline; color: #777;}
+.myself-info-list .myself-time .myself-del{ float: right; width: 30px; height: 30px; margin-right: -40px; *display: inline; background-position:-377px -52px; }
+.myself-info-list .myself-time .time{ padding-top: 5px; float: right;}
+.myself-info-list .tit{ padding-bottom: 5px;}
+.myself-info-list .myself-txt{ color: #777; line-height: 22px;padding-right: 30px; height: 22px; overflow: hidden; zoom:1; position: relative;}
+.myself-info-list .myself-active{ height: auto;}
+.myself-info-list dd .myself-time{ margin-top: -5px;}
+
+.defeated-tips{ padding:0 0 20px 170px; margin: 0 10px; overflow: hidden; zoom:1; color: #e6252e}
+.defeated-tips .tit{ float: left; margin-left: -170px; width: 160px; padding-right: 5px; text-align: right;}
+
+.binding-email .defeated-tips{padding:0 0 0 110px; margin: 0 50px}
+.binding-email .defeated-tips .tit{ margin-left: -110px; width: 100px;}
+
+/* 发起提问 */
+.service-tips{ border: 1px solid #f8ecce; background-color: #fff9e4; padding: 8px 20px; color: #777; width: 400px; margin:0 auto 20px; }
+
+.register-tarea{ width: 352px; padding: 10px; border: 1px solid #dcdcdc; height: 120px;}
+.quiz-txt{ padding-top: 5px;}
+
+/* 提问列表 */
+.quiz-mode{ padding: 20px 0;}
+.quiz-status{ padding: 0 5px;}
+
+/* 问题详情 */
+.quiz-table{ padding: 20px 100px;}
+.quiz-table table td,.quiz-table table th{ border: 1px solid #dcdcdc; padding: 10px;}
+.quiz-table table th{ text-align: center;}
+.personal-safety-box .hd .more{ float: right; padding: 10px 0 0 0; color: #4f8de1}
+.dialogue-list{ padding: 0 200px 30px  130px; overflow: hidden; zoom:1;}
+.dialogue-list .name{ float: left; margin-left: -130px; width: 120px; text-align: right; padding-top: 10px;}
+.dialogue-list .dialogue-txt{ background-color: #f8f8f8; border-radius: 5px; padding: 20px; font-size: 12px; position: relative; }
+.dialogue-list .dia-arrow{ width: 8px; height: 13px; background-position:-225px -29px; position: absolute; left: -8px; top: 15px; }
+.dialogue-wo{padding: 0 90px 30px  200px; }
+.dialogue-wo .dialogue-txt{background-color: #9bbafa;  color: #fff;}
+.dialogue-wo .name{ float: right; margin: 0 -130px 0 0; text-align: left; color: #9bbafa}
+.dialogue-wo .dia-arrow{ background-position:-246px -29px; left: inherit; right: -8px; }
+.quiz-tarea-box{ padding:0 30px 0 100px;}
+.quiz-tarea-box .tar-tit{ text-align: right; margin-left: -100px; float: left; width: 90px; padding-right: 10px; text-align: right; *display: inline;}
+.quiz-tarea-box .quiz-tarea{ border: 1px solid #dcdcdc; height: 100px; padding:10px; width: 97%;}
+.tarea-tips{ text-align: right;}
+.quiz-btn{ padding: 20px 0 0; text-align: center;}
+.quiz-btn .medium-btn-blue{ float: none; display: inline-block; *display: inline; overflow:  hidden; zoom:1;}
+
+/* 安全 */
+.strategy-grade .hd{ border-bottom: 1px solid #dcdcdc}
+.strategy-icon{ background-position:-270px -29px; height: 28px;}
+.record-icon{ background-position:-314px -29px; height: 28px;}
+
+.strategy-frame{ padding: 20px 30px 0;}
+.deal-attestation-box .strategy-frame{ font-size: 14px; padding:50px 0 50px 300px;}
+.deal-attestation-box h6{ font-size: 16px; padding-bottom: 20px; font-weight: bold;}
+.strategy-frame .tegy-label{ padding-bottom: 10px;}
+.tegy-label .str-radio{ margin: 0 5px 0 0; vertical-align: -2px;}
+.tion-frame{ border-top:1px solid #dcdcdc; padding-top: 40px; }
+.tion-frame li{ padding:0 0 20px 385px; }
+.tion-frame li .name{ float: left; padding-top: 10px; margin-left: -300px; width: 300px; text-align: right; *display: inline;}
+.tion-frame li input{ border: 1px solid #dcdcdc; width: 100px; padding: 8px 10px; margin-right: 10px; }
+.tion-frame li .tion-txt{ padding-top: 10px;}
+.tegy-tips{ padding-left: 100px; color: #999}
+.deal-attestation-box .personal-btn{ padding-left: 300px;}
+.deal-attestation-box .personal-btn .medium-btn-blue{ min-width: 100px; *width: 100px; overflow: hidden;}
+.strategy-grade .withdraw-mode{ margin-top: 15px;}
+.strategy-grade .transaction-table{ padding: 30px 20px;}
+/* 安全弹层 */
+.pop-capital-box{ width: 380px; padding: 10px 20px 40px}
+.pop-capital-con{ padding-top: 10px; text-align: center;}
+.cap-icon{ background-position:-348px -29px; width: 52px; height: 52px; margin-bottom: 10px; display: inline-block; *display: inline; overflow: hidden; zoom:1; }
+.capital-txt{ font-size: 18px; padding-bottom: 20px;}
+.cap-code{ padding:0 0 20px 100px; overflow: hidden; zoom:1; text-align: left;}
+.cap-code .tit{ float: left; margin-left: -100px; padding-right: 10px; width: 90px; text-align: right;}
+.cap-code input{ width: 100px; padding: 8px 10px; margin-right: 10px; border: 1px solid #dcdcdc}
+.pop-capital-box .personal-btn{ padding: 0 0 0 100px;   text-align: center;}
+.pop-capital-box .small-btn-blue{ min-width: 100px;}
+.pop-deal-box .small-btn-blue{ float: none; display: inline-block; *display: inline; overflow: hidden; zoom:1; margin-right: 0}
+.pop-deal-box .personal-btn{ padding: 0;}
+.strategy-frame .col-blue{ margin-left: 150px;}
+
+/* cms文章详情页 */
+.article-details-box{ padding: 50px;}
+.article-details-box .tit{ font-size: 24px; text-align: center;}
+.article-details-box .det-time{ text-align: center; color: #777; font-size: 12px; padding-bottom: 30px;}
+.article-details-box .det-img{ text-align: center; padding-bottom: 30px;}
+.article-details-box .det-img img{ width: 632px; height: 356px;}
+.article-details-box .article-txt{ padding-bottom: 30px; line-height: 25px;}
+
+.already-read{ border: 1px solid #2f508e; border-radius: 3px; color: #2f508e; padding: 2px 8px; margin-top: 1px; float: right;}
+
+/* 弹出层 */
+.pop-friendship-mode{ width:470px; position: absolute; top: 0; left: 0; background-color: #fff; }
+.pop-friendship-mode .hd{ padding: 10px 20px; background-color: #f4f5f9; overflow: hidden; zoom:1;}
+.pop-friendship-mode .hd .close{ background-position:-362px -87px; width:48px; height: 40px; position: absolute; right: 0; top: 0;  }
+.friend-con{ padding: 35px 20px; text-align: center;}
+.friend-icon{ width:46px; height: 46px; background-position:-59px -98px; display: inline-block; *display: inline; overflow: hidden; zoom:1; vertical-align: middle; margin-bottom: 10px;  }
+.friend-icon2{ background-position: 0 -98px;}
+.pop-friend-btn{ background-color: #f4f5f9; text-align: center; padding: 15px 0; overflow: hidden; zoom:1;}
+.pop-friend-btn .small-btn-blue{ float: none; padding: 7px 20px; display: inline-block; *display: inline; overflow: hidden; zoom:1; vertical-align: middle;}
+
+.friend-port{ text-align: left;}
+.friend-port h6{ font-size: 14px; padding-bottom: 10px;}
+.friend-port .friend-tarea{ padding: 5px; width: 97%; height: 60px;}
+.small-btn-cancel{ background-color: #f4f5f9; color: #212f5c; border:1px solid #a0a6ba;}
+
+/* 认证增加 */
+.autonym-mode .reside-list{ border-top: 1px solid #e5e5e5; padding-top: 40px; margin-top: 30px; overflow: hidden; zoom;1}
+
+.autonym-mode .reside-list li.reside-txt{ float: left; width: 290px;}
+.autonym-mode .reside-list li.reside-txt .register-input{ width: 265px;}
+.autonym-mode .reside-list li.reside-txt .phone-select{ width: 290px;}
+.autonym-mode .reside-list li .cert-pic{ margin:0 20px 20px 0;}
+
+
+.register-list .tarea-tips{ padding-right: 125px;}
+
+
+
+
+
+
+
+
+
+

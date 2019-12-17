@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+<#import "/spring.ftl" as spring/>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="${base}/favicon.ico" >
+<link rel="Shortcut Icon" href="${base}/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="${base}/res/h_ui_admin/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="${base}/res/css/page.css" />
+<title><@spring.message code="rq.info.show.title"/></title>
+</head>
+<body>
+<article class="page-container">
+	<form action="admin_action_edit_submit.html" method="post" enctype="multipart/form-data" class="form form-horizontal" id="form-rqinfo-reply">
+		<input type="hidden" class="input-text" value="${rqInfo.id!''}" placeholder="" id="rqId" name="rqId">
+		<table class="table table-border table-bordered table-bg">
+			<thead>
+			<tr><th colspan="2" scope="col"><@spring.message code="rq.info.show.title"/></th></tr>
+			<tr>
+				<th class="text-r" style="width: 100px;"><@spring.message code="rq.info.reply.head"/></th>
+				<td>${rqInfo.rqTitle!''}</td>
+			</tr>
+			<tr>
+				<th class="text-r"><@spring.message code="rq.info.reply.desc"/></th>
+				<td>${rqInfo.rqDescribe!''}</td>
+			</tr>
+			<tr>
+				<th class="text-r"><@spring.message code="rq.info.reply.image"/></th>
+				<td>
+				<#if rqInfo.imageDataStr??>
+					<img width="100%" height="100%" src="data:image/jpg;base64,${rqInfo.imageDataStr!''}" href="data:image/jpg;base64,${rqInfo.imageDataStr!''}" class="radius"></td>
+				<#else>
+					<@spring.message code="rq.reply.detail.title.image.no"/>
+				</#if>
+			</tr>
+			</thead>
+		</table>
+		<div class="cl pd-5 mt-10"></div>
+		<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr><th colspan="4" scope="col"><@spring.message code="rq.reply.title"/></th></tr>
+			<tr class="text-c">
+				<th style="width: 15%;"><@spring.message code="rq.reply.title.user"/></th>
+				<th><@spring.message code="rq.reply.title.content"/></th>
+				<th style="width: 15%;"><@spring.message code="rq.reply.title.ctime"/></th>
+				<th style="width: 10%;"><@spring.message code="rq.reply.title.operate"/></th>
+			</tr>
+		</thead>
+		<tbody>
+			<#if rqReplyList?? && (rqReplyList?size>0)>
+				<#list rqReplyList as item>
+				<tr>
+					<td class="text-c">${item.userName!''}</td>
+					<td>${item.replayContent!''}</td>
+					<td class="text-c">${item.ctime?string(date_format)!''}</td>
+					<td class="text-c">
+						<a title="<@spring.message code='rq.reply.detail.title'/>" href="javascript:;" onclick="rqReply_show('<@spring.message code='rq.reply.detail.title'/>','rq_reply_detail.html?id=${item.id}','','300')" class="ml-5"><@spring.message code="rq.reply.title.see"/></a>
+					</td>
+				</tr>
+				</#list>
+			<#else>
+				<tr class="text-c"><td colspan="4"><@spring.message code="station.service.noresult.info"/></td></tr>
+			</#if>
+			</tbody>
+		</table>
+		${jpage.pageSizeButton}
+		<#if rqReplyList?? && (rqReplyList?size>0)>
+			<div class="content_page" >${jpage.buttons}</div>
+		</#if>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="${base}/res/h_ui_admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+	/*查看工单回复详情*/
+	function rqReply_show(title,url,w,h){
+		layer_show(title,url,w,h);
+	}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

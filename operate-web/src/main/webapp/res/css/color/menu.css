@@ -1,0 +1,15 @@
+.left-menu{width:14px;height:14px;float: left;margin-top: 12px;margin-right: 5px;background-image:url(../../images/menu/menu_left.png);}
+.menu-1{background-position: 0px 0px;}
+.menu-2{background-position: 0px -14px;}
+.menu-3{background-position: 0px -28px;}
+.menu-4{background-position: 0px -42px;}
+.menu-5{background-position: 0px -56px;}
+.menu-6{background-position: 0px -70px;}
+.menu-7{background-position: 0px -84px;}
+.head-bs{background-color: #3BB3E2;height: 90px;}
+.logog-bs{background-image: url(../../images/logo-bs.png);float: left;width: 308px;height: 50px;margin-top: 17px;margin-left: 10px;}
+.sys-name{float: left;font-size: 25px;width: 250px;height: 35px;color: #fff;line-height: 35px;margin-top: 25px;margin-left: 30px;}
+.top-bs{margin-top: 10px;}
+.top-select{width: 120px;font-size: 13px;height: 28px;}
+.span_text_red{font-size: 13px;color: red;font-weight: 600;cursor:pointer;}
+.span_text{font-size: 13px;}
