@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.AdminUserMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.AdminUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mobile_number" property="mobileNumber" jdbcType="VARCHAR" />
+    <result column="login_pword" property="loginPword" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="last_time" property="lastTime" jdbcType="TIMESTAMP" />
+    <result column="last_ip" property="lastIp" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mobile_number, login_pword, email, nickname, ctime, mtime, last_time, last_ip, 
+    country_code
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.AdminUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.AdminUserExample" >
+    delete from admin_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.AdminUser" >
+    insert into admin_user (id, mobile_number, login_pword, 
+      email, nickname, ctime, 
+      mtime, last_time, last_ip, 
+      country_code)
+    values (#{id,jdbcType=INTEGER}, #{mobileNumber,jdbcType=VARCHAR}, #{loginPword,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP}, #{lastIp,jdbcType=VARCHAR}, 
+      #{countryCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.AdminUser" >
+    insert into admin_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mobileNumber != null" >
+        mobile_number,
+      </if>
+      <if test="loginPword != null" >
+        login_pword,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="lastTime != null" >
+        last_time,
+      </if>
+      <if test="lastIp != null" >
+        last_ip,
+      </if>
+      <if test="countryCode != null" >
+        country_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mobileNumber != null" >
+        #{mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPword != null" >
+        #{loginPword,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastIp != null" >
+        #{lastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.AdminUserExample" resultType="java.lang.Integer" >
+    select count(*) from admin_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update admin_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobileNumber != null" >
+        mobile_number = #{record.mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginPword != null" >
+        login_pword = #{record.loginPword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null" >
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastTime != null" >
+        last_time = #{record.lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastIp != null" >
+        last_ip = #{record.lastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countryCode != null" >
+        country_code = #{record.countryCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update admin_user
+    set id = #{record.id,jdbcType=INTEGER},
+      mobile_number = #{record.mobileNumber,jdbcType=VARCHAR},
+      login_pword = #{record.loginPword,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      last_time = #{record.lastTime,jdbcType=TIMESTAMP},
+      last_ip = #{record.lastIp,jdbcType=VARCHAR},
+      country_code = #{record.countryCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.AdminUser" >
+    update admin_user
+    <set >
+      <if test="mobileNumber != null" >
+        mobile_number = #{mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPword != null" >
+        login_pword = #{loginPword,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null" >
+        last_time = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastIp != null" >
+        last_ip = #{lastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        country_code = #{countryCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.AdminUser" >
+    update admin_user
+    set mobile_number = #{mobileNumber,jdbcType=VARCHAR},
+      login_pword = #{loginPword,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      last_time = #{lastTime,jdbcType=TIMESTAMP},
+      last_ip = #{lastIp,jdbcType=VARCHAR},
+      country_code = #{countryCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

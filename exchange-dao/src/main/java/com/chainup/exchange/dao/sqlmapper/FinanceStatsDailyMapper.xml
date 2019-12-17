@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chainup.exchange.dao.FinanceStatsDailyMapper">
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.FinanceStatsDaily">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="symbol" jdbcType="VARCHAR" property="symbol" />
+    <result column="item_type" jdbcType="VARCHAR" property="itemType" />
+    <result column="item_date" jdbcType="DATE" property="itemDate" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, symbol, item_type, item_date, amount, ctime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from finance_stats_daily
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from finance_stats_daily
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.FinanceStatsDaily">
+    insert into finance_stats_daily (id, symbol, item_type, 
+      item_date, amount, ctime
+      )
+    values (#{id,jdbcType=INTEGER}, #{symbol,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR}, 
+      #{itemDate,jdbcType=DATE}, #{amount,jdbcType=DECIMAL}, #{ctime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.FinanceStatsDaily">
+    insert into finance_stats_daily
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="symbol != null">
+        symbol,
+      </if>
+      <if test="itemType != null">
+        item_type,
+      </if>
+      <if test="itemDate != null">
+        item_date,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="symbol != null">
+        #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null">
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDate != null">
+        #{itemDate,jdbcType=DATE},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.FinanceStatsDailyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from finance_stats_daily
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.FinanceStatsDailyExample" >
+    delete from finance_stats_daily
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.FinanceStatsDailyExample" resultType="java.lang.Integer" >
+    select count(*) from finance_stats_daily
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update finance_stats_daily
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.symbol != null" >
+        symbol = #{record.symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemType != null" >
+        item_type = #{record.itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemDate != null" >
+        item_date = #{record.itemDate,jdbcType=DATE},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update finance_stats_daily
+    set id = #{record.id,jdbcType=INTEGER},
+      symbol = #{record.symbol,jdbcType=VARCHAR},
+      item_type = #{record.itemType,jdbcType=VARCHAR},
+      item_date = #{record.itemDate,jdbcType=DATE},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.FinanceStatsDaily" >
+    update finance_stats_daily
+    <set >
+      <if test="symbol != null" >
+        symbol = #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDate != null" >
+        item_date = #{itemDate,jdbcType=DATE},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.FinanceStatsDaily" >
+    update finance_stats_daily
+    set symbol = #{symbol,jdbcType=VARCHAR},
+      item_type = #{itemType,jdbcType=VARCHAR},
+      item_date = #{itemDate,jdbcType=DATE},
+      amount = #{amount,jdbcType=DECIMAL},
+      ctime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectLatestByDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from finance_stats_daily
+    where id in (
+      select max(id)
+      from finance_stats_daily
+      where item_date &lt;= #{limitDate,jdbcType=TIMESTAMP}
+      group by `symbol`,`item_type`
+    )
+  </select>
+
+  <select id="getProfitLastItemDate" resultType="java.util.Date" >
+    select item_date
+    from finance_stats_daily
+    where item_type in ('TRADE_FEE','WITHDRAW_FEE','PRESENT_COIN')
+    order by item_date desc
+    limit 1
+  </select>
+
+  <select id="profitCheckDate" resultType="java.lang.Integer" parameterType="date">
+    select count(1)
+    from finance_stats_daily
+    where item_type in ('TRADE_FEE','WITHDRAW_FEE','PRESENT_COIN')
+    and item_date = #{itemDate,jdbcType=DATE}
+  </select>
+
+  <select id="getDepositWithdrawLastItemDate" resultType="java.util.Date" >
+    select item_date
+    from finance_stats_daily
+    where item_type in ('DEPOSIT','WITHDRAW')
+    order by item_date desc
+    limit 1
+  </select>
+
+  <select id="depositWithdrawCheckDate" resultType="java.lang.Integer" parameterType="date">
+    select count(1)
+    from finance_stats_daily
+    where item_type in ('DEPOSIT','WITHDRAW')
+    and item_date = #{itemDate,jdbcType=DATE}
+  </select>
+
+  <select id="getTradeLastItemDate" resultType="java.util.Date" >
+    select item_date
+    from finance_stats_daily
+    where item_type in ('USER_TRADE')
+    order by item_date desc
+    limit 1
+  </select>
+
+  <select id="TradeCheckDate" resultType="java.lang.Integer" parameterType="date">
+    select count(1)
+    from finance_stats_daily
+    where item_type in ('USER_TRADE')
+    and item_date = #{itemDate,jdbcType=DATE}
+  </select>
+
+  <select id="getTradeCount" resultType="java.lang.Integer" parameterType="map">
+    select count(1)
+    from finance_stats_daily
+    where symbol = #{symbol,jdbcType=VARCHAR}
+    and item_type = #{itemType,jdbcType=VARCHAR}
+    and item_date = #{itemDate,jdbcType=DATE}
+  </select>
+</mapper>

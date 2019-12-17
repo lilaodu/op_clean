@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.AuthCertificateMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.AuthCertificate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="auth_status" property="authStatus" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.chainup.common.exchange.entity.AuthCertificateWithBLOBs" extends="BaseResultMap" >
+    <result column="first_photo" property="firstPhoto" jdbcType="LONGVARBINARY" />
+    <result column="second_photo" property="secondPhoto" jdbcType="LONGVARBINARY" />
+    <result column="fourth_photo" property="fourthPhoto" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uid, auth_status, ctime, mtime, reason
+  </sql>
+  <sql id="Blob_Column_List" >
+    first_photo, second_photo, fourth_photo
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.chainup.common.exchange.entity.AuthCertificateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from auth_certificate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.AuthCertificateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from auth_certificate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from auth_certificate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from auth_certificate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.AuthCertificateExample" >
+    delete from auth_certificate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.AuthCertificateWithBLOBs" >
+    insert into auth_certificate (id, uid, auth_status, 
+      ctime, mtime, reason, 
+      first_photo, second_photo, fourth_photo
+      )
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{authStatus,jdbcType=TINYINT}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{reason,jdbcType=VARCHAR}, 
+      #{firstPhoto,jdbcType=LONGVARBINARY}, #{secondPhoto,jdbcType=LONGVARBINARY}, #{fourthPhoto,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.AuthCertificateWithBLOBs" >
+    insert into auth_certificate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="authStatus != null" >
+        auth_status,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="firstPhoto != null" >
+        first_photo,
+      </if>
+      <if test="secondPhoto != null" >
+        second_photo,
+      </if>
+      <if test="fourthPhoto != null" >
+        fourth_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="authStatus != null" >
+        #{authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPhoto != null" >
+        #{firstPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="secondPhoto != null" >
+        #{secondPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="fourthPhoto != null" >
+        #{fourthPhoto,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.AuthCertificateExample" resultType="java.lang.Integer" >
+    select count(*) from auth_certificate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update auth_certificate
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.authStatus != null" >
+        auth_status = #{record.authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstPhoto != null" >
+        first_photo = #{record.firstPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="record.secondPhoto != null" >
+        second_photo = #{record.secondPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="record.fourthPhoto != null" >
+        fourth_photo = #{record.fourthPhoto,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update auth_certificate
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      auth_status = #{record.authStatus,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      first_photo = #{record.firstPhoto,jdbcType=LONGVARBINARY},
+      second_photo = #{record.secondPhoto,jdbcType=LONGVARBINARY},
+      fourth_photo = #{record.fourthPhoto,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update auth_certificate
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      auth_status = #{record.authStatus,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      reason = #{record.reason,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.AuthCertificateWithBLOBs" >
+    update auth_certificate
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="authStatus != null" >
+        auth_status = #{authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPhoto != null" >
+        first_photo = #{firstPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="secondPhoto != null" >
+        second_photo = #{secondPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="fourthPhoto != null" >
+        fourth_photo = #{fourthPhoto,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chainup.common.exchange.entity.AuthCertificateWithBLOBs" >
+    update auth_certificate
+    set uid = #{uid,jdbcType=INTEGER},
+      auth_status = #{authStatus,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      reason = #{reason,jdbcType=VARCHAR},
+      first_photo = #{firstPhoto,jdbcType=LONGVARBINARY},
+      second_photo = #{secondPhoto,jdbcType=LONGVARBINARY},
+      fourth_photo = #{fourthPhoto,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.AuthCertificate" >
+    update auth_certificate
+    set uid = #{uid,jdbcType=INTEGER},
+      auth_status = #{authStatus,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

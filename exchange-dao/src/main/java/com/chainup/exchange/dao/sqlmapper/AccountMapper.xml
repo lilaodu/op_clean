@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.AccountMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.Account" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="asset_id" property="assetId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="SumResultMap" type="java.util.Map" >
+    <result column="userNormalSum" property="userNormalSum" jdbcType="DECIMAL" />
+    <result column="userLockSum" property="userLockSum" jdbcType="DECIMAL" />
+    <result column="userWithdrawSum" property="userWithdrawSum" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uid, type, balance, tag, ctime, mtime,asset_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.AccountExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from account
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectOnlyOneByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.AccountExample" >
+    select
+    <include refid="Base_Column_List" />
+    from account
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUidAndTypeAddLock" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.Account" >
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where uid = #{uid,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER}
+    FOR UPDATE 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.AccountExample" >
+    delete from account
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.Account" >
+    insert into account (id, uid, type, 
+      balance, tag, ctime, 
+      mtime,asset_id)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{balance,jdbcType=DECIMAL}, #{tag,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP}, #{assetId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.Account" >
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="assetId != null" >
+        asset_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assetId != null" >
+        #{assetId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.AccountExample" resultType="java.lang.Integer" >
+    select count(*) from account
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update account
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.balance != null" >
+        balance = #{record.balance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tag != null" >
+        tag = #{record.tag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.assetId != null" >
+        asset_id = #{record.assetId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update account
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      balance = #{record.balance,jdbcType=DECIMAL},
+      tag = #{record.tag,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      asset_id = #{record.assetId,jdbcType=INTEGER},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.Account" >
+    update account
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="assetId != null" >
+        asset_id = #{assetId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.Account" >
+    update account
+    set uid = #{uid,jdbcType=INTEGER},
+      asset_id = #{assetId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=DECIMAL},
+      tag = #{tag,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectUserBalanceSumByCoin" parameterType="java.util.Map" resultMap="SumResultMap">
+    select 0
+    <if test="userNormalType != null" >
+      ,(select sum(balance)
+      from `account`
+      where uid>10000 and `type` = #{userNormalType}) as userNormalSum
+    </if>
+    <if test="userLockType != null" >
+      ,(select sum(balance)
+      from `account`
+      where uid>10000 and `type` = #{userLockType})as userLockSum
+    </if>
+    <if test="userWithdrawType != null" >
+      ,(select sum(balance)
+      from `account`
+      where uid>10000 and `type` = #{userWithdrawType}) as userWithdrawSum
+    </if>
+  </select>
+
+  <select id="selectOtcUserBalanceSumByCoin" parameterType="java.util.Map" resultMap="SumResultMap">
+    select 0
+    <if test="userNormalType != null" >
+      ,(select sum(balance)
+      from `account`
+      where uid>10000 and `type` = #{userNormalType}) as userNormalSum
+    </if>
+    <if test="userLockType != null" >
+      ,(select sum(balance)
+      from `account`
+      where uid>10000 and `type` = #{userLockType})as userLockSum
+    </if>
+    <if test="cFeeType != null" >
+      ,(select sum(balance)
+      from `account`
+      where uid = 1 and `type` = #{cFeeType}) as cFeeType
+    </if>
+  </select>
+  
+  <select id="checkByUid" resultType="java.lang.Integer" parameterType="int">
+    select count(1)
+    from account
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+    <insert id="insertSelectiveByList" parameterType="com.chainup.common.exchange.entity.Account" >
+        insert into account( uid,type,balance,tag,asset_id,ctime)
+        values
+        <foreach collection="accounts" item="item" separator=",">
+            ( #{item.uid,jdbcType=INTEGER},
+                    #{item.type,jdbcType=INTEGER},
+                    #{item.balance,jdbcType=DECIMAL},
+                    #{item.tag,jdbcType=VARCHAR},
+                    #{item.assetId,jdbcType=INTEGER},
+            #{item.ctime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+</mapper>

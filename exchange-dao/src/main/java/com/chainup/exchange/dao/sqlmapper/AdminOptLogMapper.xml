@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.AdminOptLogMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.AdminOptLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="event_uid" property="eventUid" jdbcType="INTEGER" />
+    <result column="event_table" property="eventTable" jdbcType="VARCHAR" />
+    <result column="event_type" property="eventType" jdbcType="INTEGER" />
+    <result column="event_ip" property="eventIp" jdbcType="VARCHAR" />
+    <result column="event_des" property="eventDes" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, event_uid, event_table, event_type, event_ip, event_des, ctime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.AdminOptLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin_opt_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin_opt_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin_opt_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.AdminOptLogExample" >
+    delete from admin_opt_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.AdminOptLog" >
+    insert into admin_opt_log (id, event_uid, event_table, 
+      event_type, event_ip, event_des, 
+      ctime)
+    values (#{id,jdbcType=INTEGER}, #{eventUid,jdbcType=INTEGER}, #{eventTable,jdbcType=VARCHAR}, 
+      #{eventType,jdbcType=INTEGER}, #{eventIp,jdbcType=VARCHAR}, #{eventDes,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.AdminOptLog" >
+    insert into admin_opt_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eventUid != null" >
+        event_uid,
+      </if>
+      <if test="eventTable != null" >
+        event_table,
+      </if>
+      <if test="eventType != null" >
+        event_type,
+      </if>
+      <if test="eventIp != null" >
+        event_ip,
+      </if>
+      <if test="eventDes != null" >
+        event_des,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eventUid != null" >
+        #{eventUid,jdbcType=INTEGER},
+      </if>
+      <if test="eventTable != null" >
+        #{eventTable,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null" >
+        #{eventType,jdbcType=INTEGER},
+      </if>
+      <if test="eventIp != null" >
+        #{eventIp,jdbcType=VARCHAR},
+      </if>
+      <if test="eventDes != null" >
+        #{eventDes,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.AdminOptLogExample" resultType="java.lang.Integer" >
+    select count(*) from admin_opt_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update admin_opt_log
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventUid != null" >
+        event_uid = #{record.eventUid,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventTable != null" >
+        event_table = #{record.eventTable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventType != null" >
+        event_type = #{record.eventType,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventIp != null" >
+        event_ip = #{record.eventIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventDes != null" >
+        event_des = #{record.eventDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update admin_opt_log
+    set id = #{record.id,jdbcType=INTEGER},
+      event_uid = #{record.eventUid,jdbcType=INTEGER},
+      event_table = #{record.eventTable,jdbcType=VARCHAR},
+      event_type = #{record.eventType,jdbcType=INTEGER},
+      event_ip = #{record.eventIp,jdbcType=VARCHAR},
+      event_des = #{record.eventDes,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.AdminOptLog" >
+    update admin_opt_log
+    <set >
+      <if test="eventUid != null" >
+        event_uid = #{eventUid,jdbcType=INTEGER},
+      </if>
+      <if test="eventTable != null" >
+        event_table = #{eventTable,jdbcType=VARCHAR},
+      </if>
+      <if test="eventType != null" >
+        event_type = #{eventType,jdbcType=INTEGER},
+      </if>
+      <if test="eventIp != null" >
+        event_ip = #{eventIp,jdbcType=VARCHAR},
+      </if>
+      <if test="eventDes != null" >
+        event_des = #{eventDes,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.AdminOptLog" >
+    update admin_opt_log
+    set event_uid = #{eventUid,jdbcType=INTEGER},
+      event_table = #{eventTable,jdbcType=VARCHAR},
+      event_type = #{eventType,jdbcType=INTEGER},
+      event_ip = #{eventIp,jdbcType=VARCHAR},
+      event_des = #{eventDes,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.ExSymbolPairMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.ExSymbolPair" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="symbol" property="symbol" jdbcType="VARCHAR" />
+    <result column="base" property="base" jdbcType="VARCHAR" />
+    <result column="quote" property="quote" jdbcType="VARCHAR" />
+    <result column="is_open" property="isOpen" jdbcType="CHAR" />
+    <result column="open_price" property="openPrice" jdbcType="DECIMAL" />
+    <result column="is_fiat" property="isFiat" jdbcType="CHAR" />
+    <result column="depth0_pre" property="depth0Pre" jdbcType="VARCHAR" />
+    <result column="depth1_pre" property="depth1Pre" jdbcType="VARCHAR" />
+    <result column="depth2_pre" property="depth2Pre" jdbcType="VARCHAR" />
+    <result column="price_pre" property="pricePre" jdbcType="DECIMAL" />
+    <result column="volume_pre" property="volumePre" jdbcType="DECIMAL" />
+    <result column="depth_full_volume" property="depthFullVolume" jdbcType="VARCHAR" />
+    <result column="limit_sell_min_volume" property="limitSellMinVolume" jdbcType="DECIMAL" />
+    <result column="limit_sell_min_price" property="limitSellMinPrice" jdbcType="DECIMAL" />
+    <result column="market_buy_min_peice" property="marketBuyMinPeice" jdbcType="DECIMAL" />
+    <result column="market_buy_min_volume" property="marketBuyMinVolume" jdbcType="DECIMAL" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, symbol, base, quote, is_open, open_price, is_fiat, depth0_pre, depth1_pre, depth2_pre, 
+    price_pre, volume_pre, depth_full_volume, limit_sell_min_volume, limit_sell_min_price, 
+    market_buy_min_peice, market_buy_min_volume, description
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.ExSymbolPairExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ex_symbol_pair
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ex_symbol_pair
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ex_symbol_pair
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.ExSymbolPairExample" >
+    delete from ex_symbol_pair
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.ExSymbolPair" >
+    insert into ex_symbol_pair (id, symbol, base, 
+      quote, is_open, open_price, 
+      is_fiat, depth0_pre, depth1_pre, 
+      depth2_pre, price_pre, volume_pre, 
+      depth_full_volume, limit_sell_min_volume, limit_sell_min_price, 
+      market_buy_min_peice, market_buy_min_volume, 
+      description)
+    values (#{id,jdbcType=BIGINT}, #{symbol,jdbcType=VARCHAR}, #{base,jdbcType=VARCHAR}, 
+      #{quote,jdbcType=VARCHAR}, #{isOpen,jdbcType=CHAR}, #{openPrice,jdbcType=DECIMAL}, 
+      #{isFiat,jdbcType=CHAR}, #{depth0Pre,jdbcType=VARCHAR}, #{depth1Pre,jdbcType=VARCHAR}, 
+      #{depth2Pre,jdbcType=VARCHAR}, #{pricePre,jdbcType=DECIMAL}, #{volumePre,jdbcType=DECIMAL}, 
+      #{depthFullVolume,jdbcType=VARCHAR}, #{limitSellMinVolume,jdbcType=DECIMAL}, #{limitSellMinPrice,jdbcType=DECIMAL}, 
+      #{marketBuyMinPeice,jdbcType=DECIMAL}, #{marketBuyMinVolume,jdbcType=DECIMAL}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.ExSymbolPair" >
+    insert into ex_symbol_pair
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="symbol != null" >
+        symbol,
+      </if>
+      <if test="base != null" >
+        base,
+      </if>
+      <if test="quote != null" >
+        quote,
+      </if>
+      <if test="isOpen != null" >
+        is_open,
+      </if>
+      <if test="openPrice != null" >
+        open_price,
+      </if>
+      <if test="isFiat != null" >
+        is_fiat,
+      </if>
+      <if test="depth0Pre != null" >
+        depth0_pre,
+      </if>
+      <if test="depth1Pre != null" >
+        depth1_pre,
+      </if>
+      <if test="depth2Pre != null" >
+        depth2_pre,
+      </if>
+      <if test="pricePre != null" >
+        price_pre,
+      </if>
+      <if test="volumePre != null" >
+        volume_pre,
+      </if>
+      <if test="depthFullVolume != null" >
+        depth_full_volume,
+      </if>
+      <if test="limitSellMinVolume != null" >
+        limit_sell_min_volume,
+      </if>
+      <if test="limitSellMinPrice != null" >
+        limit_sell_min_price,
+      </if>
+      <if test="marketBuyMinPeice != null" >
+        market_buy_min_peice,
+      </if>
+      <if test="marketBuyMinVolume != null" >
+        market_buy_min_volume,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="symbol != null" >
+        #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="base != null" >
+        #{base,jdbcType=VARCHAR},
+      </if>
+      <if test="quote != null" >
+        #{quote,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null" >
+        #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null" >
+        #{openPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isFiat != null" >
+        #{isFiat,jdbcType=CHAR},
+      </if>
+      <if test="depth0Pre != null" >
+        #{depth0Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="depth1Pre != null" >
+        #{depth1Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="depth2Pre != null" >
+        #{depth2Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="pricePre != null" >
+        #{pricePre,jdbcType=DECIMAL},
+      </if>
+      <if test="volumePre != null" >
+        #{volumePre,jdbcType=DECIMAL},
+      </if>
+      <if test="depthFullVolume != null" >
+        #{depthFullVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="limitSellMinVolume != null" >
+        #{limitSellMinVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="limitSellMinPrice != null" >
+        #{limitSellMinPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketBuyMinPeice != null" >
+        #{marketBuyMinPeice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketBuyMinVolume != null" >
+        #{marketBuyMinVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.ExSymbolPairExample" resultType="java.lang.Integer" >
+    select count(*) from ex_symbol_pair
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ex_symbol_pair
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.symbol != null" >
+        symbol = #{record.symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="record.base != null" >
+        base = #{record.base,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quote != null" >
+        quote = #{record.quote,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isOpen != null" >
+        is_open = #{record.isOpen,jdbcType=CHAR},
+      </if>
+      <if test="record.openPrice != null" >
+        open_price = #{record.openPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isFiat != null" >
+        is_fiat = #{record.isFiat,jdbcType=CHAR},
+      </if>
+      <if test="record.depth0Pre != null" >
+        depth0_pre = #{record.depth0Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depth1Pre != null" >
+        depth1_pre = #{record.depth1Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depth2Pre != null" >
+        depth2_pre = #{record.depth2Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pricePre != null" >
+        price_pre = #{record.pricePre,jdbcType=DECIMAL},
+      </if>
+      <if test="record.volumePre != null" >
+        volume_pre = #{record.volumePre,jdbcType=DECIMAL},
+      </if>
+      <if test="record.depthFullVolume != null" >
+        depth_full_volume = #{record.depthFullVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="record.limitSellMinVolume != null" >
+        limit_sell_min_volume = #{record.limitSellMinVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.limitSellMinPrice != null" >
+        limit_sell_min_price = #{record.limitSellMinPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marketBuyMinPeice != null" >
+        market_buy_min_peice = #{record.marketBuyMinPeice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marketBuyMinVolume != null" >
+        market_buy_min_volume = #{record.marketBuyMinVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ex_symbol_pair
+    set id = #{record.id,jdbcType=BIGINT},
+      symbol = #{record.symbol,jdbcType=VARCHAR},
+      base = #{record.base,jdbcType=VARCHAR},
+      quote = #{record.quote,jdbcType=VARCHAR},
+      is_open = #{record.isOpen,jdbcType=CHAR},
+      open_price = #{record.openPrice,jdbcType=DECIMAL},
+      is_fiat = #{record.isFiat,jdbcType=CHAR},
+      depth0_pre = #{record.depth0Pre,jdbcType=VARCHAR},
+      depth1_pre = #{record.depth1Pre,jdbcType=VARCHAR},
+      depth2_pre = #{record.depth2Pre,jdbcType=VARCHAR},
+      price_pre = #{record.pricePre,jdbcType=DECIMAL},
+      volume_pre = #{record.volumePre,jdbcType=DECIMAL},
+      depth_full_volume = #{record.depthFullVolume,jdbcType=VARCHAR},
+      limit_sell_min_volume = #{record.limitSellMinVolume,jdbcType=DECIMAL},
+      limit_sell_min_price = #{record.limitSellMinPrice,jdbcType=DECIMAL},
+      market_buy_min_peice = #{record.marketBuyMinPeice,jdbcType=DECIMAL},
+      market_buy_min_volume = #{record.marketBuyMinVolume,jdbcType=DECIMAL},
+      description = #{record.description,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.ExSymbolPair" >
+    update ex_symbol_pair
+    <set >
+      <if test="symbol != null" >
+        symbol = #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="base != null" >
+        base = #{base,jdbcType=VARCHAR},
+      </if>
+      <if test="quote != null" >
+        quote = #{quote,jdbcType=VARCHAR},
+      </if>
+      <if test="isOpen != null" >
+        is_open = #{isOpen,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null" >
+        open_price = #{openPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isFiat != null" >
+        is_fiat = #{isFiat,jdbcType=CHAR},
+      </if>
+      <if test="depth0Pre != null" >
+        depth0_pre = #{depth0Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="depth1Pre != null" >
+        depth1_pre = #{depth1Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="depth2Pre != null" >
+        depth2_pre = #{depth2Pre,jdbcType=VARCHAR},
+      </if>
+      <if test="pricePre != null" >
+        price_pre = #{pricePre,jdbcType=DECIMAL},
+      </if>
+      <if test="volumePre != null" >
+        volume_pre = #{volumePre,jdbcType=DECIMAL},
+      </if>
+      <if test="depthFullVolume != null" >
+        depth_full_volume = #{depthFullVolume,jdbcType=VARCHAR},
+      </if>
+      <if test="limitSellMinVolume != null" >
+        limit_sell_min_volume = #{limitSellMinVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="limitSellMinPrice != null" >
+        limit_sell_min_price = #{limitSellMinPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketBuyMinPeice != null" >
+        market_buy_min_peice = #{marketBuyMinPeice,jdbcType=DECIMAL},
+      </if>
+      <if test="marketBuyMinVolume != null" >
+        market_buy_min_volume = #{marketBuyMinVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.ExSymbolPair" >
+    update ex_symbol_pair
+    set symbol = #{symbol,jdbcType=VARCHAR},
+      base = #{base,jdbcType=VARCHAR},
+      quote = #{quote,jdbcType=VARCHAR},
+      is_open = #{isOpen,jdbcType=CHAR},
+      open_price = #{openPrice,jdbcType=DECIMAL},
+      is_fiat = #{isFiat,jdbcType=CHAR},
+      depth0_pre = #{depth0Pre,jdbcType=VARCHAR},
+      depth1_pre = #{depth1Pre,jdbcType=VARCHAR},
+      depth2_pre = #{depth2Pre,jdbcType=VARCHAR},
+      price_pre = #{pricePre,jdbcType=DECIMAL},
+      volume_pre = #{volumePre,jdbcType=DECIMAL},
+      depth_full_volume = #{depthFullVolume,jdbcType=VARCHAR},
+      limit_sell_min_volume = #{limitSellMinVolume,jdbcType=DECIMAL},
+      limit_sell_min_price = #{limitSellMinPrice,jdbcType=DECIMAL},
+      market_buy_min_peice = #{marketBuyMinPeice,jdbcType=DECIMAL},
+      market_buy_min_volume = #{marketBuyMinVolume,jdbcType=DECIMAL},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.ExOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.ExOrder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="side" property="side" jdbcType="CHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="volume" property="volume" jdbcType="DECIMAL" />
+    <result column="fee_rate_maker" property="feeRateMaker" jdbcType="DOUBLE" />
+    <result column="fee_rate_taker" property="feeRateTaker" jdbcType="DOUBLE" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+	<result column="fee_coin_rate" property="feeCoinRate" jdbcType="DOUBLE" />
+    <result column="deal_volume" property="dealVolume" jdbcType="DECIMAL" />
+    <result column="deal_money" property="dealMoney" jdbcType="DECIMAL" />
+    <result column="avg_price" property="avgPrice" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="source" property="source" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+ <sql id="Base_Column_List" >
+    id, user_id, side, price, volume, fee_rate_maker, fee_rate_taker, fee, fee_coin_rate, 
+    deal_volume, deal_money, avg_price, status, type, ctime, mtime, source
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.ExOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ${tableName}
+
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${tableName}
+
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from ${tableName}
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.ExOrderExample" >
+    delete from ${tableName}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.chainup.common.exchange.entity.ExOrder" >
+    insert into ${tableName} (id, user_id, side, 
+    price, volume, fee_rate_maker, 
+      fee_rate_taker, fee,fee_coin_rate, 
+	  deal_volume,deal_money, avg_price, status, 
+      type, ctime, mtime, 
+      source)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{side,jdbcType=CHAR}, 
+      #{price,jdbcType=DECIMAL}, #{volume,jdbcType=DECIMAL}, #{feeRateMaker,jdbcType=DOUBLE}, 
+      #{feeRateTaker,jdbcType=DOUBLE}, #{fee,jdbcType=DECIMAL}, #{feeCoinRate,jdbcType=DOUBLE}, 
+      #{dealVolume,jdbcType=DECIMAL}, #{dealMoney,jdbcType=DECIMAL}, #{avgPrice,jdbcType=DECIMAL}, 
+      #{status,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, 
+
+      #{mtime,jdbcType=TIMESTAMP}, #{source,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="id"  parameterType="com.chainup.common.exchange.entity.ExOrder" >
+    insert into ${tableName}
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="side != null" >
+        side,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="volume != null" >
+        volume,
+      </if>
+      <if test="feeRateMaker != null" >
+        fee_rate_maker,
+      </if>
+      <if test="feeRateTaker != null" >
+        fee_rate_taker,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="feeCoinRate != null" >
+        fee_coin_rate,
+      </if>
+      <if test="dealVolume != null" >
+        deal_volume,
+      </if>
+      <if test="dealMoney != null" >
+        deal_money,
+      </if>
+      <if test="avgPrice != null" >
+        avg_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="side != null" >
+        #{side,jdbcType=CHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="feeRateMaker != null" >
+        #{feeRateMaker,jdbcType=DOUBLE},
+      </if>
+      <if test="feeRateTaker != null" >
+        #{feeRateTaker,jdbcType=DOUBLE},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeCoinRate != null" >
+        #{feeCoinRate,jdbcType=DOUBLE},
+      </if>
+      <if test="dealVolume != null" >
+        #{dealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="dealMoney != null" >
+        #{dealMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="avgPrice != null" >
+        #{avgPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.ExOrderExample" resultType="java.lang.Integer" >
+    select count(*) from ${tableName}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ${record.tableName}
+
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.side != null" >
+        side = #{record.side,jdbcType=CHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.volume != null" >
+        volume = #{record.volume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeRateMaker != null" >
+        fee_rate_maker = #{record.feeRateMaker,jdbcType=DOUBLE},
+      </if>
+      <if test="record.feeRateTaker != null" >
+        fee_rate_taker = #{record.feeRateTaker,jdbcType=DOUBLE},
+      </if>
+      <if test="record.fee != null" >
+        fee = #{record.fee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeCoinRate != null" >
+        fee_coin_rate = #{record.feeCoinRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.dealVolume != null" >
+        deal_volume = #{record.dealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dealMoney != null" >
+        deal_money = #{record.dealMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.avgPrice != null" >
+        avg_price = #{record.avgPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ${tableName}
+
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      side = #{record.side,jdbcType=CHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      volume = #{record.volume,jdbcType=DECIMAL},
+      fee_rate_maker = #{record.feeRateMaker,jdbcType=DOUBLE},
+      fee_rate_taker = #{record.feeRateTaker,jdbcType=DOUBLE},
+      fee = #{record.fee,jdbcType=DECIMAL},
+      fee_coin_rate = #{record.feeCoinRate,jdbcType=DOUBLE},
+      deal_volume = #{record.dealVolume,jdbcType=DECIMAL},
+      deal_money = #{record.dealMoney,jdbcType=DECIMAL},
+      avg_price = #{record.avgPrice,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      source = #{record.source,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.ExOrder" >
+    update ${tableName}
+
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="side != null" >
+        side = #{side,jdbcType=CHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="volume != null" >
+        volume = #{volume,jdbcType=DECIMAL},
+      </if>
+      <if test="feeRateMaker != null" >
+        fee_rate_maker = #{feeRateMaker,jdbcType=DOUBLE},
+      </if>
+      <if test="feeRateTaker != null" >
+        fee_rate_taker = #{feeRateTaker,jdbcType=DOUBLE},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeCoinRate != null" >
+        fee_coin_rate = #{feeCoinRate,jdbcType=DOUBLE},
+      </if>
+      <if test="dealVolume != null" >
+        deal_volume = #{dealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="dealMoney != null" >
+        deal_money = #{dealMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="avgPrice != null" >
+        avg_price = #{avgPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.ExOrder" >
+    update ${tableName}
+
+    set user_id = #{userId,jdbcType=INTEGER},
+      side = #{side,jdbcType=CHAR},
+      price = #{price,jdbcType=DECIMAL},
+      volume = #{volume,jdbcType=DECIMAL},
+      fee_rate_maker = #{feeRateMaker,jdbcType=DOUBLE},
+      fee_rate_taker = #{feeRateTaker,jdbcType=DOUBLE},
+      fee = #{fee,jdbcType=DECIMAL},
+      fee_coin_rate = #{feeCoinRate,jdbcType=DOUBLE},
+      deal_volume = #{dealVolume,jdbcType=DECIMAL},
+      deal_money = #{dealMoney,jdbcType=DECIMAL},
+      avg_price = #{avgPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      source = #{source,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据id查询订单并加锁 -->
+  <select id="selectByIdAddLock" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ${tableName}
+    where id = #{id,jdbcType=BIGINT}
+    FOR UPDATE 
+  </select>
+</mapper>

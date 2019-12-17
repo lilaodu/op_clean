@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.AuthCertificateA2Mapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.AuthCertificateA2" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="auth_status" property="authStatus" jdbcType="TINYINT" />
+    <result column="live_contury" property="liveContury" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="street" property="street" jdbcType="VARCHAR" />
+    <result column="village" property="village" jdbcType="VARCHAR" />
+    <result column="house_num" property="houseNum" jdbcType="VARCHAR" />
+    <result column="postalcode" property="postalcode" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.chainup.common.exchange.entity.AuthCertificateA2WithBLOBs" extends="BaseResultMap" >
+    <result column="first_photo" property="firstPhoto" jdbcType="LONGVARBINARY" />
+    <result column="second_photo" property="secondPhoto" jdbcType="LONGVARBINARY" />
+    <result column="fourth_photo" property="fourthPhoto" jdbcType="LONGVARBINARY" />
+    <result column="live_photo" property="livePhoto" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uid, auth_status, live_contury, province, city, district, street, village, house_num, 
+    postalcode, ctime, mtime, reason
+  </sql>
+  <sql id="Blob_Column_List" >
+    first_photo, second_photo, fourth_photo, live_photo
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from auth_certificate_a2
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from auth_certificate_a2
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from auth_certificate_a2
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from auth_certificate_a2
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2Example" >
+    delete from auth_certificate_a2
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2WithBLOBs" >
+    insert into auth_certificate_a2 (id, uid, auth_status, 
+      live_contury, province, city, 
+      district, street, village, 
+      house_num, postalcode, ctime, 
+      mtime, reason, first_photo, 
+      second_photo, fourth_photo, live_photo
+      )
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{authStatus,jdbcType=TINYINT}, 
+      #{liveContury,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{district,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, #{village,jdbcType=VARCHAR}, 
+      #{houseNum,jdbcType=VARCHAR}, #{postalcode,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP}, #{reason,jdbcType=VARCHAR}, #{firstPhoto,jdbcType=LONGVARBINARY}, 
+      #{secondPhoto,jdbcType=LONGVARBINARY}, #{fourthPhoto,jdbcType=LONGVARBINARY}, #{livePhoto,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2WithBLOBs" >
+    insert into auth_certificate_a2
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="authStatus != null" >
+        auth_status,
+      </if>
+      <if test="liveContury != null" >
+        live_contury,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="street != null" >
+        street,
+      </if>
+      <if test="village != null" >
+        village,
+      </if>
+      <if test="houseNum != null" >
+        house_num,
+      </if>
+      <if test="postalcode != null" >
+        postalcode,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="firstPhoto != null" >
+        first_photo,
+      </if>
+      <if test="secondPhoto != null" >
+        second_photo,
+      </if>
+      <if test="fourthPhoto != null" >
+        fourth_photo,
+      </if>
+      <if test="livePhoto != null" >
+        live_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="authStatus != null" >
+        #{authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="liveContury != null" >
+        #{liveContury,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="village != null" >
+        #{village,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNum != null" >
+        #{houseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="postalcode != null" >
+        #{postalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPhoto != null" >
+        #{firstPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="secondPhoto != null" >
+        #{secondPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="fourthPhoto != null" >
+        #{fourthPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="livePhoto != null" >
+        #{livePhoto,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2Example" resultType="java.lang.Integer" >
+    select count(*) from auth_certificate_a2
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update auth_certificate_a2
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.authStatus != null" >
+        auth_status = #{record.authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.liveContury != null" >
+        live_contury = #{record.liveContury,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null" >
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.street != null" >
+        street = #{record.street,jdbcType=VARCHAR},
+      </if>
+      <if test="record.village != null" >
+        village = #{record.village,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseNum != null" >
+        house_num = #{record.houseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postalcode != null" >
+        postalcode = #{record.postalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstPhoto != null" >
+        first_photo = #{record.firstPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="record.secondPhoto != null" >
+        second_photo = #{record.secondPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="record.fourthPhoto != null" >
+        fourth_photo = #{record.fourthPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="record.livePhoto != null" >
+        live_photo = #{record.livePhoto,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update auth_certificate_a2
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      auth_status = #{record.authStatus,jdbcType=TINYINT},
+      live_contury = #{record.liveContury,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      street = #{record.street,jdbcType=VARCHAR},
+      village = #{record.village,jdbcType=VARCHAR},
+      house_num = #{record.houseNum,jdbcType=VARCHAR},
+      postalcode = #{record.postalcode,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      first_photo = #{record.firstPhoto,jdbcType=LONGVARBINARY},
+      second_photo = #{record.secondPhoto,jdbcType=LONGVARBINARY},
+      fourth_photo = #{record.fourthPhoto,jdbcType=LONGVARBINARY},
+      live_photo = #{record.livePhoto,jdbcType=LONGVARBINARY}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update auth_certificate_a2
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      auth_status = #{record.authStatus,jdbcType=TINYINT},
+      live_contury = #{record.liveContury,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      street = #{record.street,jdbcType=VARCHAR},
+      village = #{record.village,jdbcType=VARCHAR},
+      house_num = #{record.houseNum,jdbcType=VARCHAR},
+      postalcode = #{record.postalcode,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      reason = #{record.reason,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2WithBLOBs" >
+    update auth_certificate_a2
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="authStatus != null" >
+        auth_status = #{authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="liveContury != null" >
+        live_contury = #{liveContury,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="village != null" >
+        village = #{village,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNum != null" >
+        house_num = #{houseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="postalcode != null" >
+        postalcode = #{postalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="firstPhoto != null" >
+        first_photo = #{firstPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="secondPhoto != null" >
+        second_photo = #{secondPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="fourthPhoto != null" >
+        fourth_photo = #{fourthPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="livePhoto != null" >
+        live_photo = #{livePhoto,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2WithBLOBs" >
+    update auth_certificate_a2
+    set uid = #{uid,jdbcType=INTEGER},
+      auth_status = #{authStatus,jdbcType=TINYINT},
+      live_contury = #{liveContury,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      street = #{street,jdbcType=VARCHAR},
+      village = #{village,jdbcType=VARCHAR},
+      house_num = #{houseNum,jdbcType=VARCHAR},
+      postalcode = #{postalcode,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      reason = #{reason,jdbcType=VARCHAR},
+      first_photo = #{firstPhoto,jdbcType=LONGVARBINARY},
+      second_photo = #{secondPhoto,jdbcType=LONGVARBINARY},
+      fourth_photo = #{fourthPhoto,jdbcType=LONGVARBINARY},
+      live_photo = #{livePhoto,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.AuthCertificateA2" >
+    update auth_certificate_a2
+    set uid = #{uid,jdbcType=INTEGER},
+      auth_status = #{authStatus,jdbcType=TINYINT},
+      live_contury = #{liveContury,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      street = #{street,jdbcType=VARCHAR},
+      village = #{village,jdbcType=VARCHAR},
+      house_num = #{houseNum,jdbcType=VARCHAR},
+      postalcode = #{postalcode,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.TransactionDepositMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.TransactionDeposit" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="symbol" property="symbol" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="settled_amount" property="settledAmount" jdbcType="DECIMAL" />
+    <result column="settled_at" property="settledAt" jdbcType="TIMESTAMP" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="out_trans_id" property="outTransId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uid, symbol, amount, fee, settled_amount, settled_at, created_at, updated_at, 
+    out_trans_id, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.TransactionDepositExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from transaction_deposit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from transaction_deposit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from transaction_deposit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.TransactionDepositExample" >
+    delete from transaction_deposit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.TransactionDeposit" >
+    insert into transaction_deposit (id, uid, symbol, 
+      amount, fee, settled_amount, 
+      settled_at, created_at, updated_at, 
+      out_trans_id, status)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{symbol,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, #{settledAmount,jdbcType=DECIMAL}, 
+      #{settledAt,jdbcType=TIMESTAMP}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{outTransId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"  parameterType="com.chainup.common.exchange.entity.TransactionDeposit" >
+    insert into transaction_deposit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="symbol != null" >
+        symbol,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="settledAmount != null" >
+        settled_amount,
+      </if>
+      <if test="settledAt != null" >
+        settled_at,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="outTransId != null" >
+        out_trans_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="symbol != null" >
+        #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="settledAmount != null" >
+        #{settledAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="settledAt != null" >
+        #{settledAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTransId != null" >
+        #{outTransId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.TransactionDepositExample" resultType="java.lang.Integer" >
+    select count(*) from transaction_deposit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update transaction_deposit
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.symbol != null" >
+        symbol = #{record.symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fee != null" >
+        fee = #{record.fee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settledAmount != null" >
+        settled_amount = #{record.settledAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.settledAt != null" >
+        settled_at = #{record.settledAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdAt != null" >
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedAt != null" >
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outTransId != null" >
+        out_trans_id = #{record.outTransId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update transaction_deposit
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      symbol = #{record.symbol,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      fee = #{record.fee,jdbcType=DECIMAL},
+      settled_amount = #{record.settledAmount,jdbcType=DECIMAL},
+      settled_at = #{record.settledAt,jdbcType=TIMESTAMP},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      out_trans_id = #{record.outTransId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.TransactionDeposit" >
+    update transaction_deposit
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="symbol != null" >
+        symbol = #{symbol,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="settledAmount != null" >
+        settled_amount = #{settledAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="settledAt != null" >
+        settled_at = #{settledAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTransId != null" >
+        out_trans_id = #{outTransId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.TransactionDeposit" >
+    update transaction_deposit
+    set uid = #{uid,jdbcType=INTEGER},
+      symbol = #{symbol,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      fee = #{fee,jdbcType=DECIMAL},
+      settled_amount = #{settledAmount,jdbcType=DECIMAL},
+      settled_at = #{settledAt,jdbcType=TIMESTAMP},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      out_trans_id = #{outTransId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectDeposetStatisticsCount" resultType="java.lang.Integer" parameterType="com.chainup.common.exchange.entity.TransactionDepositExample">
+  	select count(1) from (
+		select DATE_FORMAT(created_at,'%Y-%m-%d') date,count(1) count
+		from transaction_deposit 
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		group by date 
+  	) temp
+  </select>
+  <select id="selectDeposetStatistics" resultType="java.util.Map" parameterType="com.chainup.common.exchange.entity.TransactionDepositExample">
+	select DATE_FORMAT(created_at,'%Y-%m-%d') date,sum(amount) amount,sum(settled_amount) settledAmount,
+	COUNT(1) count,count(status=1 or null) successCount,count(DISTINCT uid) userNum
+	from transaction_deposit 
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+	group by date 
+	order by date desc
+	<if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <!-- 查询指定的条件下的数据中充值金额最多的用户id -->
+  <select id="selectMaxDepositUid" resultType="java.lang.Integer" parameterType="com.chainup.common.exchange.entity.TransactionDepositExample">
+	select temp.uid uid from (
+		select SUM(settled_amount)sumAmount ,uid  from transaction_deposit 
+		<if test="_parameter != null" >
+		  <include refid="Example_Where_Clause" />
+		</if>
+		group by uid 
+	)temp where  temp.sumAmount = (
+		select MAX(sumAmount) from (select SUM(settled_amount) sumAmount from transaction_deposit 
+		<if test="_parameter != null" >
+		  <include refid="Example_Where_Clause" />
+		</if>
+		group by uid 
+	)t)
+  </select>
+</mapper>

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.HistoryLoginMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.HistoryLogin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="lg_type" property="lgType" jdbcType="TINYINT" />
+    <result column="lg_platform" property="lgPlatform" jdbcType="TINYINT" />
+    <result column="lg_system" property="lgSystem" jdbcType="VARCHAR" />
+    <result column="lg_ip" property="lgIp" jdbcType="VARCHAR" />
+    <result column="lg_status" property="lgStatus" jdbcType="TINYINT" />
+    <result column="lg_des" property="lgDes" jdbcType="VARCHAR" />
+    <result column="network_operator" property="networkOperator" jdbcType="VARCHAR" />
+    <result column="network_where" property="networkWhere" jdbcType="VARCHAR" />
+    <result column="display" property="display" jdbcType="TINYINT" />
+    <result column="lg_in_time" property="lgInTime" jdbcType="TIMESTAMP" />
+    <result column="lg_out_time" property="lgOutTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uid, lg_type, lg_platform, lg_system, lg_ip, lg_status, lg_des, network_operator, 
+    network_where, display, lg_in_time, lg_out_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.HistoryLoginExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from history_login
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from history_login
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from history_login
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.HistoryLoginExample" >
+    delete from history_login
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.HistoryLogin" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into history_login (uid, lg_type, lg_platform, 
+      lg_system, lg_ip, lg_status, 
+      lg_des, network_operator, network_where, 
+      display, lg_in_time, lg_out_time
+      )
+    values (#{uid,jdbcType=INTEGER}, #{lgType,jdbcType=TINYINT}, #{lgPlatform,jdbcType=TINYINT}, 
+      #{lgSystem,jdbcType=VARCHAR}, #{lgIp,jdbcType=VARCHAR}, #{lgStatus,jdbcType=TINYINT}, 
+      #{lgDes,jdbcType=VARCHAR}, #{networkOperator,jdbcType=VARCHAR}, #{networkWhere,jdbcType=VARCHAR}, 
+      #{display,jdbcType=TINYINT}, #{lgInTime,jdbcType=TIMESTAMP}, #{lgOutTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.HistoryLogin" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into history_login
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="lgType != null" >
+        lg_type,
+      </if>
+      <if test="lgPlatform != null" >
+        lg_platform,
+      </if>
+      <if test="lgSystem != null" >
+        lg_system,
+      </if>
+      <if test="lgIp != null" >
+        lg_ip,
+      </if>
+      <if test="lgStatus != null" >
+        lg_status,
+      </if>
+      <if test="lgDes != null" >
+        lg_des,
+      </if>
+      <if test="networkOperator != null" >
+        network_operator,
+      </if>
+      <if test="networkWhere != null" >
+        network_where,
+      </if>
+      <if test="display != null" >
+        display,
+      </if>
+      <if test="lgInTime != null" >
+        lg_in_time,
+      </if>
+      <if test="lgOutTime != null" >
+        lg_out_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lgType != null" >
+        #{lgType,jdbcType=TINYINT},
+      </if>
+      <if test="lgPlatform != null" >
+        #{lgPlatform,jdbcType=TINYINT},
+      </if>
+      <if test="lgSystem != null" >
+        #{lgSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="lgIp != null" >
+        #{lgIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lgStatus != null" >
+        #{lgStatus,jdbcType=TINYINT},
+      </if>
+      <if test="lgDes != null" >
+        #{lgDes,jdbcType=VARCHAR},
+      </if>
+      <if test="networkOperator != null" >
+        #{networkOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="networkWhere != null" >
+        #{networkWhere,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=TINYINT},
+      </if>
+      <if test="lgInTime != null" >
+        #{lgInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lgOutTime != null" >
+        #{lgOutTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.HistoryLoginExample" resultType="java.lang.Integer" >
+    select count(*) from history_login
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update history_login
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.lgType != null" >
+        lg_type = #{record.lgType,jdbcType=TINYINT},
+      </if>
+      <if test="record.lgPlatform != null" >
+        lg_platform = #{record.lgPlatform,jdbcType=TINYINT},
+      </if>
+      <if test="record.lgSystem != null" >
+        lg_system = #{record.lgSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lgIp != null" >
+        lg_ip = #{record.lgIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lgStatus != null" >
+        lg_status = #{record.lgStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.lgDes != null" >
+        lg_des = #{record.lgDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.networkOperator != null" >
+        network_operator = #{record.networkOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.networkWhere != null" >
+        network_where = #{record.networkWhere,jdbcType=VARCHAR},
+      </if>
+      <if test="record.display != null" >
+        display = #{record.display,jdbcType=TINYINT},
+      </if>
+      <if test="record.lgInTime != null" >
+        lg_in_time = #{record.lgInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lgOutTime != null" >
+        lg_out_time = #{record.lgOutTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update history_login
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      lg_type = #{record.lgType,jdbcType=TINYINT},
+      lg_platform = #{record.lgPlatform,jdbcType=TINYINT},
+      lg_system = #{record.lgSystem,jdbcType=VARCHAR},
+      lg_ip = #{record.lgIp,jdbcType=VARCHAR},
+      lg_status = #{record.lgStatus,jdbcType=TINYINT},
+      lg_des = #{record.lgDes,jdbcType=VARCHAR},
+      network_operator = #{record.networkOperator,jdbcType=VARCHAR},
+      network_where = #{record.networkWhere,jdbcType=VARCHAR},
+      display = #{record.display,jdbcType=TINYINT},
+      lg_in_time = #{record.lgInTime,jdbcType=TIMESTAMP},
+      lg_out_time = #{record.lgOutTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.HistoryLogin" >
+    update history_login
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lgType != null" >
+        lg_type = #{lgType,jdbcType=TINYINT},
+      </if>
+      <if test="lgPlatform != null" >
+        lg_platform = #{lgPlatform,jdbcType=TINYINT},
+      </if>
+      <if test="lgSystem != null" >
+        lg_system = #{lgSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="lgIp != null" >
+        lg_ip = #{lgIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lgStatus != null" >
+        lg_status = #{lgStatus,jdbcType=TINYINT},
+      </if>
+      <if test="lgDes != null" >
+        lg_des = #{lgDes,jdbcType=VARCHAR},
+      </if>
+      <if test="networkOperator != null" >
+        network_operator = #{networkOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="networkWhere != null" >
+        network_where = #{networkWhere,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null" >
+        display = #{display,jdbcType=TINYINT},
+      </if>
+      <if test="lgInTime != null" >
+        lg_in_time = #{lgInTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lgOutTime != null" >
+        lg_out_time = #{lgOutTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.HistoryLogin" >
+    update history_login
+    set uid = #{uid,jdbcType=INTEGER},
+      lg_type = #{lgType,jdbcType=TINYINT},
+      lg_platform = #{lgPlatform,jdbcType=TINYINT},
+      lg_system = #{lgSystem,jdbcType=VARCHAR},
+      lg_ip = #{lgIp,jdbcType=VARCHAR},
+      lg_status = #{lgStatus,jdbcType=TINYINT},
+      lg_des = #{lgDes,jdbcType=VARCHAR},
+      network_operator = #{networkOperator,jdbcType=VARCHAR},
+      network_where = #{networkWhere,jdbcType=VARCHAR},
+      display = #{display,jdbcType=TINYINT},
+      lg_in_time = #{lgInTime,jdbcType=TIMESTAMP},
+      lg_out_time = #{lgOutTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="countByCtime" resultType="java.lang.Integer" parameterType="Map">
+  select count(DISTINCT DATE_FORMAT(lg_in_time,'%Y-%m-%d'))  from history_login where lg_status=1
+  	<if test="lgtimeStart != null" >
+    	<![CDATA[ and DATE_FORMAT(lg_in_time,'%Y-%m-%d') >= #{lgtimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="lgtimeEnd != null" >
+    	<![CDATA[ and DATE_FORMAT(lg_in_time,'%Y-%m-%d') <= #{lgtimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+  </select>
+  <select id="listByPage" resultMap="BaseResultMap" parameterType="Map">
+  select DISTINCT DATE_FORMAT(lg_in_time,'%Y-%m-%d')as lg_in_time from history_login where lg_status=1
+  	<if test="lgtimeStart != null" >
+    	<![CDATA[ and DATE_FORMAT(lg_in_time,'%Y-%m-%d') >= #{lgtimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="lgtimeEnd != null" >
+    	<![CDATA[ and DATE_FORMAT(lg_in_time,'%Y-%m-%d') <= #{lgtimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+  order by DATE_FORMAT(lg_in_time,'%Y-%m-%d') desc limit ${start},${pageSize}
+  </select>
+</mapper>

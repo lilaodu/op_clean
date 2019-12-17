@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.AuthRealnameMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.AuthRealname" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="auth_status" property="authStatus" jdbcType="TINYINT" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="certificate_type" property="certificateType" jdbcType="TINYINT" />
+    <result column="certificate_number" property="certificateNumber" jdbcType="VARCHAR" />
+    <result column="family_name" property="familyName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="begin_date" property="beginDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uid, auth_status, country_code, certificate_type, certificate_number, family_name, 
+    name, birthday, begin_date, end_date, ctime, mtime, reason
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.AuthRealnameExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from auth_realname
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from auth_realname
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from auth_realname
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.AuthRealnameExample" >
+    delete from auth_realname
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.AuthRealname" >
+    insert into auth_realname (id, uid, auth_status, 
+      country_code, certificate_type, certificate_number, 
+      family_name, name, birthday, 
+      begin_date, end_date, ctime, 
+      mtime, reason)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{authStatus,jdbcType=TINYINT}, 
+      #{countryCode,jdbcType=VARCHAR}, #{certificateType,jdbcType=TINYINT}, #{certificateNumber,jdbcType=VARCHAR}, 
+      #{familyName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP}, #{reason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.AuthRealname" >
+    insert into auth_realname
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="authStatus != null" >
+        auth_status,
+      </if>
+      <if test="countryCode != null" >
+        country_code,
+      </if>
+      <if test="certificateType != null" >
+        certificate_type,
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number,
+      </if>
+      <if test="familyName != null" >
+        family_name,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="authStatus != null" >
+        #{authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        #{certificateType,jdbcType=TINYINT},
+      </if>
+      <if test="certificateNumber != null" >
+        #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="familyName != null" >
+        #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.AuthRealnameExample" resultType="java.lang.Integer" >
+    select count(*) from auth_realname
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update auth_realname
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.authStatus != null" >
+        auth_status = #{record.authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.countryCode != null" >
+        country_code = #{record.countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certificateType != null" >
+        certificate_type = #{record.certificateType,jdbcType=TINYINT},
+      </if>
+      <if test="record.certificateNumber != null" >
+        certificate_number = #{record.certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.familyName != null" >
+        family_name = #{record.familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.beginDate != null" >
+        begin_date = #{record.beginDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update auth_realname
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      auth_status = #{record.authStatus,jdbcType=TINYINT},
+      country_code = #{record.countryCode,jdbcType=VARCHAR},
+      certificate_type = #{record.certificateType,jdbcType=TINYINT},
+      certificate_number = #{record.certificateNumber,jdbcType=VARCHAR},
+      family_name = #{record.familyName,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      begin_date = #{record.beginDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      reason = #{record.reason,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.AuthRealname" >
+    update auth_realname
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="authStatus != null" >
+        auth_status = #{authStatus,jdbcType=TINYINT},
+      </if>
+      <if test="countryCode != null" >
+        country_code = #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateType != null" >
+        certificate_type = #{certificateType,jdbcType=TINYINT},
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="familyName != null" >
+        family_name = #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.AuthRealname" >
+    update auth_realname
+    set uid = #{uid,jdbcType=INTEGER},
+      auth_status = #{authStatus,jdbcType=TINYINT},
+      country_code = #{countryCode,jdbcType=VARCHAR},
+      certificate_type = #{certificateType,jdbcType=TINYINT},
+      certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      family_name = #{familyName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      begin_date = #{beginDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

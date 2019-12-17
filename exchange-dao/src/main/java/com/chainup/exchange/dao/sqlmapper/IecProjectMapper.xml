@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chainup.exchange.dao.IecProjectMapper">
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.IecProject">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="coin_code" jdbcType="VARCHAR" property="coinCode" />
+    <result column="coin_name" jdbcType="VARCHAR" property="coinName" />
+    <result column="target_amount" jdbcType="DECIMAL" property="targetAmount" />
+    <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+    <result column="percent" jdbcType="DECIMAL" property="percent" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+    <result column="sime" jdbcType="TIMESTAMP" property="sime" />
+    <result column="etime" jdbcType="TIMESTAMP" property="etime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="min_unit" jdbcType="DECIMAL" property="minUnit" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, code, name, description, coin_code, coin_name, target_amount, real_amount, percent, 
+    ctime, mtime, sime, etime, status, min_unit
+  </sql>
+  <select id="selectByExample" parameterType="com.chainup.common.exchange.entity.IecProjectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from iec_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from iec_project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from iec_project
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.IecProjectExample">
+    delete from iec_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.IecProject">
+    insert into iec_project (id, code, name, 
+      description, coin_code, coin_name, 
+      target_amount, real_amount, percent, 
+      ctime, mtime, sime, 
+      etime, status, min_unit
+      )
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{coinCode,jdbcType=VARCHAR}, #{coinName,jdbcType=VARCHAR}, 
+      #{targetAmount,jdbcType=DECIMAL}, #{realAmount,jdbcType=DECIMAL}, #{percent,jdbcType=DECIMAL}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{sime,jdbcType=TIMESTAMP}, 
+      #{etime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{minUnit,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.IecProject">
+    insert into iec_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="coinCode != null">
+        coin_code,
+      </if>
+      <if test="coinName != null">
+        coin_name,
+      </if>
+      <if test="targetAmount != null">
+        target_amount,
+      </if>
+      <if test="realAmount != null">
+        real_amount,
+      </if>
+      <if test="percent != null">
+        percent,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+      <if test="sime != null">
+        sime,
+      </if>
+      <if test="etime != null">
+        etime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="minUnit != null">
+        min_unit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="coinCode != null">
+        #{coinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coinName != null">
+        #{coinName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetAmount != null">
+        #{targetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="percent != null">
+        #{percent,jdbcType=DECIMAL},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sime != null">
+        #{sime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="etime != null">
+        #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="minUnit != null">
+        #{minUnit,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.IecProjectExample" resultType="java.lang.Long">
+    select count(*) from iec_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update iec_project
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coinCode != null">
+        coin_code = #{record.coinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coinName != null">
+        coin_name = #{record.coinName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.targetAmount != null">
+        target_amount = #{record.targetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realAmount != null">
+        real_amount = #{record.realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.percent != null">
+        percent = #{record.percent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ctime != null">
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null">
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sime != null">
+        sime = #{record.sime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.etime != null">
+        etime = #{record.etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.minUnit != null">
+        min_unit = #{record.minUnit,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update iec_project
+    set id = #{record.id,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      coin_code = #{record.coinCode,jdbcType=VARCHAR},
+      coin_name = #{record.coinName,jdbcType=VARCHAR},
+      target_amount = #{record.targetAmount,jdbcType=DECIMAL},
+      real_amount = #{record.realAmount,jdbcType=DECIMAL},
+      percent = #{record.percent,jdbcType=DECIMAL},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      sime = #{record.sime,jdbcType=TIMESTAMP},
+      etime = #{record.etime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT},
+      min_unit = #{record.minUnit,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.IecProject">
+    update iec_project
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="coinCode != null">
+        coin_code = #{coinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coinName != null">
+        coin_name = #{coinName,jdbcType=VARCHAR},
+      </if>
+      <if test="targetAmount != null">
+        target_amount = #{targetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        real_amount = #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="percent != null">
+        percent = #{percent,jdbcType=DECIMAL},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sime != null">
+        sime = #{sime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="etime != null">
+        etime = #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="minUnit != null">
+        min_unit = #{minUnit,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.IecProject">
+    update iec_project
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      coin_code = #{coinCode,jdbcType=VARCHAR},
+      coin_name = #{coinName,jdbcType=VARCHAR},
+      target_amount = #{targetAmount,jdbcType=DECIMAL},
+      real_amount = #{realAmount,jdbcType=DECIMAL},
+      percent = #{percent,jdbcType=DECIMAL},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      sime = #{sime,jdbcType=TIMESTAMP},
+      etime = #{etime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      min_unit = #{minUnit,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

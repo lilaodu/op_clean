@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chainup.exchange.dao.CoinBankDayProfitMapper">
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.CoinBankDayProfit">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bank_or_id" jdbcType="INTEGER" property="bankOrId" />
+    <result column="coin_code" jdbcType="VARCHAR" property="coinCode" />
+    <result column="coin_name" jdbcType="VARCHAR" property="coinName" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="fee" jdbcType="DECIMAL" property="fee" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="account_time" jdbcType="DATE" property="accountTime" />
+    <result column="profit" jdbcType="DECIMAL" property="profit" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, bank_or_id, coin_code, coin_name, amount, fee, type, account_time, profit, status
+  </sql>
+  <select id="selectByExample" parameterType="com.chainup.common.exchange.entity.CoinBankDayProfitExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from coin_bank_day_profit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coin_bank_day_profit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coin_bank_day_profit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.CoinBankDayProfitExample">
+    delete from coin_bank_day_profit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.CoinBankDayProfit">
+    insert into coin_bank_day_profit (id, bank_or_id, coin_code, 
+      coin_name, amount, fee, 
+      type, account_time, profit, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{bankOrId,jdbcType=INTEGER}, #{coinCode,jdbcType=VARCHAR}, 
+      #{coinName,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, 
+      #{type,jdbcType=TINYINT}, #{accountTime,jdbcType=DATE}, #{profit,jdbcType=DECIMAL}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.CoinBankDayProfit">
+    insert into coin_bank_day_profit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bankOrId != null">
+        bank_or_id,
+      </if>
+      <if test="coinCode != null">
+        coin_code,
+      </if>
+      <if test="coinName != null">
+        coin_name,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="fee != null">
+        fee,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="accountTime != null">
+        account_time,
+      </if>
+      <if test="profit != null">
+        profit,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bankOrId != null">
+        #{bankOrId,jdbcType=INTEGER},
+      </if>
+      <if test="coinCode != null">
+        #{coinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coinName != null">
+        #{coinName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="accountTime != null">
+        #{accountTime,jdbcType=DATE},
+      </if>
+      <if test="profit != null">
+        #{profit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.CoinBankDayProfitExample" resultType="java.lang.Long">
+    select count(*) from coin_bank_day_profit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update coin_bank_day_profit
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.bankOrId != null">
+        bank_or_id = #{record.bankOrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.coinCode != null">
+        coin_code = #{record.coinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coinName != null">
+        coin_name = #{record.coinName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fee != null">
+        fee = #{record.fee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.accountTime != null">
+        account_time = #{record.accountTime,jdbcType=DATE},
+      </if>
+      <if test="record.profit != null">
+        profit = #{record.profit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update coin_bank_day_profit
+    set id = #{record.id,jdbcType=INTEGER},
+      bank_or_id = #{record.bankOrId,jdbcType=INTEGER},
+      coin_code = #{record.coinCode,jdbcType=VARCHAR},
+      coin_name = #{record.coinName,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      fee = #{record.fee,jdbcType=DECIMAL},
+      type = #{record.type,jdbcType=TINYINT},
+      account_time = #{record.accountTime,jdbcType=DATE},
+      profit = #{record.profit,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.CoinBankDayProfit">
+    update coin_bank_day_profit
+    <set>
+      <if test="bankOrId != null">
+        bank_or_id = #{bankOrId,jdbcType=INTEGER},
+      </if>
+      <if test="coinCode != null">
+        coin_code = #{coinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="coinName != null">
+        coin_name = #{coinName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null">
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="accountTime != null">
+        account_time = #{accountTime,jdbcType=DATE},
+      </if>
+      <if test="profit != null">
+        profit = #{profit,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.CoinBankDayProfit">
+    update coin_bank_day_profit
+    set bank_or_id = #{bankOrId,jdbcType=INTEGER},
+      coin_code = #{coinCode,jdbcType=VARCHAR},
+      coin_name = #{coinName,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      fee = #{fee,jdbcType=DECIMAL},
+      type = #{type,jdbcType=TINYINT},
+      account_time = #{accountTime,jdbcType=DATE},
+      profit = #{profit,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <select id="countProfitByDate" parameterType="java.util.Map"
+	resultType="com.chainup.common.exchange.entity.sumDto">
+	SELECT SUM(amount) AS amountSum,SUM(fee) AS
+	feeSum,bank_or_id as id FROM
+	`coin_bank_day_profit` WHERE TYPE =
+	#{type,jdbcType=INTEGER}
+	AND account_time BETWEEN
+	#{startDate,jdbcType=VARCHAR} AND #{endDate,jdbcType=VARCHAR}
+	GROUP BY
+	`bank_or_id`
+	</select> 
+  
+  <select id="selectCountByCoinbank" parameterType="java.util.Map" resultType="java.lang.Long">
+  	select count(0) from
+ coin_bank_day_profit cbdp
+LEFT JOIN coin_bank c on c.id=cbdp.bank_or_id
+  	<where>
+  	<if test="map.type!= null and map.type!='' " >
+     	and cbdp.type=#{map.type} 
+  		  </if>
+		<if test="map.status!= null and map.status!=''" >
+     	and cbdp.status=#{map.status} 
+  		  </if>
+		<if test="map.level!= null and map.level!=''" >
+     	and c.level=#{map.level} 
+  		  </if>
+		<if test="map.coinBankName!= null and map.coinBankName!=''" >
+     	and c.name like  CONCAT(CONCAT('%', #{map.coinBankName}), '%');
+  		  </if>
+		<if test="map.timeStart!= null and map.timeStart!='' and map.timeEnd!= null and map.timeEnd!=''" >
+     	and cbdp.account_time BETWEEN #{map.timeStart}  and #{map.timeEnd} 
+  		  </if>
+  		   <!-- 过滤已经自动划转 -->
+  		  <if test="1==1">
+  		  and cbdp.status!=1
+  		  </if>
+  	</where>
+  </select>
+  <select id="selectListByCoinbank" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select cbdp.*,c.name coinBankName,c.website,c.contact_name contactName,c.contact_phone_number contactPhoneNumber,c.level from
+ coin_bank_day_profit cbdp
+LEFT JOIN coin_bank c on c.id=cbdp.bank_or_id
+  	<where>
+  	<if test="map.type!= null and map.type!='' " >
+     	and cbdp.type=#{map.type} 
+  		  </if>
+		<if test="map.status!= null and map.status!=''" >
+     	and cbdp.status=#{map.status} 
+  		  </if>
+		<if test="map.level!= null and map.level!=''" >
+     	and c.level=#{map.level} 
+  		  </if>
+		<if test="map.coinBankName!= null and map.coinBankName!=''" >
+     	and c.name like  CONCAT(CONCAT('%', #{map.coinBankName}), '%')
+  		  </if>
+		<if test="map.timeStart!= null and map.timeStart!='' and map.timeEnd!= null and map.timeEnd!=''" >
+     	and cbdp.account_time BETWEEN #{map.timeStart}  and #{map.timeEnd} 
+  		  </if>
+  		  <!-- 过滤已经自动划转 -->
+  		  <if test="1==1">
+  		  and cbdp.status!=1
+  		  </if>
+  	</where>
+  order by cbdp.status asc,cbdp.account_time desc
+      <if test="map.pageStart != null and map.pageStart>=0" >
+      limit #{map.pageStart},#{map.pageCount}
+    </if>
+  </select>
+</mapper>

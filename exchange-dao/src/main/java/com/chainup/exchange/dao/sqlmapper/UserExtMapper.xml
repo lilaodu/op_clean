@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.UserExtMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.UserExt" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="login_verify" property="loginVerify" jdbcType="TINYINT" />
+    <result column="setting_verify" property="settingVerify" jdbcType="TINYINT" />
+    <result column="withdraw_verify" property="withdrawVerify" jdbcType="TINYINT" />
+    <result column="exchange_verify" property="exchangeVerify" jdbcType="TINYINT" />
+    <result column="lasttime_exchange_verify" property="lasttimeExchangeVerify" jdbcType="INTEGER" />
+    <result column="symbols" property="symbols" jdbcType="VARCHAR" />
+    <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
+    <result column="invited_code" property="invitedCode" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="use_fee_coin_open" property="useFeeCoinOpen" jdbcType="TINYINT" />
+    <result column="fee_coin_rate" property="feeCoinRate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, uid, login_verify, setting_verify, withdraw_verify, exchange_verify, lasttime_exchange_verify, 
+    symbols, invite_code, invited_code, ctime, mtime, use_fee_coin_open, fee_coin_rate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.UserExtExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_ext
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_ext
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.UserExtExample" >
+    delete from user_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.UserExt" >
+    insert into user_ext (id, uid, login_verify, 
+      setting_verify, withdraw_verify, exchange_verify, 
+      lasttime_exchange_verify, symbols, invite_code, 
+      invited_code, ctime, mtime, 
+      use_fee_coin_open, fee_coin_rate)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{loginVerify,jdbcType=TINYINT}, 
+      #{settingVerify,jdbcType=TINYINT}, #{withdrawVerify,jdbcType=TINYINT}, #{exchangeVerify,jdbcType=TINYINT}, 
+      #{lasttimeExchangeVerify,jdbcType=INTEGER}, #{symbols,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR}, 
+      #{invitedCode,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{useFeeCoinOpen,jdbcType=TINYINT}, #{feeCoinRate,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.UserExt" >
+    insert into user_ext
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="loginVerify != null" >
+        login_verify,
+      </if>
+      <if test="settingVerify != null" >
+        setting_verify,
+      </if>
+      <if test="withdrawVerify != null" >
+        withdraw_verify,
+      </if>
+      <if test="exchangeVerify != null" >
+        exchange_verify,
+      </if>
+      <if test="lasttimeExchangeVerify != null" >
+        lasttime_exchange_verify,
+      </if>
+      <if test="symbols != null" >
+        symbols,
+      </if>
+      <if test="inviteCode != null" >
+        invite_code,
+      </if>
+      <if test="invitedCode != null" >
+        invited_code,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="useFeeCoinOpen != null" >
+        use_fee_coin_open,
+      </if>
+      <if test="feeCoinRate != null" >
+        fee_coin_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="loginVerify != null" >
+        #{loginVerify,jdbcType=TINYINT},
+      </if>
+      <if test="settingVerify != null" >
+        #{settingVerify,jdbcType=TINYINT},
+      </if>
+      <if test="withdrawVerify != null" >
+        #{withdrawVerify,jdbcType=TINYINT},
+      </if>
+      <if test="exchangeVerify != null" >
+        #{exchangeVerify,jdbcType=TINYINT},
+      </if>
+      <if test="lasttimeExchangeVerify != null" >
+        #{lasttimeExchangeVerify,jdbcType=INTEGER},
+      </if>
+      <if test="symbols != null" >
+        #{symbols,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteCode != null" >
+        #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invitedCode != null" >
+        #{invitedCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useFeeCoinOpen != null" >
+        #{useFeeCoinOpen,jdbcType=TINYINT},
+      </if>
+      <if test="feeCoinRate != null" >
+        #{feeCoinRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.UserExtExample" resultType="java.lang.Integer" >
+    select count(*) from user_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_ext
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginVerify != null" >
+        login_verify = #{record.loginVerify,jdbcType=TINYINT},
+      </if>
+      <if test="record.settingVerify != null" >
+        setting_verify = #{record.settingVerify,jdbcType=TINYINT},
+      </if>
+      <if test="record.withdrawVerify != null" >
+        withdraw_verify = #{record.withdrawVerify,jdbcType=TINYINT},
+      </if>
+      <if test="record.exchangeVerify != null" >
+        exchange_verify = #{record.exchangeVerify,jdbcType=TINYINT},
+      </if>
+      <if test="record.lasttimeExchangeVerify != null" >
+        lasttime_exchange_verify = #{record.lasttimeExchangeVerify,jdbcType=INTEGER},
+      </if>
+      <if test="record.symbols != null" >
+        symbols = #{record.symbols,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inviteCode != null" >
+        invite_code = #{record.inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invitedCode != null" >
+        invited_code = #{record.invitedCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.useFeeCoinOpen != null" >
+        use_fee_coin_open = #{record.useFeeCoinOpen,jdbcType=TINYINT},
+      </if>
+      <if test="record.feeCoinRate != null" >
+        fee_coin_rate = #{record.feeCoinRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_ext
+    set id = #{record.id,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      login_verify = #{record.loginVerify,jdbcType=TINYINT},
+      setting_verify = #{record.settingVerify,jdbcType=TINYINT},
+      withdraw_verify = #{record.withdrawVerify,jdbcType=TINYINT},
+      exchange_verify = #{record.exchangeVerify,jdbcType=TINYINT},
+      lasttime_exchange_verify = #{record.lasttimeExchangeVerify,jdbcType=INTEGER},
+      symbols = #{record.symbols,jdbcType=VARCHAR},
+      invite_code = #{record.inviteCode,jdbcType=VARCHAR},
+      invited_code = #{record.invitedCode,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      use_fee_coin_open = #{record.useFeeCoinOpen,jdbcType=TINYINT},
+      fee_coin_rate = #{record.feeCoinRate,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.UserExt" >
+    update user_ext
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="loginVerify != null" >
+        login_verify = #{loginVerify,jdbcType=TINYINT},
+      </if>
+      <if test="settingVerify != null" >
+        setting_verify = #{settingVerify,jdbcType=TINYINT},
+      </if>
+      <if test="withdrawVerify != null" >
+        withdraw_verify = #{withdrawVerify,jdbcType=TINYINT},
+      </if>
+      <if test="exchangeVerify != null" >
+        exchange_verify = #{exchangeVerify,jdbcType=TINYINT},
+      </if>
+      <if test="lasttimeExchangeVerify != null" >
+        lasttime_exchange_verify = #{lasttimeExchangeVerify,jdbcType=INTEGER},
+      </if>
+      <if test="symbols != null" >
+        symbols = #{symbols,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteCode != null" >
+        invite_code = #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invitedCode != null" >
+        invited_code = #{invitedCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useFeeCoinOpen != null" >
+        use_fee_coin_open = #{useFeeCoinOpen,jdbcType=TINYINT},
+      </if>
+      <if test="feeCoinRate != null" >
+        fee_coin_rate = #{feeCoinRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.UserExt" >
+    update user_ext
+    set uid = #{uid,jdbcType=INTEGER},
+      login_verify = #{loginVerify,jdbcType=TINYINT},
+      setting_verify = #{settingVerify,jdbcType=TINYINT},
+      withdraw_verify = #{withdrawVerify,jdbcType=TINYINT},
+      exchange_verify = #{exchangeVerify,jdbcType=TINYINT},
+      lasttime_exchange_verify = #{lasttimeExchangeVerify,jdbcType=INTEGER},
+      symbols = #{symbols,jdbcType=VARCHAR},
+      invite_code = #{inviteCode,jdbcType=VARCHAR},
+      invited_code = #{invitedCode,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      use_fee_coin_open = #{useFeeCoinOpen,jdbcType=TINYINT},
+      fee_coin_rate = #{feeCoinRate,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

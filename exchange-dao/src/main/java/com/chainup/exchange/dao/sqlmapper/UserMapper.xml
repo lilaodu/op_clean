@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chainup.exchange.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.chainup.common.exchange.entity.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="mobile_number" property="mobileNumber" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="login_pword" property="loginPword" jdbcType="VARCHAR" />
+    <result column="capital_pword" property="capitalPword" jdbcType="VARCHAR" />
+    <result column="auth_type" property="authType" jdbcType="TINYINT" />
+    <result column="auth_level" property="authLevel" jdbcType="TINYINT" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="login_status" property="loginStatus" jdbcType="TINYINT" />
+    <result column="loginexpire_time" property="loginexpireTime" jdbcType="TIMESTAMP" />
+    <result column="exc_status" property="excStatus" jdbcType="TINYINT" />
+    <result column="excexpire_time" property="excexpireTime" jdbcType="TIMESTAMP" />
+    <result column="withdraw_status" property="withdrawStatus" jdbcType="TINYINT" />
+    <result column="withdrawexpire_time" property="withdrawexpireTime" jdbcType="TIMESTAMP" />
+    <result column="lockexpire_time" property="lockexpireTime" jdbcType="TIMESTAMP" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="realname_time" property="realnameTime" jdbcType="TIMESTAMP" />
+    <result column="certificate_time" property="certificateTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="google_authenticator_status" property="googleAuthenticatorStatus" jdbcType="TINYINT" />
+    <result column="google_authenticator_key" property="googleAuthenticatorKey" jdbcType="VARCHAR" />
+    <result column="mobile_authenticator_status" property="mobileAuthenticatorStatus" jdbcType="TINYINT" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="company_register_type" property="companyRegisterType" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="UnionBaseResultMap" type="com.chainup.common.exchange.entity.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="mobile_number" property="mobileNumber" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="login_pword" property="loginPword" jdbcType="VARCHAR" />
+    <result column="capital_pword" property="capitalPword" jdbcType="VARCHAR" />
+    <result column="auth_type" property="authType" jdbcType="TINYINT" />
+    <result column="auth_level" property="authLevel" jdbcType="TINYINT" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="login_status" property="loginStatus" jdbcType="TINYINT" />
+    <result column="loginexpire_time" property="loginexpireTime" jdbcType="TIMESTAMP" />
+    <result column="exc_status" property="excStatus" jdbcType="TINYINT" />
+    <result column="excexpire_time" property="excexpireTime" jdbcType="TIMESTAMP" />
+    <result column="withdraw_status" property="withdrawStatus" jdbcType="TINYINT" />
+    <result column="withdrawexpire_time" property="withdrawexpireTime" jdbcType="TIMESTAMP" />
+    <result column="lockexpire_time" property="lockexpireTime" jdbcType="TIMESTAMP" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="realname_time" property="realnameTime" jdbcType="TIMESTAMP" />
+    <result column="certificate_time" property="certificateTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="google_authenticator_status" property="googleAuthenticatorStatus" jdbcType="TINYINT" />
+    <result column="google_authenticator_key" property="googleAuthenticatorKey" jdbcType="VARCHAR" />
+    <result column="mobile_authenticator_status" property="mobileAuthenticatorStatus" jdbcType="TINYINT" />
+    <result column="auth_status" property="authStatus" jdbcType="TINYINT" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="company_register_type" property="companyRegisterType" jdbcType="INTEGER" />
+  </resultMap>
+   <resultMap id="ExtBaseResultMap" type="com.chainup.common.exchange.entity.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="mobile_number" property="mobileNumber" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="login_pword" property="loginPword" jdbcType="VARCHAR" />
+    <result column="capital_pword" property="capitalPword" jdbcType="VARCHAR" />
+    <result column="auth_type" property="authType" jdbcType="TINYINT" />
+    <result column="auth_level" property="authLevel" jdbcType="TINYINT" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="login_status" property="loginStatus" jdbcType="TINYINT" />
+    <result column="loginexpire_time" property="loginexpireTime" jdbcType="TIMESTAMP" />
+    <result column="exc_status" property="excStatus" jdbcType="TINYINT" />
+    <result column="excexpire_time" property="excexpireTime" jdbcType="TIMESTAMP" />
+    <result column="withdraw_status" property="withdrawStatus" jdbcType="TINYINT" />
+    <result column="withdrawexpire_time" property="withdrawexpireTime" jdbcType="TIMESTAMP" />
+    <result column="lockexpire_time" property="lockexpireTime" jdbcType="TIMESTAMP" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="realname_time" property="realnameTime" jdbcType="TIMESTAMP" />
+    <result column="certificate_time" property="certificateTime" jdbcType="TIMESTAMP" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    
+    <result column="auth_status" property="authStatus" jdbcType="TINYINT" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="family_name" property="familyName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mtime" property="authRealnamemtime" jdbcType="TIMESTAMP" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="company_register_type" property="companyRegisterType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, country_code, mobile_number, email, login_pword, capital_pword, auth_type, auth_level, 
+    nickname, login_status, loginexpire_time, exc_status, excexpire_time, withdraw_status, 
+    withdrawexpire_time, lockexpire_time, ctime, mtime, realname_time, certificate_time, 
+    last_login_time, google_authenticator_status, google_authenticator_key,mobile_authenticator_status,company_id,company_register_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.chainup.common.exchange.entity.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="UnionBaseResultMap" parameterType="java.lang.Integer" >
+    select user.company_id as companyId,user.company_register_type as companyRegisterType, user.id AS id, user.country_code AS country_code, user.mobile_number AS mobile_number, user.email AS email,
+    user.login_pword AS login_pword,user.capital_pword AS capital_pword,user.auth_type AS auth_type, user.auth_level AS auth_level,
+    user.nickname AS nickname, user.login_status AS login_status, user.loginexpire_time AS loginexpire_time,
+    user.exc_status AS exc_status, user.excexpire_time AS excexpire_time, user.withdraw_status AS withdraw_status,
+    user.withdrawexpire_time AS withdrawexpire_time, user.lockexpire_time AS lockexpire_time, user.ctime AS ctime, user.mtime AS mtime,
+    user.realname_time AS realname_time, user.certificate_time AS certificate_time,user.last_login_time AS last_login_time,
+    user.google_authenticator_status AS google_authenticator_status,user.google_authenticator_key AS google_authenticator_key,
+    user.mobile_authenticator_status AS mobile_authenticator_status,auth_realname.auth_status AS auth_status
+    from user left join auth_realname on user.id=auth_realname.uid
+    where user.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chainup.common.exchange.entity.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chainup.common.exchange.entity.User" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (company_id,company_register_type,country_code, mobile_number, email, 
+      login_pword, capital_pword, auth_type, 
+      auth_level, nickname, login_status, 
+      loginexpire_time, exc_status, excexpire_time, 
+      withdraw_status, withdrawexpire_time, lockexpire_time, 
+      ctime, mtime, realname_time, 
+      certificate_time, last_login_time,
+      google_authenticator_status, google_authenticator_key,mobile_authenticator_status)
+    values (#{companyId,jdbcType=INTEGER},#{companyRegisterType,jdbcType=INTEGER},#{countryCode,jdbcType=VARCHAR}, #{mobileNumber,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{loginPword,jdbcType=VARCHAR}, #{capitalPword,jdbcType=VARCHAR}, #{authType,jdbcType=TINYINT}, 
+      #{authLevel,jdbcType=TINYINT}, #{nickname,jdbcType=VARCHAR}, #{loginStatus,jdbcType=TINYINT}, 
+      #{loginexpireTime,jdbcType=TIMESTAMP}, #{excStatus,jdbcType=TINYINT}, #{excexpireTime,jdbcType=TIMESTAMP}, 
+      #{withdrawStatus,jdbcType=TINYINT}, #{withdrawexpireTime,jdbcType=TIMESTAMP}, #{lockexpireTime,jdbcType=TIMESTAMP}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{realnameTime,jdbcType=TIMESTAMP}, 
+      #{certificateTime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP},
+      #{googleAuthenticatorStatus,jdbcType=TINYINT}, #{googleAuthenticatorKey,jdbcType=VARCHAR},
+      #{mobileAuthenticatorStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.User" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="companyRegisterType != null" >
+        company_register_type,
+      </if>
+      <if test="countryCode != null" >
+        country_code,
+      </if>
+      <if test="mobileNumber != null" >
+        mobile_number,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="loginPword != null" >
+        login_pword,
+      </if>
+      <if test="capitalPword != null" >
+        capital_pword,
+      </if>
+      <if test="authType != null" >
+        auth_type,
+      </if>
+      <if test="authLevel != null" >
+        auth_level,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="loginStatus != null" >
+        login_status,
+      </if>
+      <if test="loginexpireTime != null" >
+        loginexpire_time,
+      </if>
+      <if test="excStatus != null" >
+        exc_status,
+      </if>
+      <if test="excexpireTime != null" >
+        excexpire_time,
+      </if>
+      <if test="withdrawStatus != null" >
+        withdraw_status,
+      </if>
+      <if test="withdrawexpireTime != null" >
+        withdrawexpire_time,
+      </if>
+      <if test="lockexpireTime != null" >
+        lockexpire_time,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="realnameTime != null" >
+        realname_time,
+      </if>
+      <if test="certificateTime != null" >
+        certificate_time,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="googleAuthenticatorStatus != null" >
+        google_authenticator_status,
+      </if>
+      <if test="googleAuthenticatorKey != null" >
+        google_authenticator_key,
+      </if>
+      <if test="mobileAuthenticatorStatus != null" >
+        mobile_authenticator_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+       <if test="companyRegisterType != null" >
+        #{companyRegisterType,jdbcType=INTEGER},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNumber != null" >
+        #{mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPword != null" >
+        #{loginPword,jdbcType=VARCHAR},
+      </if>
+      <if test="capitalPword != null" >
+        #{capitalPword,jdbcType=VARCHAR},
+      </if>
+      <if test="authType != null" >
+        #{authType,jdbcType=TINYINT},
+      </if>
+      <if test="authLevel != null" >
+        #{authLevel,jdbcType=TINYINT},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="loginStatus != null" >
+        #{loginStatus,jdbcType=TINYINT},
+      </if>
+      <if test="loginexpireTime != null" >
+        #{loginexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excStatus != null" >
+        #{excStatus,jdbcType=TINYINT},
+      </if>
+      <if test="excexpireTime != null" >
+        #{excexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="withdrawStatus != null" >
+        #{withdrawStatus,jdbcType=TINYINT},
+      </if>
+      <if test="withdrawexpireTime != null" >
+        #{withdrawexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockexpireTime != null" >
+        #{lockexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realnameTime != null" >
+        #{realnameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateTime != null" >
+        #{certificateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="googleAuthenticatorStatus != null" >
+        #{googleAuthenticatorStatus,jdbcType=TINYINT},
+      </if>
+      <if test="googleAuthenticatorKey != null" >
+        #{googleAuthenticatorKey,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileAuthenticatorStatus != null" >
+        #{mobileAuthenticatorStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chainup.common.exchange.entity.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.countryCode != null" >
+        country_code = #{record.countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileNumber != null" >
+        mobile_number = #{record.mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginPword != null" >
+        login_pword = #{record.loginPword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.capitalPword != null" >
+        capital_pword = #{record.capitalPword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authType != null" >
+        auth_type = #{record.authType,jdbcType=TINYINT},
+      </if>
+      <if test="record.authLevel != null" >
+        auth_level = #{record.authLevel,jdbcType=TINYINT},
+      </if>
+      <if test="record.nickname != null" >
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginStatus != null" >
+        login_status = #{record.loginStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.loginexpireTime != null" >
+        loginexpire_time = #{record.loginexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.excStatus != null" >
+        exc_status = #{record.excStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.excexpireTime != null" >
+        excexpire_time = #{record.excexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.withdrawStatus != null" >
+        withdraw_status = #{record.withdrawStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.withdrawexpireTime != null" >
+        withdrawexpire_time = #{record.withdrawexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lockexpireTime != null" >
+        lockexpire_time = #{record.lockexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realnameTime != null" >
+        realname_time = #{record.realnameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.certificateTime != null" >
+        certificate_time = #{record.certificateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.googleAuthenticatorStatus != null" >
+        google_authenticator_status = #{record.googleAuthenticatorStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.googleAuthenticatorKey != null" >
+        google_authenticator_key = #{record.googleAuthenticatorKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileAuthenticatorStatus != null" >
+        mobile_authenticator_status = #{record.mobileAuthenticatorStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyRegisterType != null" >
+        company_register_type = #{record.companyRegisterType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      country_code = #{record.countryCode,jdbcType=VARCHAR},
+      mobile_number = #{record.mobileNumber,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      login_pword = #{record.loginPword,jdbcType=VARCHAR},
+      capital_pword = #{record.capitalPword,jdbcType=VARCHAR},
+      auth_type = #{record.authType,jdbcType=TINYINT},
+      auth_level = #{record.authLevel,jdbcType=TINYINT},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      login_status = #{record.loginStatus,jdbcType=TINYINT},
+      loginexpire_time = #{record.loginexpireTime,jdbcType=TIMESTAMP},
+      exc_status = #{record.excStatus,jdbcType=TINYINT},
+      excexpire_time = #{record.excexpireTime,jdbcType=TIMESTAMP},
+      withdraw_status = #{record.withdrawStatus,jdbcType=TINYINT},
+      withdrawexpire_time = #{record.withdrawexpireTime,jdbcType=TIMESTAMP},
+      lockexpire_time = #{record.lockexpireTime,jdbcType=TIMESTAMP},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      realname_time = #{record.realnameTime,jdbcType=TIMESTAMP},
+      certificate_time = #{record.certificateTime,jdbcType=TIMESTAMP},
+      last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      google_authenticator_status = #{record.googleAuthenticatorStatus,jdbcType=TINYINT},
+      google_authenticator_key = #{record.googleAuthenticatorKey,jdbcType=VARCHAR},
+      mobile_authenticator_status = #{record.mobileAuthenticatorStatus,jdbcType=TINYINT},
+      company_id = #{record.companyId,jdbcType=INTEGER},
+      company_register_type = #{record.companyRegisterType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chainup.common.exchange.entity.User" >
+    update user
+    <set >
+      <if test="countryCode != null" >
+        country_code = #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNumber != null" >
+        mobile_number = #{mobileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPword != null" >
+        login_pword = #{loginPword,jdbcType=VARCHAR},
+      </if>
+      <if test="capitalPword != null" >
+        capital_pword = #{capitalPword,jdbcType=VARCHAR},
+      </if>
+      <if test="authType != null" >
+        auth_type = #{authType,jdbcType=TINYINT},
+      </if>
+      <if test="authLevel != null" >
+        auth_level = #{authLevel,jdbcType=TINYINT},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="loginStatus != null" >
+        login_status = #{loginStatus,jdbcType=TINYINT},
+      </if>
+      <if test="loginexpireTime != null" >
+        loginexpire_time = #{loginexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="excStatus != null" >
+        exc_status = #{excStatus,jdbcType=TINYINT},
+      </if>
+      <if test="excexpireTime != null" >
+        excexpire_time = #{excexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="withdrawStatus != null" >
+        withdraw_status = #{withdrawStatus,jdbcType=TINYINT},
+      </if>
+      <if test="withdrawexpireTime != null" >
+        withdrawexpire_time = #{withdrawexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockexpireTime != null" >
+        lockexpire_time = #{lockexpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realnameTime != null" >
+        realname_time = #{realnameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateTime != null" >
+        certificate_time = #{certificateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="googleAuthenticatorStatus != null" >
+        google_authenticator_status = #{googleAuthenticatorStatus,jdbcType=TINYINT},
+      </if>
+      <if test="googleAuthenticatorKey != null" >
+        google_authenticator_key = #{googleAuthenticatorKey,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileAuthenticatorStatus != null" >
+        mobile_authenticator_status = #{mobileAuthenticatorStatus,jdbcType=TINYINT},
+      </if>
+       <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="companyRegisterType != null" >
+        company_register_type = #{companyRegisterType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chainup.common.exchange.entity.User" >
+    update user
+    set country_code = #{countryCode,jdbcType=VARCHAR},
+      mobile_number = #{mobileNumber,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      login_pword = #{loginPword,jdbcType=VARCHAR},
+      capital_pword = #{capitalPword,jdbcType=VARCHAR},
+      auth_type = #{authType,jdbcType=TINYINT},
+      auth_level = #{authLevel,jdbcType=TINYINT},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      login_status = #{loginStatus,jdbcType=TINYINT},
+      loginexpire_time = #{loginexpireTime,jdbcType=TIMESTAMP},
+      exc_status = #{excStatus,jdbcType=TINYINT},
+      excexpire_time = #{excexpireTime,jdbcType=TIMESTAMP},
+      withdraw_status = #{withdrawStatus,jdbcType=TINYINT},
+      withdrawexpire_time = #{withdrawexpireTime,jdbcType=TIMESTAMP},
+      lockexpire_time = #{lockexpireTime,jdbcType=TIMESTAMP},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      realname_time = #{realnameTime,jdbcType=TIMESTAMP},
+      certificate_time = #{certificateTime,jdbcType=TIMESTAMP},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      google_authenticator_status = #{googleAuthenticatorStatus,jdbcType=TINYINT},
+      google_authenticator_key = #{googleAuthenticatorKey,jdbcType=VARCHAR},
+      mobile_authenticator_status = #{mobileAuthenticatorStatus,jdbcType=TINYINT},
+       company_id = #{companyId,jdbcType=INTEGER},
+       company_register_type = #{companyRegisterType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+    <select id="getLoginCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(distinct(uid)) from history_login
+		where 1=1
+		<if test="minDate != null " >
+            and lg_in_time &gt;= #{minDate,jdbcType=TIMESTAMP}  
+        </if>
+	    <if test="maxDate != null " >
+            and lg_in_time &lt;= #{maxDate,jdbcType=TIMESTAMP}    
+        </if>
+	</select>
+	
+	 <select id="getDepositCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(distinct(uid)) from transaction_deposit_crypto
+		where 1=1
+		<if test="minDate != null " >
+            and created_at &gt;= #{minDate,jdbcType=TIMESTAMP}  
+        </if>
+	    <if test="maxDate != null " >
+            and created_at &lt;= #{maxDate,jdbcType=TIMESTAMP}    
+        </if>
+        <if test="userIds != null">
+            and uid in
+            <foreach collection="userIds" item="userIds" open="(" close=")"
+                     separator=",">
+                #{userIds}
+            </foreach>
+        </if>
+	</select>
+	
+	 <select id="getWithDrawalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(distinct(uid)) from transaction_withdraw_crypto
+		where 1=1
+		<if test="minDate != null " >
+            and created_at &gt;= #{minDate,jdbcType=TIMESTAMP}  
+        </if>
+	    <if test="maxDate != null " >
+            and created_at &lt;= #{maxDate,jdbcType=TIMESTAMP}    
+        </if>
+	</select>
+	 
+	 <select id="countByCtime" resultType="java.lang.Integer" parameterType="Map">
+  select count(DISTINCT DATE_FORMAT(ctime,'%Y-%m-%d'))  from user where 1=1
+  <if test="ctimeStart != null" >
+    	<![CDATA[ and DATE_FORMAT(ctime,'%Y-%m-%d') >= #{ctimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="ctimeEnd != null" >
+    	<![CDATA[ and DATE_FORMAT(ctime,'%Y-%m-%d') <= #{ctimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+  </select>
+  <select id="listByPage" resultMap="BaseResultMap" parameterType="Map">
+  	select DISTINCT DATE_FORMAT(ctime,'%Y-%m-%d')as ctime from user where 1=1
+  	<if test="ctimeStart != null" >
+    	<![CDATA[ and DATE_FORMAT(ctime,'%Y-%m-%d') >= #{ctimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="ctimeEnd != null" >
+    	<![CDATA[ and DATE_FORMAT(ctime,'%Y-%m-%d') <= #{ctimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+  	order by DATE_FORMAT(ctime,'%Y-%m-%d') desc limit ${start},${pageSize}
+  </select>
+  
+  <select id="selectAuthRealNameByCount" resultType="Integer" parameterType="Map" >
+    select count(*)
+    from user left join auth_realname on user.id=auth_realname.uid 
+    where 
+    <if test="authStatus != null" >
+      auth_realname.auth_status = #{authStatus,jdbcType=TINYINT}
+    </if>
+    <if test="authStatus == null" >
+      auth_realname.auth_status is null
+    </if>
+    <if test="realnameTimeStart != null" >
+    	<![CDATA[ and user.realname_time >= #{realnameTimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="realnameTimeEnd != null" >
+    	<![CDATA[ and user.realname_time <= #{realnameTimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="uid != null" >
+    	<![CDATA[ and user.id = #{uid}]]>
+    </if>
+    <if test="keyword != null" >
+    	<![CDATA[ and (user.email like CONCAT('%',#{keyword},'%') or user.mobile_number like CONCAT('%',#{keyword},'%'))]]>
+    </if>
+  </select>
+  <select id="selectAuthRealNameBypage" resultMap="ExtBaseResultMap" parameterType="Map" >
+    select user.company_id,user.company_register_type,user.id, user.country_code, user.mobile_number, user.email, user.auth_type, user.auth_level, 
+    user.nickname, user.login_status, user.loginexpire_time, user.exc_status, user.excexpire_time, user.withdraw_status, 
+    user.withdrawexpire_time, user.lockexpire_time, user.ctime, user.mtime, user.realname_time, user.certificate_time, 
+    user.last_login_time,
+    auth_realname.auth_status,auth_realname.mtime as authRealnamemtime,auth_realname.family_name,auth_realname.name
+    from user left join auth_realname on user.id=auth_realname.uid 
+    where 
+    <if test="authStatus != null" >
+      auth_realname.auth_status = #{authStatus,jdbcType=TINYINT}
+    </if>
+    <if test="authStatus == null" >
+      auth_realname.auth_status is null
+    </if>
+    <if test="realnameTimeStart != null" >
+    	<![CDATA[ and user.realname_time >= #{realnameTimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="realnameTimeEnd != null" >
+    	<![CDATA[ and user.realname_time <= #{realnameTimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="uid != null" >
+    	<![CDATA[ and user.id = #{uid}]]>
+    </if>
+    <if test="keyword != null" >
+    	<![CDATA[ and (user.email like CONCAT('%',#{keyword},'%') or user.mobile_number like CONCAT('%',#{keyword},'%'))]]>
+    </if>
+    order by auth_realname.ctime desc limit #{start},#{pageSize}
+  </select>
+  <select id="selectAuthCertificateByCount" resultType="Integer" parameterType="Map" >
+    select count(*)
+    from user left join auth_certificate on user.id=auth_certificate.uid 
+    where 
+    <if test="authStatus != null" >
+      auth_certificate.auth_status = #{authStatus,jdbcType=TINYINT}
+    </if>
+    <if test="authStatus == null" >
+      auth_certificate.auth_status is null
+    </if>
+    <if test="certificateTimeStart != null" >
+    	<![CDATA[ and user.certificate_time >= #{certificateTimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="certificateTimeEnd != null" >
+    	<![CDATA[ and user.certificate_time <= #{certificateTimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="uid != null" >
+    	<![CDATA[ and user.id = #{uid}]]>
+    </if>
+    <if test="keyword != null" >
+    	<![CDATA[ and (user.email like CONCAT('%',#{keyword},'%') or user.mobile_number like CONCAT('%',#{keyword},'%'))]]>
+    </if>
+  </select>
+  <select id="selectAuthCertificateBypage" resultMap="ExtBaseResultMap" parameterType="Map" >
+    select user.company_id,user.company_register_type, user.id, user.country_code, user.mobile_number, user.email, user.auth_type, user.auth_level, 
+    user.nickname, user.login_status, user.loginexpire_time, user.exc_status, user.excexpire_time, user.withdraw_status, 
+    user.withdrawexpire_time, user.lockexpire_time, user.ctime, user.mtime, user.realname_time, user.certificate_time, 
+    user.last_login_time,
+    auth_certificate.auth_status,auth_certificate.mtime as authRealnamemtime,auth_realname.family_name,auth_realname.name
+    from user left join auth_realname on user.id=auth_realname.uid 
+    left join auth_certificate on user.id=auth_certificate.uid
+    where 
+    <if test="authStatus != null" >
+      auth_certificate.auth_status = #{authStatus,jdbcType=TINYINT}
+    </if>
+    <if test="authStatus == null" >
+      auth_certificate.auth_status is null
+    </if>
+    <if test="certificateTimeStart != null" >
+    	<![CDATA[ and user.certificate_time >= #{certificateTimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="certificateTimeEnd != null" >
+    	<![CDATA[ and user.certificate_time <= #{certificateTimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="uid != null" >
+    	<![CDATA[ and user.id = #{uid}]]>
+    </if>
+    <if test="keyword != null" >
+    	<![CDATA[ and (user.email like CONCAT('%',#{keyword},'%') or user.mobile_number like CONCAT('%',#{keyword},'%'))]]>
+    </if>
+    order by user.id desc limit #{start},#{pageSize}
+  </select>
+  <select id="selectAuthCertificateA2ByCount" resultType="Integer" parameterType="Map" >
+    select count(*)
+    from user left join auth_certificate_a2 on user.id=auth_certificate_a2.uid 
+    where 
+    <if test="authStatus != null" >
+      auth_certificate_a2.auth_status = #{authStatus,jdbcType=TINYINT}
+    </if>
+    <if test="authStatus == null" >
+      auth_certificate_a2.auth_status is null
+    </if>
+    <if test="certificateTimeStart != null" >
+    	<![CDATA[ and user.certificate_time >= #{certificateTimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="certificateTimeEnd != null" >
+    	<![CDATA[ and user.certificate_time <= #{certificateTimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="uid != null" >
+    	<![CDATA[ and user.id = #{uid}]]>
+    </if>
+    <if test="keyword != null" >
+    	<![CDATA[ and (user.email like CONCAT('%',#{keyword},'%') or user.mobile_number like CONCAT('%',#{keyword},'%'))]]>
+    </if>
+  </select>
+  <select id="selectAuthCertificateA2Bypage" resultMap="ExtBaseResultMap" parameterType="Map" >
+    select user.company_id,user.company_register_type,user.id, user.country_code, user.mobile_number, user.email, user.auth_type, user.auth_level, 
+    user.nickname, user.login_status, user.loginexpire_time, user.exc_status, user.excexpire_time, user.withdraw_status, 
+    user.withdrawexpire_time, user.lockexpire_time, user.ctime, user.mtime, user.realname_time, user.certificate_time, 
+    user.last_login_time,
+    auth_certificate_a2.auth_status,auth_certificate_a2.mtime as authRealnamemtime,auth_realname.family_name,auth_realname.name
+    from user left join auth_realname on user.id=auth_realname.uid 
+    left join auth_certificate_a2 on user.id=auth_certificate_a2.uid
+    where 
+    <if test="authStatus != null" >
+      auth_certificate_a2.auth_status = #{authStatus,jdbcType=TINYINT}
+    </if>
+    <if test="authStatus == null" >
+      auth_certificate_a2.auth_status is null
+    </if>
+    <if test="certificateTimeStart != null" >
+    	<![CDATA[ and user.certificate_time >= #{certificateTimeStart,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="certificateTimeEnd != null" >
+    	<![CDATA[ and user.certificate_time <= #{certificateTimeEnd,jdbcType=TIMESTAMP} ]]>
+    </if>
+    <if test="uid != null" >
+    	<![CDATA[ and user.id = #{uid}]]>
+    </if>
+    <if test="keyword != null" >
+    	<![CDATA[ and (user.email like CONCAT('%',#{keyword},'%') or user.mobile_number like CONCAT('%',#{keyword},'%'))]]>
+    </if>
+    order by user.id desc limit #{start},#{pageSize}
+  </select>
+</mapper>
