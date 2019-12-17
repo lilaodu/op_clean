@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="fileinfo"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/data/logs/finance/log-info.log</file>
+		<Encoding>UTF-8</Encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>/data/logs/finance/log-info.%i.zip</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>20</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>20MB</maxFileSize>
+		</triggeringPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd  HH:mm:ss.SSS}[%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</layout>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd  HH:mm:ss.SSS}[%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="fileerror"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/data/logs/finance/log-error.log</file>
+		<Encoding>UTF-8</Encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>/data/logs/finance/log-error.%i.zip</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>8</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>20MB</maxFileSize>
+		</triggeringPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd  HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+			</pattern>
+		</layout>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd  HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	
+	
+	<root>
+		<level value="info" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="fileinfo" />
+		<appender-ref ref="fileerror" />
+	</root>
+</configuration>
