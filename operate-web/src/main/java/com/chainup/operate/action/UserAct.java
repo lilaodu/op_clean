@@ -1,16 +1,13 @@
 package com.chainup.operate.action;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +17,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.chainup.common.enums.OtcOrderStatus;
-import com.chainup.common.enums.VictoryStatus;
-import com.chainup.common.exception.OtcException;
 import com.chainup.common.exchange.entity.AdminActionConst;
 import com.chainup.common.exchange.entity.AuthRealname;
 import com.chainup.common.exchange.entity.Country;
 import com.chainup.common.exchange.entity.User;
 import com.chainup.common.exchange.entity.UserExample;
 import com.chainup.common.exchange.entity.UserExample.Criteria;
-import com.chainup.common.result.OtcMessage;
 import com.chainup.common.util.DateUtils;
-import com.chainup.common.util.OssClient;
 import com.chainup.common.util.StringTool;
 import com.chainup.common.util.StringUtil;
 import com.chainup.common.util.ValidateCodeUtil;
@@ -49,16 +39,9 @@ import com.chainup.operate.jpage.JPageException;
 import com.chainup.operate.service.AdminOperationLogService;
 import com.chainup.operate.service.AuthRealnameService;
 import com.chainup.operate.service.CountryService;
-import com.chainup.operate.service.OtcOrderService;
-import com.chainup.operate.service.OtcUserExrService;
 
 import com.chainup.operate.service.UserService;
 import com.chainup.operate.util.OperatePropertyUtil;
-import com.chainup.otc.entity.OtcChat;
-import com.chainup.otc.entity.OtcOrder;
-import com.chainup.otc.entity.OtcUserComplaint;
-
-import com.chainup.operate.service.ExOrderService;
 
 @Controller
 @Scope("prototype")
@@ -70,12 +53,9 @@ public class UserAct extends BaseAct  {
     private CountryService countryService;
 	@Autowired
     private AuthRealnameService authRealnameService;
-	@Autowired
-	private OtcOrderService		otcOrderService;
-	@Resource
-	private OtcUserExrService	otcUserExrService;
-	@Autowired
-	private ExOrderService    exOrderService;
+
+
+
 
 	// 会员列表
 	@RequestMapping(value = "/user.html")
@@ -308,8 +288,8 @@ public class UserAct extends BaseAct  {
 				model.addAttribute("error", getLocalMsg("noaction_error", request));
 				return FrontUtils.getTplPath(config.getSolutionPath(), "", "error");
 			}
-			List<OtcChat> list = otcOrderService.selectChatByOrder(orderSequence, 0, Integer.MAX_VALUE);
-			model.addAttribute("otcOrderChat", list);
+
+
 			model.addAttribute("buyerId", buyerId);
 			MyEConfig config = CommonContainer.getSite();
 			FrontUtils.frontData(request, model, config);
@@ -348,132 +328,7 @@ public class UserAct extends BaseAct  {
 		}
 	}
 
-    /**
-     * 申诉处理提交
-     */
-	@RequestMapping(value = "/otc_order_complaint_submit.html")
-	public String otc_order_complaint_submit(OtcUserComplaint complaint, VictoryStatus victoryStatus,
-			HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-		JSONObject jsonStr = new JSONObject();
-		Integer result = 0;
-		try {
-			if (!this.execute(request, response, model).equals(AUTH_STATUS)) {
-				jsonStr.put("result", EXCEPTION_ONE);
-				writeJson(jsonStr.toString(), request, response);
-				return null;
-			} else if (!this.validateAction(request, AdminActionConst.cmsAdvertAdd)) {
-				MyEConfig config = CommonContainer.getSite();
-				FrontUtils.frontData(request, model, config);
-				model.addAttribute("error", getLocalMsg("noaction_error", request));
-				return FrontUtils.getTplPath(config.getSolutionPath(), "", "error");
-			}
-			if (null == complaint || StringUtils.isBlank(complaint.getComplaintResult())) {
-				jsonStr.put("result", EXCEPTION_ONE);
-				jsonStr.put("message", "订单状态异常");
-				writeJson(jsonStr.toString(), request, response);
-				return null;
-			}
-			if (complaint != null && null != victoryStatus) {
-				complaint.setRemark(getSafeUtf8(complaint.getRemark().trim(), request));
-				// 如果提交了图片附件
-				MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-				MultipartFile file = multipartRequest.getFile("file");
-				if (file != null) {
-					// 上传图片到服务器，以及插入确认记录
-					String img = file.getOriginalFilename();
-					String imageType = "jpg";
-					if (img.indexOf("image/png") != -1) {
-						imageType = "png";
-					} else if (img.indexOf("image/bmp") != -1) {
-						imageType = "bmp";
-					} else if (img.indexOf("image/jpeg") != -1) {
-						imageType = "jpeg";
-					}
 
-					String ossFullFileName = ""; // 创建新的图片名
-
-					try {
-						if (StringUtils.isNotBlank(file.getOriginalFilename())) {
-							ossFullFileName = "otc_advert_complaint/" + System.currentTimeMillis()
-									+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-
-							OssClient.uploadObject(file.getInputStream(), file.getSize(), ossFullFileName);
-						}
-
-						complaint.setImageUrl(ossFullFileName);
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				complaint.setCtime(new Date());
-				complaint.setMtime(new Date());
-				complaint.setUserId(0);
-				complaint.setOperateId(adminUser.getId());
-				// 查询相应订单，根据订单中买卖方的id来更新ext表的信任度
-
-				OtcOrder order = otcOrderService.findById((long) complaint.getOrderId());
-				if (order == null) {
-					MyEConfig config = CommonContainer.getSite();
-					FrontUtils.frontData(request, model, config);
-					model.addAttribute("error", getLocalMsg("noaction_error", request));
-					return FrontUtils.getTplPath(config.getSolutionPath(), "", "error");
-				}
-				if( !order.getStatus().equals( (byte)OtcOrderStatus.APPEAL.value)) {
-					jsonStr.put("result", EXCEPTION_ONE);
-
-					writeJson(jsonStr.toString(), request, response);
-					return null;
-				}
-				otcOrderService.saveOtcUserComplaint(complaint , victoryStatus,order);
-
-				// if(VictoryStatus.BUYER.value.equals(victoryStatus.value)) {
-				// //买家胜诉
-				// //买家是申诉人 ， 证明卖家的败诉量要加1
-				// if(order.getBuyerId() == (long)complaint.getUserId()) {
-				// otcUserExrService.updateComplain(order.getSellerId(), 0, 1,
-				// 0);
-				// }
-				// //卖家是申诉人 ， 证明买家的胜诉量要加1
-				// if(order.getSellerId() == (long)complaint.getUserId()) {
-				// otcUserExrService.updateComplain(order.getBuyerId(), 0, 0,
-				// 1);
-				// }
-				// }
-				// if(VictoryStatus.SELLER.value.equals(victoryStatus.value)) {
-				// //卖家胜诉
-				// //买家是申诉人，卖家胜诉量加1
-				// if(order.getBuyerId() == (long)complaint.getUserId()) {
-				// otcUserExrService.updateComplain(order.getSellerId(), 0, 0,
-				// 1);
-				// }
-				// //卖家是申诉人 ， 买家的败诉量加1
-				// if(order.getSellerId() == (long)complaint.getUserId()) {
-				// otcUserExrService.updateComplain(order.getBuyerId(), 0, 1,
-				// 0);
-				// }
-				// }
-	
-				result = SUCCESS_ONE;
-			}
-			jsonStr.put("result", result);
-			writeJson(jsonStr.toString(), request, response);
-			return null;
-		} catch (OtcException e) {
-			e.printStackTrace();
-			jsonStr.put("result", e.getCode());
-			jsonStr.put("key", e.getMessageKey());
-			jsonStr.put("message", OtcMessage.getByCode(e.getCode()));
-			writeJson(jsonStr.toString(), request, response);
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			jsonStr.put("result", e.getMessage());
-			writeJson(jsonStr.toString(), request, response);
-			return null;
-		}
-	}
 
 	@RequestMapping(value = "/update_mobile.html")
 	public String update_mobile(@RequestBody String param, HttpServletRequest request, HttpServletResponse response,
@@ -531,32 +386,7 @@ public class UserAct extends BaseAct  {
             return null;
         }
     }
-	//取消异常订单
-	@RequestMapping(value = "/cancle_all_expired_order.html")
-	public String cancle_all_expired_order(Integer uid, HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-		try {
-			if (!this.execute(request, response, model).equals("1")) {
-				response.sendRedirect("login.html");
-				return null;
-			}
-			//和更新用户状态放在一起，权限也一样
-			if(!this.validateAction(request, AdminActionConst.updateStatus)){
-				MyEConfig config = CommonContainer.getSite();
-				FrontUtils.frontData(request, model, config);
-				model.addAttribute("error", getLocalMsg("noaction_error", request));
-				return FrontUtils.getTplPath(config.getSolutionPath(), "", "error");
-			}
 
-			exOrderService.cancleAllExpiredOrder(uid);
-			JSONObject jsonStr = new JSONObject();
-			jsonStr.put("result", SUCCESS_ONE);
-			writeJson(jsonStr.toString(), request, response);
-			return null;
-		} catch (Exception e) {
-			logger.error("cancle_all_expired_order exception = {}",e);
-			return null;
-		}
-	}
 	/**
 	 * 生成新的文件名称
 	 *

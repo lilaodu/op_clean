@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.chainup.common.exchange.entity.*;
-import com.chainup.common.stats.entity.StatsTradeUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,7 @@ import org.springframework.stereotype.Service;
 import com.chainup.common.web.Constants;
 import com.chainup.exchange.dao.HistoryLoginMapper;
 import com.chainup.operate.service.HistoryLoginService;
-import com.chainup.operate.service.TransactionDepositCryptoService;
-import com.chainup.operate.service.TransactionDepositService;
-import com.chainup.operate.service.TransactionWithdrawCryptoService;
-import com.chainup.operate.service.TransactionWithdrawService;
 import com.chainup.common.util.ReflectionUtils;
-import com.chainup.operate.service.StatsTradeUserService;
 
 @Service
 public class HistoryLoginServiceImpl implements HistoryLoginService{

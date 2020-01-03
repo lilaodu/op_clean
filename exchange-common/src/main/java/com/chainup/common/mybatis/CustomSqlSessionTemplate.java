@@ -281,11 +281,7 @@ public class CustomSqlSessionTemplate extends SqlSessionTemplate {
         return this.sqlSessionProxy.flushStatements();
     }
  
-    /**
-     * Proxy needed to route MyBatis method calls to the proper SqlSession got from Spring's Transaction Manager It also
-     * unwraps exceptions thrown by {@code Method#invoke(Object, Object...)} to pass a {@code PersistenceException} to
-     * the {@code PersistenceExceptionTranslator}.
-     */
+
     private class SqlSessionInterceptor implements InvocationHandler {
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             final SqlSession sqlSession = getSqlSession(

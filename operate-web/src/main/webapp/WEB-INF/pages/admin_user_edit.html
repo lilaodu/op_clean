@@ -22,20 +22,7 @@
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-user-edit">
 		<input type="hidden" class="input-text" value="${user.id!''}" placeholder="" id="id" name="id">
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>国家编码：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<select class="select" size="1" name="countryCode" id="countryCode">
-					<#if countryList?? && (countryList?size>0)>
-						<#list countryList as country>
-							<#if country.dialingCode?? && country.dialingCode!='+null'>
-								<option value="${country.dialingCode}" <#if country.dialingCode == countryCode>selected</#if> >${country.showName} ${country.dialingCode}</option>
-							</#if>
-						</#list>
-					</#if>
-				</select>
-			</div>
-		</div>
+
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><@spring.message code="admin.user.mobileno"/>：</label>
 			<div class="formControls col-xs-8 col-sm-9">

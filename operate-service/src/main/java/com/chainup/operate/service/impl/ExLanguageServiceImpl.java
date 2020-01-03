@@ -9,16 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.chainup.common.enums.OpenStatus;
 import com.chainup.common.enums.Status;
 import com.chainup.common.exchange.entity.ExLanguageConfig;
 import com.chainup.common.exchange.entity.ExLanguageConfigExample;
-import com.chainup.common.exchange.entity.ExSymbol;
-import com.chainup.common.exchange.entity.ExSymbolExample;
 import com.chainup.common.exchange.vo.AttrModel;
 import com.chainup.common.exchange.vo.OtcLanguage;
 import com.chainup.exchange.dao.ExLanguageConfigMapper;
-import com.chainup.exchange.dao.ExSymbolMapper;
 import com.chainup.operate.service.ExLanguageService;
 
 @Service
@@ -27,8 +23,7 @@ public class ExLanguageServiceImpl implements ExLanguageService {
 	@Resource
 	private ExLanguageConfigMapper	exLanguageConfigMapper;
 
-	@Resource
-	private ExSymbolMapper			exSymbolMapper;
+
 
 	@Override
 	public List<ExLanguageConfig> getAllUsedLang() throws Exception {
@@ -74,22 +69,7 @@ public class ExLanguageServiceImpl implements ExLanguageService {
 		return language;
 	}
 
-	@Override
-	public List<ExSymbol> getOtcSymbols() throws Exception {
-		ExSymbolExample example = new ExSymbolExample();
-		example.createCriteria().andOtcOpenEqualTo(OpenStatus.ON.getValue());
-		example.setOrderByClause(" sort DESC");
-		return exSymbolMapper.selectByExample(example);
-	}
 
-	@Override
-	public boolean findSymbol(String symbol) throws Exception {
-		ExSymbolExample example = new ExSymbolExample();
-		example.createCriteria().andCoinSymbolEqualTo(symbol);
-		List<ExSymbol> list = exSymbolMapper.selectByExample(example);
-		if (!CollectionUtils.isEmpty(list) && list.size() >= 1) {
-			return true;
-		}
-		return false;
-	}
+
+
 }

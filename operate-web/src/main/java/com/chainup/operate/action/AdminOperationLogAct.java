@@ -1,17 +1,12 @@
 package com.chainup.operate.action;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.chainup.common.exchange.entity.*;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.chainup.common.enums.AdminOperationType;
 import com.chainup.common.util.ZxingUtils;
 import com.chainup.common.web.CommonContainer;
 import com.chainup.common.web.FrontUtils;
@@ -29,17 +23,11 @@ import com.chainup.common.web.MyEConfig;
 import com.chainup.operate.jpage.JPage;
 import com.chainup.operate.jpage.JPageConfig;
 import com.chainup.operate.jpage.JPageException;
-import com.chainup.operate.service.AccountService;
 import com.chainup.operate.service.AdminOperationLogService;
 import com.chainup.operate.service.AdminUserService;
 import com.chainup.operate.service.AuthRealnameService;
 
-import com.chainup.operate.service.OtcOrderService;
-
 import com.chainup.operate.service.UserService;
-import com.chainup.otc.entity.OtcOrder;
-
-import com.chainup.common.exchange.entity.UserDepositAddr;
 
 /**
  * 日志信息action
@@ -64,8 +52,6 @@ public class AdminOperationLogAct extends BaseAct {
 	String totalBalanceSymbol;
 
 
-	@Resource
-	private OtcOrderService otcOrderService;
 
 	// TODO
 

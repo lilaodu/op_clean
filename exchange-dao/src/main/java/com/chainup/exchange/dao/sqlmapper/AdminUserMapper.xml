@@ -110,13 +110,11 @@
   </delete>
   <insert id="insert" parameterType="com.chainup.common.exchange.entity.AdminUser" >
     insert into admin_user (id, mobile_number, login_pword, 
-      email, nickname, ctime, 
-      mtime, last_time, last_ip, 
-      country_code)
+      email, nickname, ctime,
+      mtime, last_time, last_ip)
     values (#{id,jdbcType=INTEGER}, #{mobileNumber,jdbcType=VARCHAR}, #{loginPword,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
-      #{mtime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP}, #{lastIp,jdbcType=VARCHAR}, 
-      #{countryCode,jdbcType=VARCHAR})
+      #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP},
+      #{mtime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP}, #{lastIp,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.chainup.common.exchange.entity.AdminUser" >
     insert into admin_user
