@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
  *
  */
 public class ImageValidServlet extends HttpServlet{
-
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
