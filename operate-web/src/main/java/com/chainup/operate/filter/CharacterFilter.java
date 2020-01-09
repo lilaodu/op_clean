@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CharacterFilter implements Filter {
 
+
 	@Override
 	public void destroy() {
 	}
