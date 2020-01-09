@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 public class CharacterFilterRequest extends HttpServletRequestWrapper {
 	private Map params;
 
+
 	public CharacterFilterRequest(HttpServletRequest request, Map newParams) {
 		super(request);
 		this.params = newParams;
