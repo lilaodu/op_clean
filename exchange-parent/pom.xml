@@ -25,7 +25,7 @@
        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
        <dom4j.version>1.6</dom4j.version>
        <guava.version>21.0</guava.version>
-       <jackson-databind.version>2.4.3</jackson-databind.version>
+       <jackson-databind.version>2.9.10.3</jackson-databind.version>
        <aliyun-sdk-oss.version>2.0.5</aliyun-sdk-oss.version>
        <junit.version>4.11</junit.version>
        <servlet-api.version>3.1.0</servlet-api.version>
