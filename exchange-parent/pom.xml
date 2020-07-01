@@ -16,7 +16,7 @@
        <spring-websocket.version>4.1.6.RELEASE</spring-websocket.version>
        <spring-rabbit.version>1.7.4.RELEASE</spring-rabbit.version>
        <spring-session-data-redis.version>1.2.1.RELEASE</spring-session-data-redis.version>
-       <quartz.version>2.2.2</quartz.version>
+       <quartz.version>2.3.2</quartz.version>
        <mybatis.version>3.4.0</mybatis.version>
        <mybatis.spring.version>1.3.0</mybatis.spring.version>
        <mysql-connector-java.version>8.0.11</mysql-connector-java.version>
