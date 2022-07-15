@@ -288,7 +288,7 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-s3</artifactId>
-			<version>1.11.501</version>
+			<version>1.12.261</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder -->
